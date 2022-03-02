@@ -91,10 +91,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\Compare.vb" />
     <Compile Include="Controller\Employee.vb" />
-    <Compile Include="Controller\Government.vb" />
     <Compile Include="Controller\Payroll.vb" />
+    <Compile Include="Model\AccountNumber.vb" />
+    <Compile Include="Model\CardNumber.vb" />
+    <Compile Include="Model\Payroll.vb" />
     <Compile Include="Controller\PayrollTime.vb" />
     <Compile Include="Controller\Payslip.vb" />
     <Compile Include="Controller\Report.vb" />
@@ -105,6 +106,7 @@
     <Compile Include="Interface\PayrollInfo.vb" />
     <Compile Include="Model\KS\KS_PayregInfo.vb" />
     <Compile Include="Model\KS\KS_PayrollInfo.vb" />
+    <Compile Include="Model\PayrollCode.vb" />
     <Compile Include="Model\Perday\Perday_PayregInfo.vb" />
     <Compile Include="Model\Perday\Perday_PayrollInfo.vb" />
     <Compile Include="Controller\DBF.vb" />

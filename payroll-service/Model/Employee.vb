@@ -8,8 +8,12 @@ Namespace Model
         Public First_Name As String
         Public Last_Name As String
         Public Middle_Name As String
+
         Public Card_Number As String
         Public Account_Number As String
+        Public Payroll_Code As String
+        Public Bank_Category As String
+
         Public TIN As String
         Public Date_Modified As Date
 

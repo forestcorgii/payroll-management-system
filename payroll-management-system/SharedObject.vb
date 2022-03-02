@@ -3,7 +3,7 @@
 Module SharedObject
     Public PageRedirecting As Boolean
 
-    Public DatabaseConfiguration As utility_service.Configuration.MysqlConfiguration
+    Public DatabaseConfiguration As Configuration.MysqlConfiguration
     Public DatabaseManager As Manager.Mysql
 
 
@@ -20,7 +20,7 @@ Module SharedObject
         End If
 
         If loginRequired Then
-            Dim login As New utility_service.Login
+            Dim login As New Login
             If login.ShowDialog() Then
                 User.Username = login.Username
                 User.Password = login.Password

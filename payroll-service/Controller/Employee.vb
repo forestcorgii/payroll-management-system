@@ -29,6 +29,21 @@ Namespace Controller
             Return employees
         End Function
 
+
+
+        Public Shared Sub SaveEmployee(databaseManager As Manager.Mysql, newEmployee As Model.Employee) ', oldEmployee As Model.Employee)
+            'If newEmployee.Payroll_Code <> oldEmployee.Payroll_Code Then
+
+            'End If
+
+            Dim command As New MySqlCommand("INSERT INTO payroll_management.employee (employee_id, first_name, last_name,middle_name)VALUES(?,?,?,?)", databaseManager.Connection)
+            command.Parameters.AddWithValue("p1", newEmployee.Employee_Id)
+            command.Parameters.AddWithValue("p2", newEmployee.First_Name)
+            command.Parameters.AddWithValue("p3", newEmployee.Last_Name)
+            command.Parameters.AddWithValue("p4", newEmployee.Middle_Name)
+            command.ExecuteNonQuery()
+        End Sub
+
         'Public Shared Function CompleteEmployeDetail(databaseManager As Manager.Mysql) As Model.Employee
 
         'End Function

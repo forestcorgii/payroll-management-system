@@ -36,7 +36,7 @@ Public Class DBF
             'Dim values As List(Of Model.PayrollTime) = arg(0)
             Dim payrollTimes As List(Of Model.PayrollTime) = Controller.PayrollTime.LoadPayrollTimes(databaseManager, payroll_code:=payroll_code, payroll_date:=payrollDate.ToString("yyyy-MM-dd"), completeDetail:=True)
             For r As Integer = 0 To payrollTimes.Count - 1
-                payrollTimes(r).CODER = coder
+                payrollTimes(r).CODE = coder
                 records.Add(payrollTimes(r).ToDBFRecordFormat)
             Next
 

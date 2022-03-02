@@ -4,7 +4,7 @@ Namespace Model
     Public Class PayrollTime
         Public Id As Integer
         Public DATER As Integer
-        Public CODER As Integer
+        Public CODE As Integer
         Public Payroll_Date As Date
         Public EE_Id As Integer
         Public EE As Employee
@@ -48,7 +48,7 @@ Namespace Model
 
 
         Public Function ToDBFRecordFormat() As String()
-            Return {DATER, CODER, EE.Employee_Id, Total_Hours, Total_OTs, Total_RD_OT, 0, Total_H_OT, 0, Total_ND, Total_Tardy, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+            Return {DATER, CODE, EE.Employee_Id, Total_Hours, Total_OTs, Total_RD_OT, 0, Total_H_OT, 0, Total_ND, Total_Tardy, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         End Function
     End Class
 
