@@ -1,0 +1,55 @@
+﻿<Page x:Class="ProcessPayreg"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:payroll_management_system"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ProcessPayreg">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="125"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="2">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Payroll Code:" VerticalAlignment="Center"/>
+                <ComboBox  x:Name="cbPayrollCode" Width="125" IsEditable="True"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <TextBlock Text="Payreg Layout:"/>
+                <ComboBox x:Name="cbPayregLayout" Width="125" IsEditable="True">
+                    <ComboBoxItem>Normal Pay Register</ComboBoxItem>
+                    <ComboBoxItem>KS</ComboBoxItem>
+                    <ComboBoxItem>PD</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Pay Register Excel:" HorizontalAlignment="Right"/>
+
+            <Button x:Name="btnBrowse">Browse</Button>
+            <Button x:Name="btnRemove">Remove</Button>
+            <Button x:Name="btnClear">Clear</Button>
+        </StackPanel>
+        
+        <ListBox x:Name="lstPayreg" DragEnter="lstPayreg_DragEnter" Drop="lstPayreg_Drop" AllowDrop="True" Grid.Row="1" Grid.Column="1"/>
+        
+        <Grid Grid.Row="2" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <TextBlock Text="Payroll Date:" VerticalAlignment="Center"/>
+                <DatePicker Name="dtPayregDate" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Button x:Name="btnStartProcess" HorizontalAlignment="Right">Start</Button>
+        </Grid>            
+
+    </Grid>
+</Page>
