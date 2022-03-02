@@ -20,7 +20,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <IncrementalBuild>true</IncrementalBuild>
-    <OutputPath>..\..\1 - Bins\Payroll-Management-System\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>payroll-management-system.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
@@ -51,6 +51,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data, Version=8.0.20.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -69,9 +70,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GenerateDBF.xaml.vb">
+      <DependentUpon>GenerateDBF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProcessPayreg.xaml.vb">
       <DependentUpon>ProcessPayreg.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SharedObject.vb" />
+    <Page Include="GenerateDBF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -157,6 +166,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\accounting-monitoring\utility-service\utility-service.vbproj">
+      <Project>{2048200D-5C0B-4D76-B398-565C28D0A408}</Project>
+      <Name>utility-service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\payroll-service\payroll-service.vbproj">
       <Project>{a37580dd-b1e1-4502-8ce9-9507f6bb096f}</Project>
       <Name>payroll-service</Name>
