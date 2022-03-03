@@ -1,9 +1,9 @@
 ﻿Imports MySql.Data.MySqlClient
 
 Namespace Model
-    Public Class CardNumber
+    Public Class BankCategory
         Public EE_Id As Integer
-        Public Card_Number As String
+        Public Bank_Category As String
         Public Date_Created As Date
 
         Sub New()
@@ -13,12 +13,12 @@ Namespace Model
             EE_Id = reader.Item("ee_id")
             Date_Created = reader.Item("date_created")
 
-            Card_Number = reader.Item("card_number")
+            Bank_Category = reader.Item("bank_category")
         End Sub
     End Class
 
-    Public Class CardNumberHistory
+    Public Class BankCategoryHistory
         Public EE_Id As Integer
-        Public History As List(Of CardNumber)
+        Public History As List(Of BankCategory)
     End Class
 End Namespace

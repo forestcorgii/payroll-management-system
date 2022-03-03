@@ -1,6 +1,4 @@
-﻿Imports System.Data
-
-Class MainWindow
+﻿Class MainWindow
 
     '    CD/P7A_FINAL
     'USE PAY7A-CASHCARD-01302022

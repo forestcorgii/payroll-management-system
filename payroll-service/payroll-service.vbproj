@@ -91,29 +91,24 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\CardNumber.vb" />
+    <Compile Include="Controller\PayRegister.vb" />
+    <Compile Include="Controller\Payslip.vb" />
     <Compile Include="Controller\Employee.vb" />
     <Compile Include="Controller\Payroll.vb" />
     <Compile Include="Model\AccountNumber.vb" />
+    <Compile Include="Model\BankCategory.vb" />
     <Compile Include="Model\CardNumber.vb" />
+    <Compile Include="Model\Deduction.vb" />
     <Compile Include="Model\Payroll.vb" />
     <Compile Include="Controller\PayrollTime.vb" />
-    <Compile Include="Controller\Payslip.vb" />
     <Compile Include="Controller\Report.vb" />
-    <Compile Include="Controller\cls13thMonth.vb" />
-    <Compile Include="Functions.vb" />
-    <Compile Include="Interface\IPayregInfo.vb" />
-    <Compile Include="Interface\IPayrollInfo.vb" />
-    <Compile Include="Interface\PayrollInfo.vb" />
-    <Compile Include="Model\KS\KS_PayregInfo.vb" />
-    <Compile Include="Model\KS\KS_PayrollInfo.vb" />
     <Compile Include="Model\PayrollCode.vb" />
-    <Compile Include="Model\Perday\Perday_PayregInfo.vb" />
-    <Compile Include="Model\Perday\Perday_PayrollInfo.vb" />
     <Compile Include="Controller\DBF.vb" />
     <Compile Include="Model\Employee.vb" />
     <Compile Include="Model\PayrollTime.vb" />
     <Compile Include="PayrollRecord.vb" />
-    <Compile Include="Export.vb" />
+    <Compile Include="Controller\Export.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -129,7 +124,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Util.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

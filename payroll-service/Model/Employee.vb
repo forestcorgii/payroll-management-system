@@ -17,6 +17,12 @@ Namespace Model
         Public TIN As String
         Public Date_Modified As Date
 
+        Public ReadOnly Property Fullname As String
+            Get
+                Return ""
+            End Get
+        End Property
+
         Sub New()
 
         End Sub

@@ -29,12 +29,22 @@ Namespace Controller
             Return employees
         End Function
 
-
+        Public Shared Sub UpdateEmployee(databaseManager As Manager.Mysql, newEmployee As Model.Employee, oldEmployee As Model.Employee)
+            If newEmployee.Payroll_Code <> oldEmployee.Payroll_Code Then
+                'insert new 
+            End If
+            If newEmployee.Card_Number <> oldEmployee.Card_Number Then
+                'insert new 
+            End If
+            If newEmployee.Account_Number <> oldEmployee.Account_Number Then
+                'insert new 
+            End If
+            If newEmployee.Bank_Category <> oldEmployee.Bank_Category Then
+                'insert new 
+            End If
+        End Sub
 
         Public Shared Sub SaveEmployee(databaseManager As Manager.Mysql, newEmployee As Model.Employee) ', oldEmployee As Model.Employee)
-            'If newEmployee.Payroll_Code <> oldEmployee.Payroll_Code Then
-
-            'End If
 
             Dim command As New MySqlCommand("INSERT INTO payroll_management.employee (employee_id, first_name, last_name,middle_name)VALUES(?,?,?,?)", databaseManager.Connection)
             command.Parameters.AddWithValue("p1", newEmployee.Employee_Id)
