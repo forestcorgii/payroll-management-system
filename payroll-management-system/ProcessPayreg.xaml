@@ -7,9 +7,9 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ProcessPayreg">
-    <Grid>
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="125"/>
+            <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -19,36 +19,32 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Column="2">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Payroll Code:" VerticalAlignment="Center"/>
-                <ComboBox  x:Name="cbPayrollCode" Width="125" IsEditable="True"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                <TextBlock Text="Payreg Layout:"/>
-                <ComboBox x:Name="cbPayregLayout" Width="125" IsEditable="True">
-                    <ComboBoxItem>Normal Pay Register</ComboBoxItem>
-                    <ComboBoxItem>KS</ComboBoxItem>
-                    <ComboBoxItem>PD</ComboBoxItem>
-                </ComboBox>
-            </StackPanel>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Drag any Pay Register here:" VerticalAlignment="Bottom" Margin="3"/>
+            <ListView x:Name="lstPayreg" DragEnter="lstPayreg_DragEnter" Drop="lstPayreg_Drop" AllowDrop="True" Grid.Row="1" Margin="10" KeyDown="lstPayreg_KeyDown" SelectionMode="Multiple" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Payreg" Width="300"/>
+                    </GridView>
+                </ListView.View>   
+            </ListView>
         </Grid>
-        <StackPanel Grid.Row="1">
-            <TextBlock Text="Pay Register Excel:" HorizontalAlignment="Right"/>
 
-            <Button x:Name="btnBrowse">Browse</Button>
-            <Button x:Name="btnRemove">Remove</Button>
-            <Button x:Name="btnClear">Clear</Button>
-        </StackPanel>
-        
-        <ListBox x:Name="lstPayreg" DragEnter="lstPayreg_DragEnter" Drop="lstPayreg_Drop" AllowDrop="True" Grid.Row="1" Grid.Column="1"/>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Status:" VerticalAlignment="Bottom" Margin="3"/>
+            <RichTextBox x:Name="lstStatus" DragEnter="lstPayreg_DragEnter" Drop="lstPayreg_Drop" AllowDrop="True" Grid.Row="1" IsReadOnly="True" Margin="10" Background="WhiteSmoke"/>
+        </Grid>
         
         <Grid Grid.Row="2" Grid.Column="1">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <TextBlock Text="Payroll Date:" VerticalAlignment="Center"/>
-                <DatePicker Name="dtPayregDate" VerticalAlignment="Center"/>
-            </StackPanel>
-            <Button x:Name="btnStartProcess" HorizontalAlignment="Right">Start</Button>
+            <Button x:Name="btnStartProcess" HorizontalAlignment="Right" Click="btnStartProcess_Click" Width="50">Start</Button>
         </Grid>            
 
     </Grid>

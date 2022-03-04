@@ -6,13 +6,7 @@ Class GenerateDBF
         ' This call is required by the designer.
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
-        DatabaseConfiguration = New Configuration.MysqlConfiguration()
-        DatabaseConfiguration.Setup("ACCOUNTING_DB_URL")
 
-        DatabaseManager = New Manager.Mysql
-        DatabaseManager.Connection = DatabaseConfiguration.ToMysqlConnection
-
-        SetupUserAuthentication()
     End Sub
 
     Private Sub btnSettings_Click(sender As Object, e As RoutedEventArgs) Handles btnSettings.Click

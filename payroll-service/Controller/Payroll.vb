@@ -1,6 +1,6 @@
 ﻿Imports System.Windows.Forms
+Imports MySql.Data.MySqlClient
 Imports NPOI.SS.UserModel
-Imports payroll_service.Util
 Imports utility_service
 
 Namespace Controller
@@ -13,11 +13,6 @@ Namespace Controller
         ''' </summary>
         ''' <param name="row"></param>
         Public Shared Sub GetPayrollDetail(row As IRow, payroll As Model.Payroll, payrollDate As String)
-            'Dim fullname_raw As String() = row.GetCell(1).StringCellValue.Trim(")").Split("(")
-            'If fullname_raw.Length < 2 Then Return Nothing
-            'Fullname = fullname_raw(0).Trim
-            'Employee_Id = fullname_raw(1).Trim
-
             Dim adjustIdx As Integer = 0 'adjust idx for 15th payroll
             If payrollDate.Substring(0, 2) = "15" Then
                 adjustIdx = 1
@@ -54,7 +49,6 @@ Namespace Controller
             End If
 
 
-
             Dim multiplier As Integer = CInt(((monthlyGross * 2) - 2750) \ 500)
 
             Dim ER_rsc As Double = Math.Min(255 + (42.5 * multiplier), 1700) 'MIN(255+(42.5*B6);1700)
@@ -69,7 +63,6 @@ Namespace Controller
             payroll.SSS_EE = EE_rsc + EE_ec + EE_mpf
             payroll.SSS_ER = ER_rsc + ER_ec + ER_mpf
 
-
             Select Case monthlyGross
                 Case >= 70000
                     payroll.PhilHealth = 1800
@@ -78,7 +71,6 @@ Namespace Controller
                 Case <= 10000
                     payroll.PhilHealth = 300
             End Select
-
 
             Dim taxable_pay As Double = monthlyGross - (payroll.PhilHealth + payroll.SSS_EE + payroll.Pagibig_EE)
             Select Case taxable_pay
@@ -97,5 +89,17 @@ Namespace Controller
             End Select
         End Sub
 
+        Public Shared Sub SavePayroll(databaseManager As Manager.Mysql, payroll As Model.Payroll)
+            Try
+                Dim command As New MySqlCommand("REPLACE INTO payroll_management.payroll (ee_id,payroll_date,gross_pay,payroll_name)VALUES(?,?,?,?)", databaseManager.Connection)
+                command.Parameters.AddWithValue("p1", payroll.EE_Id)
+                command.Parameters.AddWithValue("p2", payroll.Payroll_Date)
+                command.Parameters.AddWithValue("p3", payroll.Gross_Pay)
+                command.Parameters.AddWithValue("p4", payroll.Payroll_Name)
+                command.ExecuteNonQuery()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "Error Saving Payroll.", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End Sub
     End Class
 End Namespace

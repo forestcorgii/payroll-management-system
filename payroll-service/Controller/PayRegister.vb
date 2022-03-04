@@ -1,5 +1,6 @@
 ﻿Imports System.Globalization
 Imports System.IO
+Imports Newtonsoft.Json
 Imports NPOI.HSSF.UserModel
 Imports NPOI.SS.UserModel
 Imports utility_service
@@ -8,7 +9,7 @@ Namespace Controller
 
     Public Class PayRegister
 #Region "Process PayRegister"
-        Public Shared Sub ProcessPayRegister(databaseManager As Manager.Mysql, payregPath As String)
+        Public Shared Async Function ProcessPayRegisterAsync(databaseManager As Manager.Mysql, hrmsAPIManager As Manager.API.HRMS, payregPath As String) As Task
             Dim nWorkBook As IWorkbook
             Using nNewPayreg As IO.FileStream = New FileStream(payregPath, FileMode.Open, FileAccess.Read)
                 nWorkBook = New HSSFWorkbook(nNewPayreg)
@@ -24,19 +25,30 @@ Namespace Controller
             For i As Integer = 5 To nSheet.LastRowNum
                 Dim row As IRow = nSheet.GetRow(i)
                 If row IsNot Nothing Then
-                    Dim employee As Model.Employee = Controller.Employee.GetEmployees(databaseManager, employee_id:="DYYJ")
+                    Dim employee_id As String = ""
+                    If idIdx > 0 Then
+                        If row.GetCell(idIdx) Is Nothing Then Continue For
+                        employee_id = row.GetCell(idIdx).StringCellValue.Trim
+                    ElseIf nameIdx > 0 Then
+                        Dim name_args As String() = ParseEmployeeDetail(row, nameIdx)
+                        If name_args Is Nothing Then Continue For
+                        employee_id = name_args(1).Trim
+                    End If
+
+                    Dim employee As Model.Employee = Controller.Employee.GetEmployee(databaseManager, employee_id:=employee_id)
+                    If employee Is Nothing Then
+                        employee = Await Controller.Employee.SyncEmployeeFromHRMSAsync(databaseManager, hrmsAPIManager, employee_id)
+                    End If
+
                     Dim newPayroll As New Model.Payroll
+                    newPayroll.EE = employee
                     newPayroll.EE_Id = employee.Id
                     newPayroll.Payroll_Date = payrollDate
                     newPayroll.Gross_Pay = row.GetCell(grossIdx).NumericCellValue
-                    'Controller.Payroll.
+                    Payroll.SavePayroll(databaseManager, newPayroll)
                 End If
             Next
-
-
-
-
-        End Sub
+        End Function
 
         Public Shared Function FindHeaderColumnIndex(header As String, sheet As ISheet) As Integer
             For Each row As IRow In {sheet.GetRow(0), sheet.GetRow(1), sheet.GetRow(2)}
@@ -54,13 +66,28 @@ Namespace Controller
         Public Shared Function FindPayrollDate(nSheet As ISheet) As Date
             Dim payrollDateRaw As String = ""
 
-            If nSheet.GetRow(3) IsNot Nothing Then
+            If nSheet.GetRow(3) IsNot Nothing AndAlso nSheet.GetRow(3).GetCell(1) IsNot Nothing Then
                 payrollDateRaw = nSheet.GetRow(3).GetCell(1).StringCellValue.Trim.Replace("*", "").Trim
-            ElseIf nSheet.GetRow(4) IsNot Nothing Then
-                payrollDateRaw = nSheet.GetRow(4).GetCell(1).StringCellValue.Split(":")(1).Trim
+            ElseIf nSheet.GetRow(4) IsNot Nothing AndAlso nSheet.GetRow(4).GetCell(0) IsNot Nothing Then
+                payrollDateRaw = nSheet.GetRow(4).GetCell(0).StringCellValue.Split(":")(1).Trim
             End If
 
             Return Date.ParseExact(payrollDateRaw, "dd MMMM yyyy", CultureInfo.InvariantCulture)
+        End Function
+
+        ''' <summary>
+        ''' Parses Fullname and Employee ID.
+        ''' </summary>
+        ''' <param name="row"></param>
+        ''' <returns></returns>
+        Public Shared Function ParseEmployeeDetail(row As IRow, nameIdx As Integer) As String()
+            If row.GetCell(nameIdx) IsNot Nothing Then
+                Dim fullname_raw As String() = row.GetCell(nameIdx).StringCellValue.Trim(")").Split("(")
+                If fullname_raw.Length < 2 Then Return Nothing
+
+                Return {fullname_raw(0).Trim, fullname_raw(1).Trim}
+            End If
+            Return Nothing
         End Function
 #End Region
 

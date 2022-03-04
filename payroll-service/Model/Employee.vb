@@ -8,14 +8,18 @@ Namespace Model
         Public First_Name As String
         Public Last_Name As String
         Public Middle_Name As String
+        Public Location As String
+        Public TIN As String
 
         Public Card_Number As String
         Public Account_Number As String
         Public Payroll_Code As String
         Public Bank_Category As String
+        Public Bank_Name As String
 
-        Public TIN As String
         Public Date_Modified As Date
+
+
 
         Public ReadOnly Property Fullname As String
             Get
@@ -35,6 +39,10 @@ Namespace Model
             Middle_Name = reader.Item("middle_name")
             Account_Number = reader.Item("account_number")
             Card_Number = reader.Item("card_number")
+            Bank_Category = reader.Item("card_number")
+            Bank_Name = reader.Item("card_number")
+            Payroll_Code = reader.Item("card_number")
+            Location = reader.Item("location")
             TIN = reader.Item("tin")
             Date_Modified = reader.Item("date_modified")
         End Sub

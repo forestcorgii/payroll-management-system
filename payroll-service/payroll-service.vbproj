@@ -58,6 +58,9 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="MySql.Data, Version=8.0.20.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NPOI, Version=2.5.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.5.1\lib\net45\NPOI.dll</HintPath>
     </Reference>
@@ -91,12 +94,17 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\BankName.vb" />
+    <Compile Include="Controller\PayrollCode.vb" />
+    <Compile Include="Controller\BankCategory.vb" />
+    <Compile Include="Controller\AccountNumber.vb" />
     <Compile Include="Controller\CardNumber.vb" />
     <Compile Include="Controller\PayRegister.vb" />
     <Compile Include="Controller\Payslip.vb" />
     <Compile Include="Controller\Employee.vb" />
     <Compile Include="Controller\Payroll.vb" />
     <Compile Include="Model\AccountNumber.vb" />
+    <Compile Include="Model\BankName.vb" />
     <Compile Include="Model\BankCategory.vb" />
     <Compile Include="Model\CardNumber.vb" />
     <Compile Include="Model\Deduction.vb" />
@@ -134,6 +142,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

@@ -23,6 +23,12 @@ Namespace Model
         Public Adjust2 As Double
         Public Withholding_Tax As Double
 
+        Public ReadOnly Property Payroll_Name As String
+            Get
+                Return String.Format("{0}_{1:yyyyMMdd}", EE.Employee_Id, Payroll_Date)
+            End Get
+        End Property
+
         Sub New()
 
         End Sub

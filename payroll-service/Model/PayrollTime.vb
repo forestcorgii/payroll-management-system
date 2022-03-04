@@ -8,10 +8,6 @@ Namespace Model
         Public Payroll_Date As Date
         Public EE_Id As Integer
         Public EE As Employee
-        Public Location As String
-        Public Job_Title As String
-        Public Payroll_Code As String
-        Public Bank_Category As String
         Public Total_Hours As Double
         Public Total_OTs As Double
         Public Total_RD_OT As Double
@@ -21,7 +17,11 @@ Namespace Model
         Public Allowance As Double
         Public Incentive As Double
         Public Has_PCV As String
-        Public Timesheet_Guide As String
+        Public ReadOnly Property Payroll_Name As String
+            Get
+                Return String.Format("{0}_{1:yyyyMMdd}", EE.Employee_Id, Payroll_Date)
+            End Get
+        End Property
 
         Sub New()
 
@@ -30,10 +30,6 @@ Namespace Model
             Id = reader.Item("id")
             Payroll_Date = reader.Item("payroll_date")
             EE_Id = reader.Item("ee_id")
-            Location = reader.Item("location")
-            Job_Title = reader.Item("job_title")
-            Payroll_Code = reader.Item("payroll_code")
-            Bank_Category = reader.Item("bank_category")
             Total_Hours = reader.Item("total_hours")
             Total_OTs = reader.Item("total_ots")
             Total_RD_OT = reader.Item("total_rd_ot")
@@ -43,7 +39,6 @@ Namespace Model
             Allowance = reader.Item("allowance")
             Incentive = reader.Item("incentive")
             Has_PCV = reader.Item("has_pcv")
-            Timesheet_Guide = reader.Item("timesheet_guide_remarks")
         End Sub
 
 
