@@ -27,8 +27,8 @@ Namespace Controller
 
                 nSheet.GetRow(startRowIdx + 17).CreateCell(startColIdx + 4).SetCellValue(payroll.Gross_Pay)
                 nSheet.GetRow(startRowIdx + 18).CreateCell(startColIdx + 4).SetCellValue(payroll.Adjust2)
-                nSheet.GetRow(startRowIdx + 19).CreateCell(startColIdx + 4).SetCellValue(-payroll.Withholding_Tax)
-                nSheet.GetRow(startRowIdx + 20).CreateCell(startColIdx + 4).SetCellValue(-(payroll.SSS_EE + payroll.PhilHealth))
+                nSheet.GetRow(startRowIdx + 19).CreateCell(startColIdx + 4).SetCellValue(-payroll.Government.Withholding_Tax)
+                nSheet.GetRow(startRowIdx + 20).CreateCell(startColIdx + 4).SetCellValue(-(payroll.Government.SSS_EE + payroll.Government.PhilHealth))
 
                 nSheet.GetRow(startRowIdx + 22).CreateCell(startColIdx + 4).SetCellValue(payroll.Net_Pay)
 

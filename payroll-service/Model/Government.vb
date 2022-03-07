@@ -1,6 +1,6 @@
 ﻿Namespace Model
     Public Class Government
-        Public Payroll_Id As Integer
+        Public Payroll_Name As String
 
         Public EE_Id As Integer
         Public EE As Employee
@@ -15,6 +15,7 @@
         Public SSS_ER As Double
         Public PhilHealth As Double
 
+        Public Withholding_Tax As Double
     End Class
 
 End Namespace

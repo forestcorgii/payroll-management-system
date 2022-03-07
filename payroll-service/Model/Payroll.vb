@@ -22,7 +22,28 @@ Namespace Model
         Public Government As Government
 
         Public Adjustments As List(Of AdjustmentLog)
-
+        Public ReadOnly Property Adjust1 As Double
+            Get
+                Dim adj As Double = 0
+                For Each adjustment In Adjustments
+                    If adjustment.Adjust_Type = AdjustTypeChoices.ADJUST1 Then
+                        adj += adjustment.Amount
+                    End If
+                Next
+                Return adj
+            End Get
+        End Property
+        Public ReadOnly Property Adjust2 As Double
+            Get
+                Dim adj As Double = 0
+                For Each adjustment In Adjustments
+                    If adjustment.Adjust_Type = AdjustTypeChoices.ADJUST2 Then
+                        adj += adjustment.Amount
+                    End If
+                Next
+                Return adj
+            End Get
+        End Property
 
         Sub New()
 

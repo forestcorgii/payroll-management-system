@@ -97,25 +97,25 @@ Namespace Controller
         ''' <param name="row"></param>
         ''' <returns></returns>
         Public Shared Function WriteGovernment_KS(row As IRow, payroll As Model.Payroll, payrollDate As String) As Object
-            row.GetCell(7).SetCellValue(payroll.Pagibig_EE) 'EE
-            row.GetCell(8).SetCellValue(payroll.Pagibig_EE) 'ER
-            row.GetCell(9).SetCellValue(payroll.SSS_EE) 'EE
-            row.GetCell(10).SetCellValue(payroll.SSS_ER) 'ER
+            row.GetCell(7).SetCellValue(payroll.Government.Pagibig_EE) 'EE
+            row.GetCell(8).SetCellValue(payroll.Government.Pagibig_EE) 'ER
+            row.GetCell(9).SetCellValue(payroll.Government.SSS_EE) 'EE
+            row.GetCell(10).SetCellValue(payroll.Government.SSS_ER) 'ER
 
             Dim adjustIdx As Integer = 0 'adjust idx for 15th payroll
             If payrollDate.Substring(0, 2) = "15" Then adjustIdx = 1
 
             If payrollDate.Substring(0, 2) = "15" Then
-                row.GetCell(11).SetCellValue(payroll.SSS_EE + payroll.PhilHealth) 'SSS+Phic EE
-                row.GetCell(12).SetCellValue(payroll.SSS_ER + payroll.PhilHealth) 'SSS+Phic EE
-                row.GetCell(13).SetCellValue(payroll.Withholding_Tax) 'SSS+Phic EE
+                row.GetCell(11).SetCellValue(payroll.Government.SSS_EE + payroll.Government.PhilHealth) 'SSS+Phic EE
+                row.GetCell(12).SetCellValue(payroll.Government.SSS_ER + payroll.Government.PhilHealth) 'SSS+Phic EE
+                row.GetCell(13).SetCellValue(payroll.Government.Withholding_Tax) 'SSS+Phic EE
             Else
-                row.GetCell(11).SetCellValue(payroll.PhilHealth) 'SSS+Phic EE
-                row.GetCell(12).SetCellValue(payroll.Withholding_Tax)
-                row.GetCell(13).SetCellValue(payroll.Pagibig_EE) 'ADJUST 1
+                row.GetCell(11).SetCellValue(payroll.Government.PhilHealth) 'SSS+Phic EE
+                row.GetCell(12).SetCellValue(payroll.Government.Withholding_Tax)
+                row.GetCell(13).SetCellValue(payroll.Government.Pagibig_EE) 'ADJUST 1
             End If
 
-            Dim net As Double = payroll.Gross_Pay - (payroll.SSS_EE + payroll.PhilHealth + payroll.Withholding_Tax + payroll.Adjust1 + payroll.Adjust2)
+            Dim net As Double = payroll.Gross_Pay - (payroll.Government.SSS_EE + payroll.Government.PhilHealth + payroll.Government.Withholding_Tax + payroll.Adjust1 + payroll.Adjust2)
             row.GetCell(15 + adjustIdx).SetCellValue(net)
 
             Return row
