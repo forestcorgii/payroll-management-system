@@ -94,6 +94,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\Adjustment.vb" />
     <Compile Include="Controller\BankName.vb" />
     <Compile Include="Controller\PayrollCode.vb" />
     <Compile Include="Controller\BankCategory.vb" />
