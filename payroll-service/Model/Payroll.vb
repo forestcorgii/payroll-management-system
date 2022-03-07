@@ -13,12 +13,6 @@ Namespace Model
         Public Regular_Pay As Double
         Public Net_Pay As Double
 
-        Public Pagibig_EE As Double
-        Public Pagibig_ER As Double
-        Public SSS_EE As Double
-        Public SSS_ER As Double
-        Public PhilHealth As Double
-
         Public Adjust1 As Double
         Public Adjust2 As Double
         Public Withholding_Tax As Double

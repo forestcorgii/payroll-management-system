@@ -107,7 +107,8 @@
     <Compile Include="Model\BankName.vb" />
     <Compile Include="Model\BankCategory.vb" />
     <Compile Include="Model\CardNumber.vb" />
-    <Compile Include="Model\Deduction.vb" />
+    <Compile Include="Model\Adjustment.vb" />
+    <Compile Include="Model\Government.vb" />
     <Compile Include="Model\Payroll.vb" />
     <Compile Include="Controller\PayrollTime.vb" />
     <Compile Include="Controller\Report.vb" />
