@@ -30,9 +30,9 @@ Public Class frmMain
                     Try
                         Invoke(Sub()
                                    pb.Value += 1
-                                   lbStatus.Text = String.Format("Found {0} Employees... Currently Syncing {1}", employees.Count, employee.Employee_Id)
+                                   lbStatus.Text = String.Format("Found {0} Employees... Currently Syncing {1}", employees.Count, employee.EE_Id)
                                End Sub)
-                        Await Controller.Employee.SyncEmployeeFromHRMSAsync(DatabaseManager, HRMSAPIManager, employee.Employee_Id, employee)
+                        Await Controller.Employee.SyncEmployeeFromHRMSAsync(DatabaseManager, HRMSAPIManager, employee.EE_Id, employee)
                     Catch ex As Exception
                         MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End Try

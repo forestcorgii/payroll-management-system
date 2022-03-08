@@ -17,7 +17,7 @@
 
     Public Class AdjustmentLog
         Public Name As String
-        Public ee_id As Integer
+        Public ee_id As String
         Public Payroll_Name As String
 
         Public Amount As Double

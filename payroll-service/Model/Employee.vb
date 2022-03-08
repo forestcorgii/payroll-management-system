@@ -4,21 +4,19 @@ Namespace Model
     Public Class Employee
 
         Public EE_Id As String
-        Public First_Name As String
-        Public Last_Name As String
-        Public Middle_Name As String
-        Public Location As String
-        Public TIN As String
+        Public First_Name As String = ""
+        Public Last_Name As String = ""
+        Public Middle_Name As String = ""
+        Public Location As String = ""
+        Public TIN As String = ""
 
-        Public Card_Number As String
-        Public Account_Number As String
-        Public Payroll_Code As String
-        Public Bank_Category As String
-        Public Bank_Name As String
+        Public Card_Number As String = ""
+        Public Account_Number As String = ""
+        Public Payroll_Code As String = ""
+        Public Bank_Category As String = ""
+        Public Bank_Name As String = ""
 
         Public Date_Modified As Date
-
-
 
         Public ReadOnly Property Fullname As String
             Get

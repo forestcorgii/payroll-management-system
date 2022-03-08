@@ -41,10 +41,10 @@ Namespace Controller
             Return Nothing
         End Function
 
-        Public Shared Function GetEmployee(databaseManager As Manager.Mysql, Optional id As Integer = 0, Optional ee_id As String = "") As Model.Employee
+        Public Shared Function GetEmployee(databaseManager As Manager.Mysql, Optional ee_id As String = "") As Model.Employee
             Dim employee As Model.Employee = Nothing
             Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-                String.Format("SELECT * FROM payroll_management.employee where id={0} or ee_id='{1}' LIMIT 1;", id, ee_id))
+                String.Format("SELECT * FROM payroll_management.employee where ee_id='{0}' LIMIT 1;", ee_id))
                 If reader.HasRows Then
                     reader.Read()
                     employee = New Model.Employee(reader)
