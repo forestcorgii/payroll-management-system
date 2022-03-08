@@ -6,7 +6,7 @@ Namespace Controller
     Public Class CardNumber
         Public Shared Sub SaveCardNumber(databaseManager As Manager.Mysql, cardNumber As String, ee_id As Integer)
             Try
-                Dim command As New MySqlCommand("INSERT INTO payroll_management.card_number (ee_id, card_number)VALUES(@ee_id,@card_number)", databaseManager.Connection)
+                Dim command As New MySqlCommand("INSERT INTO payroll_management.card_number (ee_id, card_number)VALUES(?,?);", databaseManager.Connection)
                 command.Parameters.AddWithValue("p1", ee_id)
                 command.Parameters.AddWithValue("p2", cardNumber)
                 command.ExecuteNonQuery()

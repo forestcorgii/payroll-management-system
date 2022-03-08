@@ -4,12 +4,15 @@ Imports utility_service
 
 Namespace Controller
     Public Class Employee
-        Public Shared Async Function SyncEmployeeFromHRMSAsync(databaseManager As Manager.Mysql, hrmsAPIManager As Manager.API.HRMS, employee_id As String) As Task(Of Model.Employee)
-            Dim employee As Model.Employee
+        Public Shared Async Function SyncEmployeeFromHRMSAsync(databaseManager As Manager.Mysql, hrmsAPIManager As Manager.API.HRMS, employee_id As String, Optional employee As Model.Employee = Nothing) As Task(Of Model.Employee)
             Dim response As Object() = Await hrmsAPIManager.SendPOSTRequest(employee_id)
             If response(0) Then
                 Dim hrms_employee As Manager.API.HRMS.ResponseArgument = JsonConvert.DeserializeObject(Of Manager.API.HRMS.ResponseArgument)(response(1))
-                employee = SaveEmployee(databaseManager, hrms_employee.message(0))
+                If employee IsNot Nothing Then
+                    employee = UpdateEmployee(databaseManager, hrms_employee.message(0), employee)
+                Else
+                    employee = SaveEmployee(databaseManager, hrms_employee.message(0))
+                End If
                 Return employee
             Else
                 Throw New Exception("Employee not found in HRMS.")
@@ -44,23 +47,34 @@ Namespace Controller
             Return employees
         End Function
 
-        Public Shared Sub UpdateEmployee(databaseManager As Manager.Mysql, newEmployee As Model.Employee, oldEmployee As Model.Employee)
-            If newEmployee.Payroll_Code <> "" AndAlso newEmployee.Payroll_Code <> oldEmployee.Payroll_Code Then
-                PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.Payroll_Code), oldEmployee.Id)
+        Public Shared Function UpdateEmployee(databaseManager As Manager.Mysql, newEmployee As Manager.API.HRMS.ResponseArgument.MessageArgument, oldEmployee As Model.Employee) As Model.Employee
+            oldEmployee.First_Name = newEmployee.first_name
+            oldEmployee.Last_Name = newEmployee.last_name
+            oldEmployee.Middle_Name = newEmployee.middle_name
+            oldEmployee.Location = newEmployee.department
+            oldEmployee.TIN = newEmployee.tin
+
+            SaveEmployee(databaseManager, oldEmployee)
+
+            If newEmployee.payroll_code <> "" AndAlso newEmployee.payroll_code <> oldEmployee.Payroll_Code Then
+                PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.payroll_code), oldEmployee.Id)
             End If
-            If newEmployee.Card_Number <> "" AndAlso newEmployee.Card_Number <> oldEmployee.Card_Number Then
-                CardNumber.SaveCardNumber(databaseManager, newEmployee.Card_Number, oldEmployee.Id)
+            If newEmployee.card_number <> "" AndAlso newEmployee.card_number <> oldEmployee.Card_Number Then
+                CardNumber.SaveCardNumber(databaseManager, newEmployee.card_number, oldEmployee.Id)
             End If
-            If newEmployee.Account_Number <> "" AndAlso newEmployee.Account_Number <> oldEmployee.Account_Number Then
-                AccountNumber.SaveAccountNumber(databaseManager, newEmployee.Account_Number, oldEmployee.Id)
+            If newEmployee.account_number <> "" AndAlso newEmployee.account_number <> oldEmployee.Account_Number Then
+                AccountNumber.SaveAccountNumber(databaseManager, newEmployee.account_number, oldEmployee.Id)
             End If
-            If newEmployee.Bank_Category <> "" AndAlso newEmployee.Bank_Category <> oldEmployee.Bank_Category Then
-                BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.Bank_Category), oldEmployee.Id)
+            If newEmployee.bank_category <> "" AndAlso newEmployee.bank_category <> oldEmployee.Bank_Category Then
+                BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category), oldEmployee.Id)
             End If
-            If newEmployee.Bank_Name <> "" AndAlso newEmployee.Bank_Name <> oldEmployee.Bank_Name Then
-                BankName.SaveBankName(databaseManager, newEmployee.Bank_Name, oldEmployee.Id)
+            If newEmployee.bank_name <> "" AndAlso newEmployee.bank_name <> oldEmployee.Bank_Name Then
+                BankName.SaveBankName(databaseManager, newEmployee.bank_name, oldEmployee.Id)
             End If
-        End Sub
+
+            Dim ee As Model.Employee = GetEmployee(databaseManager, employee_id:=newEmployee.idno)
+            Return ee
+        End Function
 
         Public Shared Function SaveEmployee(databaseManager As Manager.Mysql, newEmployee As Manager.API.HRMS.ResponseArgument.MessageArgument) As Model.Employee
             Dim command As New MySqlCommand("REPLACE INTO payroll_management.employee (employee_id, first_name, last_name,middle_name,location,tin)VALUES(?,?,?,?,?,?)", databaseManager.Connection)
@@ -73,26 +87,32 @@ Namespace Controller
             command.ExecuteNonQuery()
 
             Dim ee As Model.Employee = GetEmployee(databaseManager, employee_id:=newEmployee.idno)
-            CardNumber.SaveCardNumber(databaseManager, newEmployee.card_number, ee.Id)
-            AccountNumber.SaveAccountNumber(databaseManager, newEmployee.account_number, ee.Id)
-            BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category), ee.Id)
-            BankName.SaveBankName(databaseManager, newEmployee.bank_name, ee.Id)
-            PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.payroll_code), ee.Id)
+
+            If Not newEmployee.card_number = "" Then CardNumber.SaveCardNumber(databaseManager, newEmployee.card_number, ee.Id)
+            If Not newEmployee.account_number = "" Then AccountNumber.SaveAccountNumber(databaseManager, newEmployee.account_number, ee.Id)
+            If Not newEmployee.bank_category = "" Then BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category), ee.Id)
+            If Not newEmployee.bank_name = "" Then BankName.SaveBankName(databaseManager, newEmployee.bank_name, ee.Id)
+            If Not newEmployee.payroll_code = "" Then PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.payroll_code), ee.Id)
 
             Return ee
         End Function
         Public Shared Function SaveEmployee(databaseManager As Manager.Mysql, newEmployee As Model.Employee) As Model.Employee
-            Dim command As New MySqlCommand("REPLACE INTO payroll_management.employee (employee_id, first_name, last_name,middle_name)VALUES(?,?,?,?)", databaseManager.Connection)
+            Dim command As New MySqlCommand("REPLACE INTO payroll_management.employee (employee_id, first_name, last_name,middle_name,location,tin,card_number,account_number,bank_category,bank_name,payroll_code)VALUES(?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)
             command.Parameters.AddWithValue("p1", newEmployee.Employee_Id)
             command.Parameters.AddWithValue("p2", newEmployee.First_Name)
             command.Parameters.AddWithValue("p3", newEmployee.Last_Name)
             command.Parameters.AddWithValue("p4", newEmployee.Middle_Name)
+            command.Parameters.AddWithValue("p5", newEmployee.Location)
+            command.Parameters.AddWithValue("p6", newEmployee.TIN)
+            command.Parameters.AddWithValue("p7", newEmployee.Card_Number)
+            command.Parameters.AddWithValue("p8", newEmployee.Account_Number)
+            command.Parameters.AddWithValue("p9", newEmployee.Bank_Category)
+            command.Parameters.AddWithValue("p10", newEmployee.Bank_Name)
+            command.Parameters.AddWithValue("p11", newEmployee.Payroll_Code)
             command.ExecuteNonQuery()
 
-            Dim oldEmployee As Model.Employee = GetEmployee(databaseManager, employee_id:=newEmployee.Employee_Id) 'OLD
-            UpdateEmployee(databaseManager, newEmployee, oldEmployee)
-
-            Return oldEmployee
+            Dim employee As Model.Employee = GetEmployee(databaseManager, employee_id:=newEmployee.Employee_Id)
+            Return employee
         End Function
 
         Public Shared Function ParsePayrollCode(payroll_code As String) As String

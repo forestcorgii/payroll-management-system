@@ -46,7 +46,7 @@ Namespace Controller
         Public Shared Sub SavePayrollTime(databaseManager As Manager.Mysql, payrollTime As Model.PayrollTime)
             'check if employee exists in the database
             Try
-                Dim Command As New MySqlCommand("REPLACE INTO payroll_management.payroll_time (ee_id,total_hours,total_ots,total_rd_ot,total_h_ot,total_nd,total_tardy,allowance,incentive,has_pcv,payroll_date,payroll_name)VALUES(?,?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)
+                Dim Command As New MySqlCommand("REPLACE INTO payroll_management.payroll_time (ee_id,total_hours,total_ots,total_rd_ot,total_h_ot,total_nd,total_tardy,has_pcv,payroll_date,payroll_name)VALUES(?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)
                 Command.Parameters.AddWithValue("p1", payrollTime.EE_Id)
                 Command.Parameters.AddWithValue("p2", payrollTime.Total_Hours)
                 Command.Parameters.AddWithValue("p3", payrollTime.Total_OTs)
@@ -54,8 +54,6 @@ Namespace Controller
                 Command.Parameters.AddWithValue("p5", payrollTime.Total_H_OT)
                 Command.Parameters.AddWithValue("p6", payrollTime.Total_ND)
                 Command.Parameters.AddWithValue("p7", payrollTime.Total_Tardy)
-                Command.Parameters.AddWithValue("p8", payrollTime.Allowance)
-                Command.Parameters.AddWithValue("p9", payrollTime.Incentive)
                 Command.Parameters.AddWithValue("p10", payrollTime.Has_PCV)
                 Command.Parameters.AddWithValue("p11", payrollTime.Payroll_Date)
                 Command.Parameters.AddWithValue("p12", payrollTime.Payroll_Name)
