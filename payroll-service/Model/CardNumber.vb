@@ -2,7 +2,7 @@
 
 Namespace Model
     Public Class CardNumber
-        Public EE_Id As Integer
+        Public EE_Id As String
         Public Card_Number As String
         Public Date_Created As Date
 

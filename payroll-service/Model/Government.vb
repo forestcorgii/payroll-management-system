@@ -2,7 +2,7 @@
     Public Class Government
         Public Payroll_Name As String
 
-        Public EE_Id As Integer
+        Public EE_Id As String
         Public EE As Employee
 
         Public Monthly_Gross_Pay As Double

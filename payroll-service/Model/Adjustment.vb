@@ -5,7 +5,7 @@
     Public Class Adjustment
         Public Id As Integer
         Public Name As String
-        Public ee_id As Integer
+        Public ee_id As String
         Public Payroll_Name As String
 
         Public Date_Expired As Date

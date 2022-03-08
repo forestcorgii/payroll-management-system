@@ -2,7 +2,7 @@
 
 Namespace Model
     Public Class AccountNumber
-        Public EE_Id As Integer
+        Public EE_Id As String
         Public Account_Number As String
         Public Date_Created As Date
 

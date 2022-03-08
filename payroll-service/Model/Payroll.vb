@@ -14,7 +14,7 @@ Namespace Model
 
         Public ReadOnly Property Payroll_Name As String
             Get
-                Return String.Format("{0}_{1:yyyyMMdd}", EE.Employee_Id, Payroll_Date)
+                Return String.Format("{0}_{1:yyyyMMdd}", EE.EE_Id, Payroll_Date)
             End Get
         End Property
 

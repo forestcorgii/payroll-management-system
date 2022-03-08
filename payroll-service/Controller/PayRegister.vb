@@ -35,14 +35,14 @@ Namespace Controller
                         employee_id = name_args(1).Trim
                     End If
 
-                    Dim employee As Model.Employee = Controller.Employee.GetEmployee(databaseManager, employee_id:=employee_id)
+                    Dim employee As Model.Employee = Controller.Employee.GetEmployee(databaseManager, ee_id:=employee_id)
                     If employee Is Nothing Then
                         employee = Await Controller.Employee.SyncEmployeeFromHRMSAsync(databaseManager, hrmsAPIManager, employee_id)
                     End If
 
                     Dim newPayroll As New Model.Payroll
                     newPayroll.EE = employee
-                    newPayroll.EE_Id = employee.Id
+                    newPayroll.EE_Id = employee.EE_Id
                     newPayroll.Payroll_Date = payrollDate
                     newPayroll.Gross_Pay = row.GetCell(grossIdx).NumericCellValue
                     Payroll.SavePayroll(databaseManager, newPayroll)

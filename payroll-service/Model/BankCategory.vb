@@ -2,7 +2,7 @@
 
 Namespace Model
     Public Class BankCategory
-        Public EE_Id As Integer
+        Public EE_Id As String
         Public Bank_Category As String
         Public Date_Created As Date
 

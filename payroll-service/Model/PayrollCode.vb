@@ -2,7 +2,7 @@
 
 Namespace Model
     Public Class PayrollCode
-        Public EE_Id As Integer
+        Public EE_Id As String
         Public Payroll_code As String
         Public Date_Created As Date
 

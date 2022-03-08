@@ -6,7 +6,7 @@ Namespace Model
         Public DATER As Integer
         Public CODE As Integer
         Public Payroll_Date As Date
-        Public EE_Id As Integer
+        Public EE_Id As String
         Public EE As Employee
         Public Total_Hours As Double
         Public Total_OTs As Double
@@ -19,7 +19,7 @@ Namespace Model
         Public Has_PCV As String
         Public ReadOnly Property Payroll_Name As String
             Get
-                Return String.Format("{0}_{1:yyyyMMdd}", EE.Employee_Id, Payroll_Date)
+                Return String.Format("{0}_{1:yyyyMMdd}", EE.EE_Id, Payroll_Date)
             End Get
         End Property
 
@@ -43,7 +43,7 @@ Namespace Model
 
 
         Public Function ToDBFRecordFormat() As String()
-            Return {DATER, CODE, EE.Employee_Id, Total_Hours, Total_OTs, Total_RD_OT, 0, Total_H_OT, 0, Total_ND, Total_Tardy, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+            Return {DATER, CODE, EE.EE_Id, Total_Hours, Total_OTs, Total_RD_OT, 0, Total_H_OT, 0, Total_ND, Total_Tardy, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         End Function
     End Class
 

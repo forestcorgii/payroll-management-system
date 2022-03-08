@@ -273,7 +273,7 @@ Namespace Controller
                 Dim rec As Model.Payroll = payrollRecords(i)
                 If rec.EE.Bank_Category = "**CHECK**" Then
                     row = sheet.CreateRow(i + 1)
-                    row.CreateCell(0).SetCellValue(rec.EE.Employee_Id)
+                    row.CreateCell(0).SetCellValue(rec.EE.EE_Id)
                     row.CreateCell(1).SetCellValue(rec.EE.Fullname)
                     row.CreateCell(2).SetCellValue(rec.Net_Pay)
                 End If

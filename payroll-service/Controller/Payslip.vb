@@ -16,7 +16,7 @@ Namespace Controller
                     startColIdx = 5
                 End If
 
-                nSheet.GetRow(startRowIdx + 3).CreateCell(startColIdx + 1).SetCellValue(payroll.EE.Employee_Id)
+                nSheet.GetRow(startRowIdx + 3).CreateCell(startColIdx + 1).SetCellValue(payroll.EE.EE_Id)
 
                 nSheet.GetRow(startRowIdx + 3).CreateCell(startColIdx + 2).SetCellValue(payroll.Payroll_Date)
 
@@ -32,7 +32,7 @@ Namespace Controller
 
                 nSheet.GetRow(startRowIdx + 22).CreateCell(startColIdx + 4).SetCellValue(payroll.Net_Pay)
 
-                nSheet.GetRow(startRowIdx + 27).CreateCell(startColIdx + 1).SetCellValue(payroll.EE.Employee_Id)
+                nSheet.GetRow(startRowIdx + 27).CreateCell(startColIdx + 1).SetCellValue(payroll.EE.EE_Id)
                 nSheet.GetRow(startRowIdx + 28).CreateCell(startColIdx + 1).SetCellValue(payroll.EE.Fullname)
 
                 nSheet.GetRow(startRowIdx + 28).CreateCell(startColIdx + 4).SetCellValue(payroll.Net_Pay)

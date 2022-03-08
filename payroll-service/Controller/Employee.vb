@@ -4,8 +4,28 @@ Imports utility_service
 
 Namespace Controller
     Public Class Employee
-        Public Shared Async Function SyncEmployeeFromHRMSAsync(databaseManager As Manager.Mysql, hrmsAPIManager As Manager.API.HRMS, employee_id As String, Optional employee As Model.Employee = Nothing) As Task(Of Model.Employee)
-            Dim response As Object() = Await hrmsAPIManager.SendPOSTRequest(employee_id)
+        Public Shared Function CollectEmployeeForSyncing(databaseManager As Manager.Mysql)
+            'Get Cutoff Date
+            Dim cutOffDate As Date = Now
+            If cutOffDate.Day >= 8 Then
+                cutOffDate = New Date(cutOffDate.Year, cutOffDate.Month, 10)
+            ElseIf cutOffDate.Day >= 24 Then
+                cutOffDate = New Date(cutOffDate.Year, cutOffDate.Month, 24)
+            End If
+
+            Dim employees As New List(Of Model.Employee)
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
+                String.Format("SELECT * FROM payroll_management.employee where date_modified <= '{0}';", cutOffDate.ToString("yyyy-MM-dd")))
+                While reader.Read()
+                    employees.Add(New Model.Employee(reader))
+                End While
+            End Using
+
+            Return employees
+        End Function
+
+        Public Shared Async Function SyncEmployeeFromHRMSAsync(databaseManager As Manager.Mysql, hrmsAPIManager As Manager.API.HRMS, ee_id As String, Optional employee As Model.Employee = Nothing) As Task(Of Model.Employee)
+            Dim response As Object() = Await hrmsAPIManager.SendPOSTRequest(ee_id)
             If response(0) Then
                 Dim hrms_employee As Manager.API.HRMS.ResponseArgument = JsonConvert.DeserializeObject(Of Manager.API.HRMS.ResponseArgument)(response(1))
                 If employee IsNot Nothing Then
@@ -21,10 +41,10 @@ Namespace Controller
             Return Nothing
         End Function
 
-        Public Shared Function GetEmployee(databaseManager As Manager.Mysql, Optional id As Integer = 0, Optional employee_id As String = "") As Model.Employee
+        Public Shared Function GetEmployee(databaseManager As Manager.Mysql, Optional id As Integer = 0, Optional ee_id As String = "") As Model.Employee
             Dim employee As Model.Employee = Nothing
             Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-                String.Format("SELECT * FROM payroll_management.employee where id={0} or employee_id='{1}' LIMIT 1;", id, employee_id))
+                String.Format("SELECT * FROM payroll_management.employee where id={0} or ee_id='{1}' LIMIT 1;", id, ee_id))
                 If reader.HasRows Then
                     reader.Read()
                     employee = New Model.Employee(reader)
@@ -57,27 +77,27 @@ Namespace Controller
             SaveEmployee(databaseManager, oldEmployee)
 
             If newEmployee.payroll_code <> "" AndAlso newEmployee.payroll_code <> oldEmployee.Payroll_Code Then
-                PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.payroll_code), oldEmployee.Id)
+                PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.payroll_code), oldEmployee.EE_Id)
             End If
             If newEmployee.card_number <> "" AndAlso newEmployee.card_number <> oldEmployee.Card_Number Then
-                CardNumber.SaveCardNumber(databaseManager, newEmployee.card_number, oldEmployee.Id)
+                CardNumber.SaveCardNumber(databaseManager, newEmployee.card_number, oldEmployee.EE_Id)
             End If
             If newEmployee.account_number <> "" AndAlso newEmployee.account_number <> oldEmployee.Account_Number Then
-                AccountNumber.SaveAccountNumber(databaseManager, newEmployee.account_number, oldEmployee.Id)
+                AccountNumber.SaveAccountNumber(databaseManager, newEmployee.account_number, oldEmployee.EE_Id)
             End If
             If newEmployee.bank_category <> "" AndAlso newEmployee.bank_category <> oldEmployee.Bank_Category Then
-                BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category), oldEmployee.Id)
+                BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category), oldEmployee.EE_Id)
             End If
             If newEmployee.bank_name <> "" AndAlso newEmployee.bank_name <> oldEmployee.Bank_Name Then
-                BankName.SaveBankName(databaseManager, newEmployee.bank_name, oldEmployee.Id)
+                BankName.SaveBankName(databaseManager, newEmployee.bank_name, oldEmployee.EE_Id)
             End If
 
-            Dim ee As Model.Employee = GetEmployee(databaseManager, employee_id:=newEmployee.idno)
+            Dim ee As Model.Employee = GetEmployee(databaseManager, ee_id:=newEmployee.idno)
             Return ee
         End Function
 
         Public Shared Function SaveEmployee(databaseManager As Manager.Mysql, newEmployee As Manager.API.HRMS.ResponseArgument.MessageArgument) As Model.Employee
-            Dim command As New MySqlCommand("REPLACE INTO payroll_management.employee (employee_id, first_name, last_name,middle_name,location,tin)VALUES(?,?,?,?,?,?)", databaseManager.Connection)
+            Dim command As New MySqlCommand("REPLACE INTO payroll_management.employee (ee_id, first_name, last_name,middle_name,location,tin)VALUES(?,?,?,?,?,?)", databaseManager.Connection)
             command.Parameters.AddWithValue("p1", newEmployee.idno)
             command.Parameters.AddWithValue("p2", newEmployee.first_name)
             command.Parameters.AddWithValue("p3", newEmployee.last_name)
@@ -86,19 +106,19 @@ Namespace Controller
             command.Parameters.AddWithValue("p6", newEmployee.tin)
             command.ExecuteNonQuery()
 
-            Dim ee As Model.Employee = GetEmployee(databaseManager, employee_id:=newEmployee.idno)
+            Dim ee As Model.Employee = GetEmployee(databaseManager, ee_id:=newEmployee.idno)
 
-            If Not newEmployee.card_number = "" Then CardNumber.SaveCardNumber(databaseManager, newEmployee.card_number, ee.Id)
-            If Not newEmployee.account_number = "" Then AccountNumber.SaveAccountNumber(databaseManager, newEmployee.account_number, ee.Id)
-            If Not newEmployee.bank_category = "" Then BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category), ee.Id)
-            If Not newEmployee.bank_name = "" Then BankName.SaveBankName(databaseManager, newEmployee.bank_name, ee.Id)
-            If Not newEmployee.payroll_code = "" Then PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.payroll_code), ee.Id)
+            If Not newEmployee.card_number = "" Then CardNumber.SaveCardNumber(databaseManager, newEmployee.card_number,ee.ee_id)
+            If Not newEmployee.account_number = "" Then AccountNumber.SaveAccountNumber(databaseManager, newEmployee.account_number,ee.ee_id)
+            If Not newEmployee.bank_category = "" Then BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category),ee.ee_id)
+            If Not newEmployee.bank_name = "" Then BankName.SaveBankName(databaseManager, newEmployee.bank_name,ee.ee_id)
+            If Not newEmployee.payroll_code = "" Then PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.payroll_code),ee.ee_id)
 
             Return ee
         End Function
         Public Shared Function SaveEmployee(databaseManager As Manager.Mysql, newEmployee As Model.Employee) As Model.Employee
-            Dim command As New MySqlCommand("REPLACE INTO payroll_management.employee (employee_id, first_name, last_name,middle_name,location,tin,card_number,account_number,bank_category,bank_name,payroll_code)VALUES(?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)
-            command.Parameters.AddWithValue("p1", newEmployee.Employee_Id)
+            Dim command As New MySqlCommand("REPLACE INTO payroll_management.employee (ee_id, first_name, last_name,middle_name,location,tin,card_number,account_number,bank_category,bank_name,payroll_code)VALUES(?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)
+            command.Parameters.AddWithValue("p1", newEmployee.EE_Id)
             command.Parameters.AddWithValue("p2", newEmployee.First_Name)
             command.Parameters.AddWithValue("p3", newEmployee.Last_Name)
             command.Parameters.AddWithValue("p4", newEmployee.Middle_Name)
@@ -111,7 +131,7 @@ Namespace Controller
             command.Parameters.AddWithValue("p11", newEmployee.Payroll_Code)
             command.ExecuteNonQuery()
 
-            Dim employee As Model.Employee = GetEmployee(databaseManager, employee_id:=newEmployee.Employee_Id)
+            Dim employee As Model.Employee = GetEmployee(databaseManager, ee_id:=newEmployee.EE_Id)
             Return employee
         End Function
 

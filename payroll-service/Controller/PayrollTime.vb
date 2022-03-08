@@ -60,7 +60,7 @@ Namespace Controller
 
                 Command.ExecuteNonQuery()
             Catch ex As Exception
-                Console.WriteLine(ex.Message)
+                MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
 
