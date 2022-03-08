@@ -20,12 +20,12 @@ Class ProcessPayreg
         End If
     End Sub
 
-    Private Async Sub btnStartProcess_Click(sender As Object, e As RoutedEventArgs)
+    Private Sub btnStartProcess_Click(sender As Object, e As RoutedEventArgs)
 
 
         DatabaseManager.Connection.Open()
         For i As Integer = 0 To lstPayreg.Items.Count - 1
-            Await Controller.PayRegister.ProcessPayRegisterAsync(DatabaseManager, HRMSAPIManager, lstPayreg.Items(i))
+            Controller.PayRegister.ProcessPayRegister(DatabaseManager, lstPayreg.Items(i))
         Next
         DatabaseManager.Connection.Close()
     End Sub

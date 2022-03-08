@@ -4,7 +4,7 @@ Imports utility_service
 
 Namespace Controller
     Public Class BankName
-        Public Shared Sub SaveBankName(databaseManager As Manager.Mysql, bankName As String, ee_id As Integer)
+        Public Shared Sub SaveBankName(databaseManager As Manager.Mysql, bankName As String, ee_id As String)
             Try
                 Dim command As New MySqlCommand("INSERT INTO payroll_management.bank_name (ee_id, bank_name)VALUES(?,?)", databaseManager.Connection)
                 command.Parameters.AddWithValue("p1", ee_id)
@@ -15,7 +15,7 @@ Namespace Controller
             End Try
         End Sub
 
-        Public Shared Function GetHistory(databaseManager As Manager.Mysql, ee_id As Integer) As Model.BankNameHistory
+        Public Shared Function GetHistory(databaseManager As Manager.Mysql, ee_id As String) As Model.BankNameHistory
             Dim bankNameHistory As New Model.BankNameHistory
             Try
                 Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(String.Format("SELECT * FROM payroll_management.bank_name WHERE ee_id={0} ORDER BY date_created DESC", ee_id))

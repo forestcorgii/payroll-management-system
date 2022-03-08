@@ -9,7 +9,7 @@ Namespace Controller
 
     Public Class PayRegister
 #Region "Process PayRegister"
-        Public Shared Async Function ProcessPayRegisterAsync(databaseManager As Manager.Mysql, hrmsAPIManager As Manager.API.HRMS, payregPath As String) As Task
+        Public Shared Sub ProcessPayRegister(databaseManager As Manager.Mysql, payregPath As String)
             Dim nWorkBook As IWorkbook
             Using nNewPayreg As IO.FileStream = New FileStream(payregPath, FileMode.Open, FileAccess.Read)
                 nWorkBook = New HSSFWorkbook(nNewPayreg)
@@ -37,7 +37,7 @@ Namespace Controller
 
                     Dim employee As Model.Employee = Controller.Employee.GetEmployee(databaseManager, ee_id:=employee_id)
                     If employee Is Nothing Then
-                        employee = Await Controller.Employee.SyncEmployeeFromHRMSAsync(databaseManager, hrmsAPIManager, employee_id)
+                        employee = Controller.Employee.SaveEmployee(databaseManager, New Model.Employee() With {.EE_Id = employee_id})
                     End If
 
                     Dim newPayroll As New Model.Payroll
@@ -48,7 +48,7 @@ Namespace Controller
                     Payroll.SavePayroll(databaseManager, newPayroll)
                 End If
             Next
-        End Function
+        End Sub
 
         Public Shared Function FindHeaderColumnIndex(header As String, sheet As ISheet) As Integer
             For Each row As IRow In {sheet.GetRow(0), sheet.GetRow(1), sheet.GetRow(2)}

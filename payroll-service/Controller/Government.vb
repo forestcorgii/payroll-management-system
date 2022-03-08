@@ -16,7 +16,6 @@ Public Class Government
             government.Pagibig_ER = 100
         End If
 
-
         Dim multiplier As Integer = CInt(((monthlyGross * 2) - 2750) \ 500)
 
         Dim ER_rsc As Double = Math.Min(255 + (42.5 * multiplier), 1700) 'MIN(255+(42.5*B6);1700)
