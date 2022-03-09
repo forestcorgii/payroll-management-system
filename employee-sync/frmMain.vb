@@ -28,18 +28,31 @@ Public Class frmMain
                        End Sub)
 
                 Dim i As Integer = 0
-                'While i < emplo
-                For Each employee As Model.Employee In employees
+                While i < employees.Count
+                    Dim employee As Model.Employee = employees(i)
                     Try
+                        Await Controller.Employee.SyncEmployeeFromHRMSAsync(DatabaseManager, HRMSAPIManager, employee.EE_Id, employee)
+                        i += 1
                         Invoke(Sub()
                                    pb.Value += 1
                                    lbStatus.Text = String.Format("Found {0} Employees... Currently Syncing {1}", employees.Count, employee.EE_Id)
                                End Sub)
-                        Await Controller.Employee.SyncEmployeeFromHRMSAsync(DatabaseManager, HRMSAPIManager, employee.EE_Id, employee)
                     Catch ex As Exception
-                        MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        Console.WriteLine(ex.Message)
                     End Try
-                Next
+                End While
+
+                'For Each employee As Model.Employee In employees
+                '        Try
+                '            Invoke(Sub()
+                '                       pb.Value += 1
+                '                       lbStatus.Text = String.Format("Found {0} Employees... Currently Syncing {1}", employees.Count, employee.EE_Id)
+                '                   End Sub)
+                '            Await Controller.Employee.SyncEmployeeFromHRMSAsync(DatabaseManager, HRMSAPIManager, employee.EE_Id, employee)
+                '        Catch ex As Exception
+                '            MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                '        End Try
+                '    Next
             End If
             DatabaseManager.Connection.Close()
         Catch ex As Exception

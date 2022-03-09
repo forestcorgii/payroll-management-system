@@ -22,8 +22,9 @@ Class GenerateDBF
 
             Dim startupPath As String = String.Format("{0}/DBF", AppDomain.CurrentDomain.BaseDirectory)
             IO.Directory.CreateDirectory(startupPath)
-
-            payroll_service.DBF.SavePayrollTimeToDBF(DatabaseManager, dtPayrollDate.SelectedDate, tbPayrollCode.Text.ToUpper, startupPath, IIf(payDay = 15, 1, 2))
+            For Each pp As String In {"P11A", "P10A", "P7A", "P1A", ""}
+                payroll_service.DBF.SavePayrollTimeToDBF(DatabaseManager, dtPayrollDate.SelectedDate, pp.ToUpper, startupPath, IIf(payDay = 15, 1, 2))
+            Next
         End If
     End Sub
 End Class

@@ -63,7 +63,5 @@ Namespace Controller
                 MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
-
-
     End Class
 End Namespace

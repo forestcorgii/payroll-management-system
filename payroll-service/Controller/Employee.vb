@@ -76,7 +76,11 @@ Namespace Controller
 
             SaveEmployee(databaseManager, oldEmployee)
 
-            If newEmployee.payroll_code <> "" AndAlso newEmployee.payroll_code <> oldEmployee.Payroll_Code Then
+
+            If newEmployee.bank_category <> "" AndAlso ParseBankCategory(newEmployee.bank_category) <> ParseBankCategory(oldEmployee.Bank_Category) Then
+                BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category), oldEmployee.EE_Id)
+            End If
+            If newEmployee.payroll_code <> "" AndAlso ParsePayrollCode(newEmployee.payroll_code) <> ParsePayrollCode(oldEmployee.Payroll_Code) Then
                 PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.payroll_code), oldEmployee.EE_Id)
             End If
             If newEmployee.card_number <> "" AndAlso newEmployee.card_number <> oldEmployee.Card_Number Then
@@ -84,9 +88,6 @@ Namespace Controller
             End If
             If newEmployee.account_number <> "" AndAlso newEmployee.account_number <> oldEmployee.Account_Number Then
                 AccountNumber.SaveAccountNumber(databaseManager, newEmployee.account_number, oldEmployee.EE_Id)
-            End If
-            If newEmployee.bank_category <> "" AndAlso newEmployee.bank_category <> oldEmployee.Bank_Category Then
-                BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category), oldEmployee.EE_Id)
             End If
             If newEmployee.bank_name <> "" AndAlso newEmployee.bank_name <> oldEmployee.Bank_Name Then
                 BankName.SaveBankName(databaseManager, newEmployee.bank_name, oldEmployee.EE_Id)
@@ -136,7 +137,7 @@ Namespace Controller
         End Function
 
         Public Shared Function ParsePayrollCode(payroll_code As String) As String
-            Dim pCode As String = payroll_code.Split("-")(0).Replace("PAY", "P")
+            Dim pCode As String = payroll_code.Split("-")(0).Replace("PAY", "P").Trim
             If pCode.Contains("K12AA") Then Return "K12A"
             If pCode.Contains("K12AT") Then Return "K12"
 
