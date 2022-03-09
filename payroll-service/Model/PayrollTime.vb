@@ -15,7 +15,7 @@ Namespace Model
         Public Total_ND As Double
         Public Total_Tardy As Double
         Public Allowance As Double
-        Public Incentive As Double
+        'Public Incentive As Double
         Public Has_PCV As String
         Public ReadOnly Property Payroll_Name As String
             Get
@@ -36,14 +36,18 @@ Namespace Model
             Total_H_OT = reader.Item("total_h_ot")
             Total_ND = reader.Item("total_nd")
             Total_Tardy = reader.Item("total_tardy")
-            Allowance = reader.Item("allowance")
-            Incentive = reader.Item("incentive")
-            Has_PCV = reader.Item("has_pcv")
+
+            If IsDBNull(reader.Item("allowance")) = False Then
+                Allowance = reader.Item("allowance")
+            Else Allowance = 0
+            End If
+            'Incentive = reader.Item("incentive")
+            'Has_PCV = reader.Item("has_pcv")
         End Sub
 
 
         Public Function ToDBFRecordFormat() As String()
-            Return {DATER, CODE, EE.EE_Id, Total_Hours, Total_OTs, Total_RD_OT, 0, Total_H_OT, 0, Total_ND, Total_Tardy, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+            Return {DATER, CODE, EE.EE_Id, Total_Hours, Total_OTs, Total_RD_OT, 0, Total_H_OT, 0, Total_ND, Total_Tardy, Allowance, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         End Function
     End Class
 

@@ -26,6 +26,9 @@ Public Class frmMain
                            pb.Value = 0
                            pb.Maximum = employees.Count
                        End Sub)
+
+                Dim i As Integer = 0
+                'While i < emplo
                 For Each employee As Model.Employee In employees
                     Try
                         Invoke(Sub()

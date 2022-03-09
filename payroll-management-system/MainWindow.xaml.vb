@@ -19,6 +19,8 @@ Class MainWindow
         '   SetupUserAuthentication()
     End Sub
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        Dim da As New GenerateDBF
+        da.ShowDialog()
         frmMain.Navigate(New ProcessPayreg)
     End Sub
 End Class
