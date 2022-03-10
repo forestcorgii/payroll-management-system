@@ -6,16 +6,9 @@ Namespace Controller
     Public Class Employee
         Public Shared Function CollectEmployeeForSyncing(databaseManager As Manager.Mysql)
             'Get Cutoff Date
-            Dim cutOffDate As Date = Now
-            If cutOffDate.Day >= 8 Then
-                cutOffDate = New Date(cutOffDate.Year, cutOffDate.Month, 10)
-            ElseIf cutOffDate.Day >= 24 Then
-                cutOffDate = New Date(cutOffDate.Year, cutOffDate.Month, 24)
-            End If
 
             Dim employees As New List(Of Model.Employee)
-            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-                String.Format("SELECT * FROM payroll_management.employee where date_modified <= '{0}';", cutOffDate.ToString("yyyy-MM-dd")))
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT * FROM payroll_management.employee;")
                 While reader.Read()
                     employees.Add(New Model.Employee(reader))
                 End While

@@ -16,6 +16,11 @@
     End Class
 
     Public Class AdjustmentLog
+        Public ReadOnly Property Log_Name As String
+            Get
+                Return String.Format("{0}_{1}", Name, Payroll_Name)
+            End Get
+        End Property
         Public Name As String
         Public ee_id As String
         Public Payroll_Name As String

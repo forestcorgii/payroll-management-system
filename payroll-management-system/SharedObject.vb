@@ -3,7 +3,7 @@
 Module SharedObject
     Public PageRedirecting As Boolean
 
-    Public DatabaseConfiguration As Configuration.MysqlConfiguration
+    Public DatabaseConfiguration As Configuration.Mysql
     Public DatabaseManager As Manager.Mysql
 
     Public HRMSAPIManager As Manager.API.HRMS

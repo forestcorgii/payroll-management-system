@@ -10,7 +10,7 @@ Class MainWindow
         HRMSAPIManager = New Manager.API.HRMS("HRMS_API_URL")
 
 
-        DatabaseConfiguration = New Configuration.MysqlConfiguration()
+        DatabaseConfiguration = New Configuration.Mysql()
         DatabaseConfiguration.Setup("ACCOUNTING_DB_URL")
 
         DatabaseManager = New Manager.Mysql
