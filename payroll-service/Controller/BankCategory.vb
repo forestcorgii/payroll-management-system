@@ -15,6 +15,17 @@ Namespace Controller
             End Try
         End Sub
 
+        Public Shared Function GetAllBankCategory(databaseManager As Manager.Mysql) As List(Of String)
+            Dim bankCategories As New List(Of String)
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT bank_category FROM payroll_management.bank_category GROUP BY bank_category;")
+                While reader.Read()
+                    bankCategories.Add(reader.Item("bank_category"))
+                End While
+            End Using
+
+            Return bankCategories
+        End Function
+
         Public Shared Function GetHistory(databaseManager As Manager.Mysql, ee_id As String) As Model.BankCategoryHistory
             Dim bankCategoryHistory As New Model.BankCategoryHistory
             Try

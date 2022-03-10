@@ -77,11 +77,11 @@ Namespace Controller
             SaveEmployee(databaseManager, oldEmployee)
 
 
-            If newEmployee.bank_category <> "" AndAlso ParseBankCategory(newEmployee.bank_category) <> ParseBankCategory(oldEmployee.Bank_Category) Then
-                BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category), oldEmployee.EE_Id)
+            If ParseBankCategory(newEmployee.bank_category & "") <> oldEmployee.Bank_Category Then
+                BankCategory.SaveBankCategory(databaseManager, ParseBankCategory(newEmployee.bank_category & ""), oldEmployee.EE_Id)
             End If
-            If newEmployee.payroll_code <> "" AndAlso ParsePayrollCode(newEmployee.payroll_code) <> ParsePayrollCode(oldEmployee.Payroll_Code) Then
-                PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.payroll_code), oldEmployee.EE_Id)
+            If ParsePayrollCode(newEmployee.payroll_code & "") <> oldEmployee.Payroll_Code Then
+                PayrollCode.SavePayrollCode(databaseManager, ParsePayrollCode(newEmployee.payroll_code & ""), oldEmployee.EE_Id)
             End If
             If newEmployee.card_number <> "" AndAlso newEmployee.card_number <> oldEmployee.Card_Number Then
                 CardNumber.SaveCardNumber(databaseManager, newEmployee.card_number, oldEmployee.EE_Id)

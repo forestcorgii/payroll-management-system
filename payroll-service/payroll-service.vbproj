@@ -115,7 +115,6 @@
     <Compile Include="Controller\PayrollTime.vb" />
     <Compile Include="Controller\Report.vb" />
     <Compile Include="Model\PayrollCode.vb" />
-    <Compile Include="Controller\DBF.vb" />
     <Compile Include="Model\Employee.vb" />
     <Compile Include="Model\PayrollTime.vb" />
     <Compile Include="PayrollRecord.vb" />

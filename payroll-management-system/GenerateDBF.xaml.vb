@@ -1,4 +1,5 @@
-﻿Imports utility_service
+﻿Imports payroll_service
+Imports utility_service
 
 Class GenerateDBF
     Sub New()
@@ -22,9 +23,17 @@ Class GenerateDBF
 
             Dim startupPath As String = String.Format("{0}/DBF", AppDomain.CurrentDomain.BaseDirectory)
             IO.Directory.CreateDirectory(startupPath)
-            For Each pp As String In {"P11A", "P10A", "P7A", "P1A", ""}
-                payroll_service.DBF.SavePayrollTimeToDBF(DatabaseManager, dtPayrollDate.SelectedDate, pp.ToUpper, startupPath, IIf(payDay = 15, 1, 2))
+
+            DatabaseManager.Connection.Open()
+            Dim payrollCodes As List(Of String) = Controller.PayrollCode.GetAllPayrollCodes(DatabaseManager)
+            Dim bankCategories As List(Of String) = Controller.BankCategory.GetAllBankCategory(DatabaseManager)
+
+            For Each payrollCode As String In payrollCodes
+                For Each bankCategory As String In bankCategories
+                    Controller.PayrollTime.SavePayrollTimeToDBF(DatabaseManager, dtPayrollDate.SelectedDate, payrollCode, bankCategory, startupPath, IIf(payDay = 15, 1, 2))
+                Next
             Next
+            DatabaseManager.Connection.Close()
         End If
     End Sub
 End Class

@@ -15,6 +15,20 @@ Namespace Controller
             End Try
         End Sub
 
+
+        Public Shared Function GetAllPayrollCodes(databaseManager As Manager.Mysql) As List(Of String)
+            Dim payrollCodes As New List(Of String)
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT payroll_code FROM payroll_management.payroll_code GROUP BY payroll_code;")
+
+                While reader.Read()
+                    payrollCodes.Add(reader.Item("payroll_code"))
+                End While
+            End Using
+
+            Return payrollCodes
+        End Function
+
+
         Public Shared Function GetHistory(databaseManager As Manager.Mysql, ee_id As String) As Model.PayrollCodeHistory
             Dim payrollCodeHistory As New Model.PayrollCodeHistory
             Try
