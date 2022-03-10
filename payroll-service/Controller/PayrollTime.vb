@@ -22,7 +22,7 @@ Namespace Controller
         Public Shared Function LoadPayrollTimes(databaseManager As Manager.Mysql, Optional location As String = "", Optional payroll_code As String = "", Optional bank_category As String = "", Optional payroll_date As String = "", Optional job_title As String = "", Optional completeDetail As Boolean = False) As List(Of Model.PayrollTime)
             Dim payrollTimes As New List(Of Model.PayrollTime)
             Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-                String.Format("SELECT * FROM payroll_management.payroll_time_complete where (payroll_code='{1}' AND bank_category='{2}' AND payroll_date='{3}');", location, payroll_code, bank_category, payroll_date, job_title))
+                String.Format("SELECT * FROM payroll_management.payroll_time_complete where total_hours>0 AND (payroll_code='{1}' AND bank_category='{2}' AND payroll_date='{3}');", location, payroll_code, bank_category, payroll_date, job_title))
 
                 While reader.Read()
                     payrollTimes.Add(New Model.PayrollTime(reader))

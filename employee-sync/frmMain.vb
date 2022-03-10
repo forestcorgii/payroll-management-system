@@ -1,5 +1,6 @@
 ﻿Imports utility_service
 Imports payroll_service
+
 Public Class frmMain
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = Application.ProductName & " v" & Application.ProductVersion
@@ -38,21 +39,12 @@ Public Class frmMain
                                    lbStatus.Text = String.Format("Found {0} Employees... Currently Syncing {1}", employees.Count, employee.EE_Id)
                                End Sub)
                     Catch ex As Exception
+                        If ex.Message = "Employee not found in HRMS." Then
+                            'archive employee
+                        End If
                         Console.WriteLine(ex.Message)
                     End Try
                 End While
-
-                'For Each employee As Model.Employee In employees
-                '        Try
-                '            Invoke(Sub()
-                '                       pb.Value += 1
-                '                       lbStatus.Text = String.Format("Found {0} Employees... Currently Syncing {1}", employees.Count, employee.EE_Id)
-                '                   End Sub)
-                '            Await Controller.Employee.SyncEmployeeFromHRMSAsync(DatabaseManager, HRMSAPIManager, employee.EE_Id, employee)
-                '        Catch ex As Exception
-                '            MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                '        End Try
-                '    Next
             End If
             DatabaseManager.Connection.Close()
         Catch ex As Exception
