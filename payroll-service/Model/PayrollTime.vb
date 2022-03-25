@@ -1,4 +1,5 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports NPOI.SS.UserModel
 
 Namespace Model
     Public Class PayrollTime
@@ -45,10 +46,19 @@ Namespace Model
             'Has_PCV = reader.Item("has_pcv")
         End Sub
 
-
         Public Function ToDBFRecordFormat() As String()
-            Return {DATER, CODE, EE.EE_Id, Total_Hours, Total_OTs, Total_RD_OT, 0, Total_H_OT, 0, Total_ND, Total_Tardy, Allowance, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+            Return {DATER, CODE, EE_Id, Total_Hours, Total_OTs, Total_RD_OT, 0, Total_H_OT, 0, Total_ND, Total_Tardy, Allowance, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         End Function
+        Public Sub ToEERowFormat(row As IRow)
+            row.CreateCell(1).SetCellValue(EE_Id)
+            row.CreateCell(2).SetCellValue(EE.Fullname)
+            row.CreateCell(3).SetCellValue(Total_Hours)
+            row.CreateCell(4).SetCellValue(Total_OTs)
+            row.CreateCell(5).SetCellValue(Total_RD_OT)
+            row.CreateCell(6).SetCellValue(Total_H_OT)
+            row.CreateCell(7).SetCellValue(Total_ND)
+            row.CreateCell(8).SetCellValue(Total_Tardy)
+        End Sub
     End Class
 
 End Namespace

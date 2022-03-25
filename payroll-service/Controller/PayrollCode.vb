@@ -4,6 +4,20 @@ Imports utility_service
 
 Namespace Controller
     Public Class PayrollCode
+        Public Shared Function CollectFromPreviousCutOff(databaseManager As Manager.Mysql, payrollCode As String, previousCutoffRange As Date()) As List(Of Model.PayrollCode)
+            Dim payrollCodes As New List(Of Model.PayrollCode)
+
+            'NOTE: COLLECT BANK CATEGORIES FROM THE PREVIOUS CUT OFF
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
+                String.Format("SELECT * FROM payroll_management.payroll_code WHERE payroll_code='{0}' AND date_created <= '{1:yyyy-MM-dd}';", payrollCode, previousCutoffRange(1)))
+                While reader.Read
+                    payrollCodes.Add(New Model.PayrollCode(reader))
+                End While
+            End Using
+
+            Return payrollCodes
+        End Function
+
         Public Shared Sub SavePayrollCode(databaseManager As Manager.Mysql, payrollCode As String, ee_id As String)
             Try
                 Dim command As New MySqlCommand("INSERT INTO payroll_management.payroll_code (ee_id, payroll_code)VALUES(?,?)", databaseManager.Connection)

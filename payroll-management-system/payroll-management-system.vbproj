@@ -51,9 +51,12 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="hrms-api-service">
+      <HintPath>..\..\..\..\..\source\repos\hrms-api-service\hrms-api-service\bin\Debug\hrms-api-service.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=8.0.20.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -170,9 +173,13 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\accounting-monitoring\utility-service\utility-service.vbproj">
-      <Project>{2048200D-5C0B-4D76-B398-565C28D0A408}</Project>
+    <ProjectReference Include="..\..\..\..\..\source\repos\ddc-utility-service\utility-service\utility-service.vbproj">
+      <Project>{d314d3f7-c0e4-4103-b768-e5b299ce14b7}</Project>
       <Name>utility-service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\accounting-monitoring\utility-service\monitoring-service.vbproj">
+      <Project>{2048200d-5c0b-4d76-b398-565c28d0a408}</Project>
+      <Name>monitoring-service</Name>
     </ProjectReference>
     <ProjectReference Include="..\payroll-service\payroll-service.vbproj">
       <Project>{a37580dd-b1e1-4502-8ce9-9507f6bb096f}</Project>

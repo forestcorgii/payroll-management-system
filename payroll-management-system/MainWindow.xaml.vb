@@ -1,4 +1,6 @@
 ﻿Imports utility_service
+Imports hrms_api_service
+Imports Newtonsoft.Json
 
 Class MainWindow
     Sub New()
@@ -7,7 +9,7 @@ Class MainWindow
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        HRMSAPIManager = New Manager.API.HRMS("HRMS_API_URL")
+        HRMSAPIManager = New Manager.API.HRMS()
 
 
         DatabaseConfiguration = New Configuration.Mysql()
@@ -18,6 +20,26 @@ Class MainWindow
 
         '   SetupUserAuthentication()
     End Sub
+
+
+    Private Sub SetupConfiguration()
+        DatabaseConfiguration = New Configuration.Mysql()
+        DatabaseConfiguration.Setup("TIME_RECORDER_DB_URL_2")
+
+        DatabaseManager = New Manager.Mysql(DatabaseConfiguration)
+        DatabaseManager.Connection.Open()
+        SetupManager()
+        DatabaseManager.Connection.Close()
+    End Sub
+    Private Function SetupManager()
+
+        Dim settings = Controller.Settings.GetSettings(DatabaseManager, "HRMSAPIManager")
+        If settings IsNot Nothing Then
+            HRMSAPIManager = JsonConvert.DeserializeObject(Of hrms_api_service.Manager.API.HRMS)(settings.JSON_Arguments)
+        End If
+
+        Return True
+    End Function
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         Dim da As New GenerateDBF
         da.ShowDialog()

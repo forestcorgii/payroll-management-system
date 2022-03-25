@@ -1,19 +1,19 @@
-﻿Imports utility_service
-
+﻿Imports monitoring_service
+Imports utility_service
 Module SharedObject
     Public PageRedirecting As Boolean
 
     Public DatabaseConfiguration As Configuration.Mysql
     Public DatabaseManager As Manager.Mysql
 
-    Public HRMSAPIManager As Manager.API.HRMS
+    Public HRMSAPIManager As hrms_api_service.Manager.API.HRMS
 
-    Public User As Model.User
+    Public User As monitoring_service.Model.User
     Public Function SetupUserAuthentication() As Boolean
         Dim password As String = Environment.GetEnvironmentVariable("PAYABLE_SYSTEM_AUTH_TOKEN")
         Dim loginRequired As Boolean = True
 
-        User = New Model.User
+        User = New monitoring_service.Model.User
         User.Password = password
 
         If password <> "" Then

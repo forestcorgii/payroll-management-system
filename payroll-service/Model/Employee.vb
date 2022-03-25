@@ -1,26 +1,27 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports hrms_api_service.IInterface
 
 Namespace Model
     Public Class Employee
 
-        Public EE_Id As String
-        Public First_Name As String = ""
-        Public Last_Name As String = ""
-        Public Middle_Name As String = ""
-        Public Location As String = ""
-        Public TIN As String = ""
+        Public Property EE_Id As String = ""
+        Public Property First_Name As String = ""
+        Public Property Last_Name As String = ""
+        Public Property Middle_Name As String = ""
+        Public Property Location As String = ""
+        Public Property TIN As String = ""
 
-        Public Card_Number As String = ""
-        Public Account_Number As String = ""
-        Public Payroll_Code As String = ""
-        Public Bank_Category As String = ""
-        Public Bank_Name As String = ""
+        Public Property Card_Number As String = ""
+        Public Property Account_Number As String = ""
+        Public Property Payroll_Code As String = ""
+        Public Property Bank_Category As String = ""
+        Public Property Bank_Name As String = ""
 
         Public Date_Modified As Date
 
         Public ReadOnly Property Fullname As String
             Get
-                Return ""
+                Return String.Format("{0},{1} {2}", Last_Name, First_Name, IIf(Middle_Name <> "", Middle_Name(0) & ".", ""))
             End Get
         End Property
 
