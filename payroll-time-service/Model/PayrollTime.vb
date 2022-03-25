@@ -1,5 +1,6 @@
 ﻿Imports MySql.Data.MySqlClient
 Imports NPOI.SS.UserModel
+Imports payroll_service.Model
 
 Namespace Model
     Public Class PayrollTime
@@ -7,6 +8,12 @@ Namespace Model
         Public DATER As Integer
         Public CODE As Integer
         Public Payroll_Date As Date
+
+        Public WriteOnly Property employee_id As String
+            Set(value As String)
+                EE_Id = value
+            End Set
+        End Property
         Public EE_Id As String
         Public EE As Employee
         Public Total_Hours As Double

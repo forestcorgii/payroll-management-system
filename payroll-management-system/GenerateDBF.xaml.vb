@@ -30,9 +30,9 @@ Class GenerateDBF
 
             For Each payrollCode As String In payrollCodes
                 For Each bankCategory As String In bankCategories
-                    Controller.PayrollTime.SavePayrollTimeToDBF(DatabaseManager, dtPayrollDate.SelectedDate, payrollCode, bankCategory, startupPath)
+                    payroll_time_service.Controller.PayrollTime.SavePayrollTimeToDBF(DatabaseManager, dtPayrollDate.SelectedDate, payrollCode, bankCategory, startupPath)
                 Next
-                Controller.PayrollTime.ExportTransferLog(DatabaseManager, startupPath, dtPayrollDate.SelectedDate, payrollCode)
+                payroll_time_service.Controller.PayrollTime.ExportTransferLog(DatabaseManager, startupPath, dtPayrollDate.SelectedDate, payrollCode)
             Next
             DatabaseManager.Connection.Close()
         End If

@@ -59,6 +59,7 @@
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System" />
@@ -83,6 +84,9 @@
       <DependentUpon>ProcessPayreg.xaml</DependentUpon>
     </Compile>
     <Compile Include="SharedObject.vb" />
+    <Compile Include="TimeDownloader.xaml.vb">
+      <DependentUpon>TimeDownloader.xaml</DependentUpon>
+    </Compile>
     <Page Include="GenerateDBF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -100,6 +104,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProcessPayreg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeDownloader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -184,6 +192,10 @@
     <ProjectReference Include="..\payroll-service\payroll-service.vbproj">
       <Project>{a37580dd-b1e1-4502-8ce9-9507f6bb096f}</Project>
       <Name>payroll-service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\payroll-time-service\payroll-time-service.vbproj">
+      <Project>{ae6cb562-cecf-498d-9df0-c8b3682c1d55}</Project>
+      <Name>payroll-time-service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

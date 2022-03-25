@@ -4,70 +4,49 @@ Imports System.Windows.Forms
 Imports MySql.Data.MySqlClient
 Imports NPOI.HSSF.UserModel
 Imports NPOI.SS.UserModel
+Imports payroll_service
 Imports utility_service
-
 
 Namespace Controller
     Public Class PayrollTime
-        Public Shared Function GetPayrollTime(databaseManager As Manager.Mysql, Optional id As Integer = 0, Optional employee_id As String = "") As Model.PayrollTime
-            Dim payrollTime As Model.PayrollTime = Nothing
-            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-                String.Format("SELECT * FROM payroll_management.payroll_time; where id={0} or employee_id='{1}' LIMIT 1;", id, employee_id))
-                If reader.HasRows Then
-                    reader.Read()
-                    payrollTime = New Model.PayrollTime(reader)
+        Public Sub ProcessPayrollTime(databaseManager As utility_service.Manager.Mysql, payrollDate As Date, payrollTime As Model.PayrollTime)
+            Try
+                'check if employee exists in the database, create one if not.
+                Dim command As New MySqlCommand
+                Dim employee As payroll_service.Model.Employee = payroll_service.Controller.Employee.GetEmployee(databaseManager, ee_id:=payrollTime.EE_Id)
+                Dim ee_id As String = 0
+                If employee Is Nothing Then
+                    employee = payroll_service.Controller.Employee.SaveEmployee(databaseManager, New payroll_service.Model.Employee() With {.EE_Id = payrollTime.EE_Id})
                 End If
-            End Using
+                ee_id = employee.EE_Id
 
-            Return payrollTime
-        End Function
+                Gateway.PayrollTime.Save(databaseManager, payrollTime)
 
-        Public Shared Function LoadPayrollTimes(databaseManager As Manager.Mysql, Optional location As String = "", Optional payroll_code As String = "", Optional bank_category As String = "", Optional payroll_date As String = "", Optional job_title As String = "", Optional completeDetail As Boolean = False) As List(Of Model.PayrollTime)
-            Dim payrollTimes As New List(Of Model.PayrollTime)
-            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-                String.Format("SELECT * FROM payroll_management.payroll_time_complete where total_hours>0 AND (payroll_code='{1}' AND bank_category='{2}' AND payroll_date='{3}');", location, payroll_code, bank_category, payroll_date, job_title))
+                Dim allowanceLog As New payroll_service.Model.AdjustmentLog
+                With allowanceLog
+                    .Name = "ALLOWANCE"
+                    .ee_id = ee_id
+                    .Payroll_Name = payrollTime.Payroll_Name
+                    .Amount = payrollTime.Allowance
+                    .Adjust_Type = payroll_service.Model.AdjustTypeChoices.ADJUST1
+                End With
+                payroll_service.Controller.Adjustment.SaveAdjustmentLog(databaseManager, allowanceLog)
 
-                While reader.Read()
-                    payrollTimes.Add(New Model.PayrollTime(reader))
-                End While
-            End Using
-
-            If completeDetail Then
-                payrollTimes.ForEach(Sub(item As Model.PayrollTime) CompletePayrollTimeDetail(databaseManager, item))
-            End If
-
-            Return payrollTimes
-        End Function
-
-        Public Shared Function CompletePayrollTimeDetail(databaseManager As Manager.Mysql, payrollTime As Model.PayrollTime) As Model.PayrollTime
-            Try
-                payrollTime.EE = Employee.GetEmployee(databaseManager, payrollTime.EE_Id)
             Catch ex As Exception
-                MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-            Return payrollTime
-        End Function
-
-        Public Shared Sub SavePayrollTime(databaseManager As Manager.Mysql, payrollTime As Model.PayrollTime)
-            'check if employee exists in the database
-            Try
-                Dim Command As New MySqlCommand("REPLACE INTO payroll_management.payroll_time (ee_id,total_hours,total_ots,total_rd_ot,total_h_ot,total_nd,total_tardy,has_pcv,payroll_date,payroll_name)VALUES(?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)
-                Command.Parameters.AddWithValue("p1", payrollTime.EE_Id)
-                Command.Parameters.AddWithValue("p2", payrollTime.Total_Hours)
-                Command.Parameters.AddWithValue("p3", payrollTime.Total_OTs)
-                Command.Parameters.AddWithValue("p4", payrollTime.Total_RD_OT)
-                Command.Parameters.AddWithValue("p5", payrollTime.Total_H_OT)
-                Command.Parameters.AddWithValue("p6", payrollTime.Total_ND)
-                Command.Parameters.AddWithValue("p7", payrollTime.Total_Tardy)
-                Command.Parameters.AddWithValue("p10", payrollTime.Has_PCV)
-                Command.Parameters.AddWithValue("p11", payrollTime.Payroll_Date)
-                Command.Parameters.AddWithValue("p12", payrollTime.Payroll_Name)
-
-                Command.ExecuteNonQuery()
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Console.WriteLine(ex.Message)
+                MessageBox.Show(ex.Message, "SavePayrollAsync", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
+
+        Public Shared Function CompleteDetail(databaseManager As utility_service.Manager.Mysql, payrollTime As Model.PayrollTime) As Model.PayrollTime
+            Try
+                payrollTime.EE = payroll_service.Controller.Employee.GetEmployee(databaseManager, payrollTime.EE_Id)
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+            Return payrollTime
+        End Function
+
 
         Private Shared Function GetDBFFields() As List(Of DotNetDBF.DBFField)
             Dim flds As New List(Of DotNetDBF.DBFField)
@@ -96,13 +75,13 @@ Namespace Controller
         End Function
 
 
-        Public Shared Sub SavePayrollTimeToDBF(databaseManager As Manager.Mysql, payrollDate As Date, payroll_code As String, bank_category As String, dbfPath As String)
+        Public Shared Sub SavePayrollTimeToDBF(databaseManager As utility_service.Manager.Mysql, payrollDate As Date, payroll_code As String, bank_category As String, dbfPath As String)
             Try
                 Dim dbfFields As List(Of DotNetDBF.DBFField) = GetDBFFields()
 
                 Dim dbfRecords As New List(Of String())
                 Dim transferDetails As New List(Of String)
-                Dim payrollTimes As List(Of Model.PayrollTime) = LoadPayrollTimes(databaseManager, payroll_code:=payroll_code, bank_category:=bank_category, payroll_date:=payrollDate.ToString("yyyy-MM-dd"), completeDetail:=True)
+                Dim payrollTimes As List(Of Model.PayrollTime) = Gateway.PayrollTime.Collect(databaseManager, payroll_code:=payroll_code, bank_category:=bank_category, payroll_date:=payrollDate.ToString("yyyy-MM-dd"), completeDetail:=True)
 
                 ExportEFile(String.Format("{0}\{1}_{2}_{3}.XLS", dbfPath, payroll_code, bank_category, payrollDate.ToString("yyyyMMdd")), payrollDate, payroll_code, bank_category, payrollTimes)
                 ExportDBF(String.Format("{0}\{1}_{2}_{3}.DBF", dbfPath, payroll_code, bank_category, payrollDate.ToString("yyyyMMdd")), payrollDate, payrollTimes)
@@ -164,7 +143,7 @@ Namespace Controller
             End Using
         End Sub
 
-        Public Shared Sub ExportTransferLog(databaseManager As Manager.Mysql, location As String, payrollDate As Date, payroll_code As String)
+        Public Shared Sub ExportTransferLog(databaseManager As utility_service.Manager.Mysql, location As String, payrollDate As Date, payroll_code As String)
             Dim transferDetails As New List(Of String())
             Dim previousPayrollDate As Date = GetPreviousPayrollDate(payrollDate)
             Dim previousCutoffRange As Date() = GetCutoffRange(previousPayrollDate)
@@ -172,14 +151,13 @@ Namespace Controller
             Dim nWorkbook As New HSSFWorkbook()
             Dim nSheet As ISheet = nWorkbook.CreateSheet("Sheet1")
 
-
             Dim i As Integer = 0
             Dim nRow As IRow = nSheet.CreateRow(i)
             nRow.CreateCell(2).SetCellValue("TRANSFERRED Log")
 
-            Dim payrollCodes As List(Of Model.PayrollCode) = PayrollCode.CollectFromPreviousCutOff(databaseManager, payroll_code, previousCutoffRange)
-            For Each payrollCode As Model.PayrollCode In payrollCodes
-                Dim ee As Model.Employee = Employee.GetEmployee(databaseManager, payrollCode.EE_Id)
+            Dim payrollCodes As List(Of payroll_service.Model.PayrollCode) = payroll_service.Controller.PayrollCode.CollectFromPreviousCutOff(databaseManager, payroll_code, previousCutoffRange)
+            For Each payrollCode As payroll_service.Model.PayrollCode In payrollCodes
+                Dim ee As payroll_service.Model.Employee = payroll_service.Controller.Employee.GetEmployee(databaseManager, payrollCode.EE_Id)
                 If ee.Payroll_Code <> payrollCode.Payroll_code Then
                     transferDetails.Add({ee.EE_Id, ee.Fullname, String.Format("Transferred from {0} to {1}", ee.Payroll_Code, payrollCode.Payroll_code)})
                 End If
