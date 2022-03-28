@@ -12,12 +12,14 @@
             <RowDefinition/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-
-        <DatePicker x:Name="dtPayrollDate" SelectedDateChanged="dtPayrollDate_SelectedDateChanged" HorizontalAlignment="Left" Margin="8" VerticalAlignment="Center"/>
+        <StackPanel Orientation="Horizontal">
+            <DatePicker x:Name="dtPayrollDate" SelectedDateChanged="dtPayrollDate_SelectedDateChanged" HorizontalAlignment="Left" Width="125" Margin="8" VerticalAlignment="Center"/>
+            <ComboBox x:Name="cbPayrollCode" HorizontalAlignment="Left" Margin="8" VerticalAlignment="Center" IsEditable="True" Width="100"/>
+        </StackPanel>
         <Button x:Name="btnDownload" Click="btnDownload_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="4" Margin="8">Download</Button>
 
-        <Label x:Name="lbStatus" FontSize="16" FontWeight="DemiBold" Grid.Row="1" Margin="8" Width="250" HorizontalAlignment="Left">Status:</Label>
-        <Label x:Name="lbPage" FontSize="24" FontWeight="DemiBold" Grid.Row="1" Margin="8" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalAlignment="Center">0/0</Label>
+        <TextBlock x:Name="lbStatus" FontSize="16" FontWeight="DemiBold" Grid.Row="1" Margin="8" Width="250" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+        <TextBlock x:Name="lbPage" FontSize="24" FontWeight="DemiBold" Grid.Row="1" Margin="8" Width="100" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap"/>
 
         <ProgressBar x:Name="pb" Grid.Row="2"/>
     </Grid>

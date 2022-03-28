@@ -1,0 +1,81 @@
+﻿<Page x:Class="Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:payroll_management_system"
+        mc:Ignorable="d"
+        Title="Settings" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+
+            <TextBlock Text="Payroll Time Downloader API Settings" Margin="3" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+            <Button x:Name="btnTimeDownloaderSave" Click="btnTimeDownloaderSave_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="3" Width="45">Save</Button>
+
+            <TextBlock Text="URL:" Margin="3" Grid.Row="1" Grid.Column="0"/>
+            <TextBox x:Name="tbTimeDownloaderUrl" Margin="3" Grid.Row="1" Grid.Column="1"/>
+
+            <TextBlock Text="Info:" Margin="3" Grid.Row="2" Grid.Column="0"/>
+            <TextBox x:Name="tbTimeDownloaderInfo"  Margin="3" Grid.Row="2" Grid.Column="1"/>
+
+            <TextBlock Text="Token:" Margin="3" Grid.Row="3" Grid.Column="0"/>
+            <TextBox x:Name="tbTimeDownloaderToken" Margin="3" Grid.Row="3" Grid.Column="1"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="HRMS API Settings" Margin="3" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+            <Button x:Name="btnHRMSSave" Click="btnHRMSSave_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="3" Width="45">Save</Button>
+
+            <TextBlock Text="URL:" Margin="3" Grid.Row="1" Grid.Column="0"/>
+            <TextBox x:Name="tbHRMSUrl" Margin="3" Grid.Row="1" Grid.Column="1"/>
+
+            <TextBlock Text="What:" Margin="3" Grid.Row="2" Grid.Column="0"/>
+            <TextBox x:Name="tbHRMSWhat"  Margin="3" Grid.Row="2" Grid.Column="1"/>
+
+            <TextBlock Text="Field:" Margin="3" Grid.Row="3" Grid.Column="0"/>
+            <TextBox x:Name="tbHRMSField" Margin="3" Grid.Row="3" Grid.Column="1"/>
+
+            <TextBlock Text="Search:" Margin="3" Grid.Row="4" Grid.Column="0"/>
+            <TextBox x:Name="tbHRMSSearch" Margin="3" Grid.Row="4" Grid.Column="1"/>
+
+            <TextBlock Text="Token:" Margin="3" Grid.Row="5" Grid.Column="0"/>
+            <TextBox x:Name="tbHRMSToken" Margin="3" Grid.Row="5" Grid.Column="1"/>
+        </Grid>
+
+
+
+    </Grid>
+</Page>

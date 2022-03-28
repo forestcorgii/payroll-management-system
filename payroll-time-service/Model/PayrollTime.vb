@@ -1,4 +1,5 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports Newtonsoft.Json
 Imports NPOI.SS.UserModel
 Imports payroll_service.Model
 
@@ -9,11 +10,13 @@ Namespace Model
         Public CODE As Integer
         Public Payroll_Date As Date
 
-        Public WriteOnly Property employee_id As String
-            Set(value As String)
-                EE_Id = value
-            End Set
-        End Property
+        'Public WriteOnly Property employee_id As String
+        '    Set(value As String)
+        '        EE_Id = value
+        '    End Set
+        'End Property
+
+        <JsonProperty("employee_id")>
         Public EE_Id As String
         Public EE As Employee
         Public Total_Hours As Double
@@ -27,7 +30,7 @@ Namespace Model
         Public Has_PCV As String
         Public ReadOnly Property Payroll_Name As String
             Get
-                Return String.Format("{0}_{1:yyyyMMdd}", EE.EE_Id, Payroll_Date)
+                Return String.Format("{0}_{1:yyyyMMdd}", EE_Id, Payroll_Date)
             End Get
         End Property
 

@@ -8,6 +8,8 @@ Module SharedObject
 
     Public HRMSAPIManager As hrms_api_service.Manager.API.HRMS
 
+    Public TimeDownloaderAPIManager As payroll_time_service.Manager.API.TimeDownloader
+
     Public User As monitoring_service.Model.User
     Public Function SetupUserAuthentication() As Boolean
         Dim password As String = Environment.GetEnvironmentVariable("PAYABLE_SYSTEM_AUTH_TOKEN")

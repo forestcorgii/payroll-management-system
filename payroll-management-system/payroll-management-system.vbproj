@@ -51,6 +51,12 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdonisUI, Version=1.17.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AdonisUI.1.17.1\lib\net45\AdonisUI.dll</HintPath>
+    </Reference>
+    <Reference Include="AdonisUI.ClassicTheme, Version=1.17.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AdonisUI.ClassicTheme.1.17.1\lib\net45\AdonisUI.ClassicTheme.dll</HintPath>
+    </Reference>
     <Reference Include="hrms-api-service">
       <HintPath>..\..\..\..\..\source\repos\hrms-api-service\hrms-api-service\bin\Debug\hrms-api-service.dll</HintPath>
     </Reference>
@@ -80,14 +86,27 @@
     <Compile Include="GenerateDBF.xaml.vb">
       <DependentUpon>GenerateDBF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GenerateDBFPage.xaml.vb">
+      <DependentUpon>GenerateDBFPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProcessPayreg.xaml.vb">
       <DependentUpon>ProcessPayreg.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings.xaml.vb">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SharedObject.vb" />
+    <Compile Include="Summary.xaml.vb">
+      <DependentUpon>Summary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TimeDownloader.xaml.vb">
       <DependentUpon>TimeDownloader.xaml</DependentUpon>
     </Compile>
     <Page Include="GenerateDBF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GenerateDBFPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -104,6 +123,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProcessPayreg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Summary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

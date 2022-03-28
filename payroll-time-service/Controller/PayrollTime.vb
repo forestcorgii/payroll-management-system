@@ -9,7 +9,7 @@ Imports utility_service
 
 Namespace Controller
     Public Class PayrollTime
-        Public Sub ProcessPayrollTime(databaseManager As utility_service.Manager.Mysql, payrollDate As Date, payrollTime As Model.PayrollTime)
+        Public Shared Sub ProcessPayrollTime(databaseManager As utility_service.Manager.Mysql, payrollDate As Date, payrollTime As Model.PayrollTime)
             Try
                 'check if employee exists in the database, create one if not.
                 Dim command As New MySqlCommand
@@ -184,7 +184,7 @@ Namespace Controller
             End Using
         End Sub
 
-        Private Shared Function GetCutoffRange(payrollDate As Date) As Date()
+        Public Shared Function GetCutoffRange(payrollDate As Date) As Date()
             If {28, 29, 30}.Contains(payrollDate.Day) Then
                 Return {New Date(payrollDate.Year, payrollDate.Month, 5), New Date(payrollDate.Year, payrollDate.Month, 19)}
             ElseIf 15 = (payrollDate.Day) Then
