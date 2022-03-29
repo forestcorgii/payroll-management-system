@@ -19,7 +19,7 @@ Namespace Controller
                     employee = payroll_service.Controller.Employee.SaveEmployee(databaseManager, New payroll_service.Model.Employee() With {.EE_Id = payrollTime.EE_Id})
                 End If
                 ee_id = employee.EE_Id
-
+                payrollTime.Payroll_Date = payrollDate
                 Gateway.PayrollTime.Save(databaseManager, payrollTime)
 
                 Dim allowanceLog As New payroll_service.Model.AdjustmentLog
@@ -31,7 +31,6 @@ Namespace Controller
                     .Adjust_Type = payroll_service.Model.AdjustTypeChoices.ADJUST1
                 End With
                 payroll_service.Controller.Adjustment.SaveAdjustmentLog(databaseManager, allowanceLog)
-
             Catch ex As Exception
                 Console.WriteLine(ex.Message)
                 MessageBox.Show(ex.Message, "SavePayrollAsync", MessageBoxButtons.OK, MessageBoxIcon.Error)

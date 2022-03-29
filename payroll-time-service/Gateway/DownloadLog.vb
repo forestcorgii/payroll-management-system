@@ -2,9 +2,9 @@
 
 Namespace Gateway
     Public Class DownloadLog
-        Public Shared Function Find(databaseManager As utility_service.Manager.Mysql, payrollDate As Date) As Model.DownloadLog
+        Public Shared Function Find(databaseManager As utility_service.Manager.Mysql, payrollDate As Date, payrollCode As String) As Model.DownloadLog
             Dim downloadLoag As Model.DownloadLog = Nothing
-            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(String.Format("SELECT * FROM payroll_management.download_log WHERE payroll_date='{0}' ORDER BY log_created DESC LIMIT 1;", payrollDate.ToString("yyyy-MM-dd")))
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(String.Format("SELECT * FROM payroll_management.download_log WHERE payroll_date='{0}' AND payroll_code='{1}' ORDER BY log_created DESC LIMIT 1;", payrollDate.ToString("yyyy-MM-dd"), payrollCode))
                 If reader.HasRows Then
                     reader.Read()
                     downloadLoag = New Model.DownloadLog(reader)
@@ -13,8 +13,9 @@ Namespace Gateway
             Return downloadLoag
         End Function
         Public Shared Sub Save(databaseManager As utility_service.Manager.Mysql, downloadLog As Model.DownloadLog)
-            Dim command As New MySqlCommand("INSERT INTO payroll_management.download_log (payroll_date,total_page,last_page_downloaded,status)VALUES(?,?,?,?);", databaseManager.Connection)
+            Dim command As New MySqlCommand("INSERT INTO payroll_management.download_log (payroll_date,payroll_code,total_page,last_page_downloaded,status)VALUES(?,?,?,?,?);", databaseManager.Connection)
             command.Parameters.AddWithValue("p1", downloadLog.Payroll_Date)
+            command.Parameters.AddWithValue("p11", downloadLog.Payroll_Code)
             command.Parameters.AddWithValue("p2", downloadLog.TotalPage)
             command.Parameters.AddWithValue("p3", downloadLog.Last_Page_Downloaded)
             command.Parameters.AddWithValue("p4", downloadLog.Status)

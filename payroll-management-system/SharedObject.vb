@@ -15,7 +15,7 @@ Module SharedObject
         Dim password As String = Environment.GetEnvironmentVariable("PAYABLE_SYSTEM_AUTH_TOKEN")
         Dim loginRequired As Boolean = True
 
-        User = New monitoring_service.Model.User
+        User = New Model.User
         User.Password = password
 
         If password <> "" Then

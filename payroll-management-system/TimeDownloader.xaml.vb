@@ -21,7 +21,7 @@ Public Class TimeDownloader
         If {15, 30}.Contains(selectedDate.Day) Or ({2}.Contains(selectedDate.Month) And {29, 28}.Contains(selectedDate.Day)) Then
             'FIND OR CREATE DOWNLOAD LOG
             DatabaseManager.Connection.Open()
-            DownloadLog = Gateway.DownloadLog.Find(DatabaseManager, selectedDate)
+            DownloadLog = Gateway.DownloadLog.Find(DatabaseManager, selectedDate, cbPayrollCode.Text)
             DatabaseManager.Connection.Close()
             If downloadLog IsNot Nothing Then
                 lbStatus.Text = String.Format("STATUS: {0} Date Created: {1}", DownloadLog.Status.ToString, DownloadLog.DateTimeCreated)
@@ -33,7 +33,7 @@ Public Class TimeDownloader
                     btnDownload.Content = "Resume Download"
                 End If
             Else
-                DownloadLog = New Model.DownloadLog With {.Payroll_Date = selectedDate}
+                DownloadLog = New Model.DownloadLog With {.Payroll_Date = selectedDate, .Payroll_Code = cbPayrollCode.Text}
                 lbStatus.Text = "STATUS: NOT DOWNLOADED YET."
                 btnDownload.Content = "Download"
             End If
@@ -67,11 +67,11 @@ Public Class TimeDownloader
             'GET CUT OFF RANGE
             Dim cutoffRange As Date() = Controller.PayrollTime.GetCutoffRange(DownloadLog.Payroll_Date)
             'GET TOTAL PAGE
-            DownloadLog.TotalPage = Await TimeDownloaderAPIManager.GetTotalPage(cutoffRange(0), cutoffRange(1))
-            Gateway.DownloadLog.Update(_databaseManager, DownloadLog)
+            DownloadLog.TotalPage = Await TimeDownloaderAPIManager.GetTotalPage(cutoffRange(0), cutoffRange(1), DownloadLog.Payroll_Code)
+            Gateway.DownloadLog.Save(_databaseManager, DownloadLog)
             'RUN THROUGH PAGES
             While DownloadLog.Last_Page_Downloaded < DownloadLog.TotalPage
-                Dim payrollTimes As Model.PayrollTime() = Await TimeDownloaderAPIManager.GetPageContent(cutoffRange(0), cutoffRange(1), DownloadLog.Last_Page_Downloaded)
+                Dim payrollTimes As Model.PayrollTime() = Await TimeDownloaderAPIManager.GetPageContent(cutoffRange(0), cutoffRange(1), DownloadLog.Last_Page_Downloaded, DownloadLog.Payroll_Code)
                 For i As Integer = 0 To payrollTimes.Count - 1
                     Controller.PayrollTime.ProcessPayrollTime(_databaseManager, DownloadLog.Payroll_Date, payrollTimes(i))
                 Next

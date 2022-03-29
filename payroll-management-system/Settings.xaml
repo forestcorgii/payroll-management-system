@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:payroll_management_system"
-        mc:Ignorable="d"
+      xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+        Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+          mc:Ignorable="d"
         Title="Settings" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="{adonisUi:Space 16}"/>
+            <RowDefinition Height="{adonisUi:Space 24}"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>

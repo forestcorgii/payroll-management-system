@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:payroll_management_system"
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+      Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GenerateDBFPage">
@@ -13,12 +14,12 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="{adonisUi:Space 8}"/>
-            <RowDefinition/>
-            <RowDefinition Height="5"/>
+            <RowDefinition Height="{adonisUi:Space 6}"/>
+            <RowDefinition />
+            <RowDefinition Height="{adonisUi:Space 1}"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Margin="10">Payroll Date:</TextBlock>
                 <DatePicker Name="dtPayrollDate"  Width="125" VerticalAlignment="Center"/>
@@ -33,11 +34,11 @@
         </StackPanel>
 
         <Button x:Name="btnSettings" Content="Settings" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" Padding="3"/>
-        <DataGrid  Grid.Row="1">
+        <DataGrid  Grid.Row="1" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Existing DBF" Width="200"/>
             </DataGrid.Columns>
         </DataGrid>
-        <ProgressBar x:Name="progressBar1" Grid.Row="2" Height="5" VerticalAlignment="Bottom"/>
+        <ProgressBar x:Name="progressBar1" Grid.Row="2" Height="5" VerticalAlignment="Bottom" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}"/>
     </Grid>
 </Page>

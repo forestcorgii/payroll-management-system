@@ -44,7 +44,26 @@ Namespace Controller
                     newPayroll.EE_Id = employee.EE_Id
                     newPayroll.Payroll_Date = payrollDate
                     newPayroll.Gross_Pay = row.GetCell(grossIdx).NumericCellValue
-                    Payroll.SavePayroll(databaseManager, newPayroll)
+                    Payroll.Save(databaseManager, newPayroll)
+
+                    If {28, 29, 30}.Contains(payrollDate.Day) Then ' If 30th Payroll
+                        'GENERATE GOVERNMENT COMPUTATION
+                        'GET 15TH AND 30TH PAYROLL
+                        Dim payroll15th As Model.Payroll = Controller.Payroll.Find(databaseManager, employee.EE_Id, payrollDate.ToString("yyyy-MM-15"))
+                        Dim payroll30th As Model.Payroll = Controller.Payroll.Find(databaseManager, employee.EE_Id, payrollDate.ToString("yyyy-MM-dd"))
+                        Dim payroll15th_GROSS_PAY As Double = 0
+                        Dim payroll30th_GROSS_PAY As Double = 0
+                        If payroll15th IsNot Nothing Then payroll15th_GROSS_PAY = payroll15th.Gross_Pay
+                        If payroll30th IsNot Nothing Then payroll30th_GROSS_PAY = payroll30th.Gross_Pay
+                        'INSTANTIATE A GOVERNMENT MODEL WITH 15TH AND 30TH PAYROLL AND EE ID AS PARAMETER
+                        Dim goverment As New Model.Government
+                        goverment.Payroll_Name = newPayroll.Payroll_Name
+                        goverment.EE_Id = employee.EE_Id
+                        goverment.Monthly_Gross_Pay = payroll15th_GROSS_PAY + payroll30th_GROSS_PAY
+                        goverment = Controller.Government.Compute(goverment)
+                        'SAVE GOVERMENT MODEL
+                        Controller.Government.Save(databaseManager, goverment)
+                    End If
                 End If
             Next
         End Sub

@@ -5,6 +5,7 @@ Namespace Model
         Public id As Integer
 
         Public Payroll_Date As Date
+        Public Payroll_Code As String
         Public TotalPage As Integer
         Public Last_Page_Downloaded As Integer = 0
 
@@ -25,6 +26,7 @@ Namespace Model
         Sub New(reader As MySqlDataReader)
             id = reader.Item("id")
             Payroll_Date = reader.Item("payroll_date")
+            Payroll_Code = reader.Item("payroll_code")
             TotalPage = reader.Item("total_page")
             Last_Page_Downloaded = reader.Item("last_page_downloaded")
             Status = reader.Item("status")

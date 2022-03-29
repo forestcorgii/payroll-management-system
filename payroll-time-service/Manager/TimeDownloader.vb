@@ -16,6 +16,7 @@ Namespace Manager
                 Public date_from As String
                 Public date_to As String
                 Public page As String
+                Public payroll_code As String
             End Class
 
 
@@ -31,12 +32,13 @@ Namespace Manager
             ''' <param name="date_from"></param>
             ''' <param name="date_to"></param>
             ''' <returns>Total Page</returns>
-            Public Async Function GetTotalPage(date_from As Date, date_to As Date) As Task(Of Integer)
+            Public Async Function GetTotalPage(date_from As Date, date_to As Date, payroll_code As String) As Task(Of Integer)
                 Try
                     Dim postData As New PostData
                     postData.info = info
                     postData.api_token = api_token
 
+                    postData.payroll_code = payroll_code
                     postData.page = -1
                     postData.date_from = date_from.ToString("yyyy-MM-dd")
                     postData.date_to = date_to.ToString("yyyy-MM-dd")
@@ -60,12 +62,13 @@ Namespace Manager
                 Return Nothing
             End Function
 
-            Public Async Function GetPageContent(date_from As Date, date_to As Date, page As Integer) As Task(Of Model.PayrollTime())
+            Public Async Function GetPageContent(date_from As Date, date_to As Date, page As Integer, payroll_code As String) As Task(Of Model.PayrollTime())
                 Try
                     Dim postData As New PostData
                     postData.info = info
                     postData.api_token = api_token
 
+                    postData.payroll_code = payroll_code
                     postData.page = page
                     postData.date_from = date_from.ToString("yyyy-MM-dd")
                     postData.date_to = date_to.ToString("yyyy-MM-dd")
