@@ -1,4 +1,5 @@
 ﻿Imports payroll_service
+Imports payroll_service.Payroll
 Imports utility_service
 
 Class GenerateDBFPage
@@ -25,14 +26,14 @@ Class GenerateDBFPage
             IO.Directory.CreateDirectory(startupPath)
 
             DatabaseManager.Connection.Open()
-            Dim payrollCodes As List(Of String) = Controller.PayrollCode.GetAllPayrollCodes(DatabaseManager)
-            Dim bankCategories As List(Of String) = Controller.BankCategory.GetAllBankCategory(DatabaseManager)
+            Dim payrollCodes As List(Of String) = Payroll.Code.Gateway.GetAllPayrollCodes(DatabaseManager)
+            Dim bankCategories As List(Of String) = BankCategory.Gateway.Collect(DatabaseManager)
 
             For Each payrollCode As String In payrollCodes
                 For Each bankCategory As String In bankCategories
-                    payroll_time_service.Controller.PayrollTime.SavePayrollTimeToDBF(DatabaseManager, dtPayrollDate.SelectedDate, payrollCode, bankCategory, startupPath)
+                    Time.Controller.SavePayrollTimeToDBF(DatabaseManager, dtPayrollDate.SelectedDate, payrollCode, bankCategory, startupPath)
                 Next
-                payroll_time_service.Controller.PayrollTime.ExportTransferLog(DatabaseManager, startupPath, dtPayrollDate.SelectedDate, payrollCode)
+                Time.Controller.ExportTransferLog(DatabaseManager, startupPath, dtPayrollDate.SelectedDate, payrollCode)
             Next
             DatabaseManager.Connection.Close()
         End If

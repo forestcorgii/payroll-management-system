@@ -41,13 +41,17 @@ Class MainWindow
         Return True
     End Function
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
-        frmMain.Navigate(New ProcessPayreg)
+        TimeDownloaderPage = New TimeDownloaderPage
+
+
+        frmMain.Navigate(New EmployeePage)
     End Sub
 
+    Dim TimeDownloaderPage As TimeDownloaderPage
     Private Sub btnTimeDownloader_Click(sender As Object, e As RoutedEventArgs)
-        Dim da As New TimeDownloader
-        da.Show()
-
+        'Dim da As New TimeDownloader
+        'da.Show()
+        frmMain.Navigate(TimeDownloaderPage)
     End Sub
 
     Private Sub btnGenerateDBF_Click(sender As Object, e As RoutedEventArgs)
@@ -62,5 +66,15 @@ Class MainWindow
         'da.ShowDialog()
 
         frmMain.Navigate(New Settings)
+    End Sub
+
+    Private Sub btnEmployee_Click(sender As Object, e As RoutedEventArgs)
+        frmMain.Navigate(New EmployeePage)
+
+    End Sub
+
+    Private Sub btnProcessPayroll_Click(sender As Object, e As RoutedEventArgs)
+        frmMain.Navigate(New ProcessPayreg)
+
     End Sub
 End Class

@@ -1,7 +1,7 @@
 ﻿Imports MySql.Data.MySqlClient
 
 Namespace Model
-    Public Class DownloadLog
+    Public Class DownloadLog_
         Public id As Integer
 
         Public Payroll_Date As Date

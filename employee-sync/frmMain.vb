@@ -36,7 +36,7 @@ Public Class frmMain
     Private Async Sub bgwSync_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwSync.DoWork
         Try
             DatabaseManager.Connection.Open()
-            Dim employees As List(Of Model.Employee) = Controller.Employee.CollectEmployeeForSyncing(DatabaseManager)
+            Dim employees As List(Of Employee.Model) = Employee.Gateway.Collect(DatabaseManager)
             If employees.Count > 0 Then
                 Invoke(Sub()
                            pb.Value = 0
@@ -44,13 +44,13 @@ Public Class frmMain
                        End Sub)
                 Dim i As Integer = 0
                 While i < employees.Count
-                    Dim employee As Model.Employee = employees(i)
+                    Dim _employee As Employee.Model = employees(i)
                     Try
                         i += 1
-                        Await Controller.Employee.SyncEmployeeFromHRMSAsync(DatabaseManager, HRMSAPIManager, employee.EE_Id, employee)
+                        Await Employee.Gateway.SyncEmployeeFromHRMS(DatabaseManager, HRMSAPIManager, _employee.EE_Id, _employee)
                         Invoke(Sub()
                                    pb.Value += 1
-                                   lbStatus.Text = String.Format("Found {0} Employees... Currently Syncing {1}", employees.Count, employee.EE_Id)
+                                   lbStatus.Text = String.Format("Found {0} Employees... Currently Syncing {1}", employees.Count, _employee.EE_Id)
                                End Sub)
                     Catch ex As Exception
                         If ex.Message = "Employee not found in HRMS." Then

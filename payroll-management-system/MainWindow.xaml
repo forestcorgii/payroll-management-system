@@ -7,7 +7,7 @@
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
         Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="700" Width="1000">
     <Window.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
     </Window.Style>
@@ -23,6 +23,8 @@
             <Button x:Name="btnGenerateDBF" Click="btnGenerateDBF_Click" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">DBF</Button>
             <Button x:Name="btnTimeDownloader" Click="btnTimeDownloader_Click">Downloader</Button>
             <Button x:Name="btnSettings" Click="btnSettings_Click">Settings</Button>
+            <Button x:Name="btnEmployee" Click="btnEmployee_Click">Settings</Button>
+            <Button x:Name="btnProcessPayroll" Click="btnProcessPayroll_Click">Settings</Button>
         </StackPanel>
         
         <Frame Name="frmMain" Grid.Row="1" 

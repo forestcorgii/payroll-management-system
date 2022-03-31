@@ -101,6 +101,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EmployeePage.xaml.vb">
+      <DependentUpon>EmployeePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GenerateDBF.xaml.vb">
       <DependentUpon>GenerateDBF.xaml</DependentUpon>
     </Compile>
@@ -114,12 +117,13 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="SharedObject.vb" />
-    <Compile Include="Summary.xaml.vb">
-      <DependentUpon>Summary.xaml</DependentUpon>
+    <Compile Include="TimeDownloaderPage.xaml.vb">
+      <DependentUpon>TimeDownloaderPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TimeDownloader.xaml.vb">
-      <DependentUpon>TimeDownloader.xaml</DependentUpon>
-    </Compile>
+    <Page Include="EmployeePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GenerateDBF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -148,11 +152,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Summary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TimeDownloader.xaml">
+    <Page Include="TimeDownloaderPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -140,10 +140,6 @@
       <Project>{D314D3F7-C0E4-4103-B768-E5B299CE14B7}</Project>
       <Name>utility-service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\payroll-service\payroll-service.vbproj">
-      <Project>{A37580DD-B1E1-4502-8CE9-9507F6BB096F}</Project>
-      <Name>payroll-service</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

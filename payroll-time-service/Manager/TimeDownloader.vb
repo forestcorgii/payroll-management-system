@@ -19,7 +19,6 @@ Namespace Manager
                 Public payroll_code As String
             End Class
 
-
             Sub New()
 
                 Client = New HttpClient

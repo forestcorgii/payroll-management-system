@@ -8,11 +8,11 @@ Imports payroll_service
 
 
 Namespace Gateway
-    Public Class PayrollTime
-        Public Shared Function GetPayrollTime(databaseManager As utility_service.Manager.Mysql, Optional id As Integer = 0, Optional employee_id As String = "") As Model.PayrollTime
+    Public Class PayrollTime_
+        Public Shared Function Find(databaseManager As utility_service.Manager.Mysql, payroll_name As String, ee_id As String) As Model.PayrollTime
             Dim payrollTime As Model.PayrollTime = Nothing
             Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-                String.Format("SELECT * FROM payroll_management.payroll_time; where id={0} or employee_id='{1}' LIMIT 1;", id, employee_id))
+                String.Format("SELECT * FROM payroll_management.payroll_time; where payroll_name={0} or ee_id='{1}' LIMIT 1;", payroll_name, ee_id))
                 If reader.HasRows Then
                     reader.Read()
                     payrollTime = New Model.PayrollTime(reader)
@@ -33,7 +33,7 @@ Namespace Gateway
             End Using
 
             If completeDetail Then
-                payrollTimes.ForEach(Sub(item As Model.PayrollTime) Controller.PayrollTime.CompleteDetail(databaseManager, item))
+                payrollTimes.ForEach(Sub(item As Model.PayrollTime) Controller.PayrollTime_.CompleteDetail(databaseManager, item))
             End If
 
             Return payrollTimes
