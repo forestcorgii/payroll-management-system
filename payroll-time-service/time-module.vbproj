@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A37580DD-B1E1-4502-8CE9-9507F6BB096F}</ProjectGuid>
+    <ProjectGuid>{AE6CB562-CECF-498D-9DF0-C8B3682C1D55}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>payroll_service</RootNamespace>
-    <AssemblyName>payroll-service</AssemblyName>
+    <RootNamespace>time_module</RootNamespace>
+    <AssemblyName>time-module</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>payroll-service.xml</DocumentationFile>
+    <DocumentationFile>time-module.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>payroll-service.xml</DocumentationFile>
+    <DocumentationFile>time-module.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -44,25 +44,19 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
-      <HintPath>..\packages\Portable.BouncyCastle.1.8.6\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.9\lib\net40\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="DotNetDBF, Version=6.0.0.3, Culture=neutral, PublicKeyToken=9c071727b589770e, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetDBF.6.0.0.3\lib\net35\DotNetDBF.dll</HintPath>
     </Reference>
-    <Reference Include="hrms-api-service">
-      <HintPath>..\..\..\..\..\source\repos\hrms-api-service\hrms-api-service\bin\Debug\hrms-api-service.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=1.2.0.246, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpZipLib.1.2.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.Excel">
-      <HintPath>..\..\1 - Bins\Accounting Automation\payroll-management\Interop.Excel.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.2.10, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.3.2\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=8.0.20.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\source\repos\ddc-utility-service\utility-service\bin\Debug\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPOI, Version=2.5.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.5.1\lib\net45\NPOI.dll</HintPath>
@@ -97,35 +91,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adjustment\Log\Gateway.vb" />
-    <Compile Include="Adjustment\Log\Model.vb" />
-    <Compile Include="Adjustment\Record\Model.vb" />
-    <Compile Include="Bank Name\Gateway.vb" />
-    <Compile Include="Payroll\Controller.vb" />
-    <Compile Include="Payroll\Government\Gateway.vb" />
-    <Compile Include="Payroll\Code\Gateway.vb" />
-    <Compile Include="Bank Category\Gateway.vb" />
-    <Compile Include="Account Number\Gateway.vb" />
-    <Compile Include="Card Number\Gateway.vb" />
-    <Compile Include="Payroll\Controller\PayRegister.vb" />
-    <Compile Include="Payroll\Controller\Payslip.vb" />
-    <Compile Include="Employee\Gateway.vb" />
-    <Compile Include="Payroll\Gateway.vb" />
-    <Compile Include="Account Number\Model.vb" />
-    <Compile Include="Bank Name\Model.vb" />
-    <Compile Include="Bank Category\Model.vb" />
-    <Compile Include="Card Number\Model.vb" />
-    <Compile Include="Adjustment\Model.vb" />
-    <Compile Include="Payroll\Government\Model.vb" />
-    <Compile Include="Payroll\Model.vb" />
-    <Compile Include="Payroll\Controller\Report.vb" />
-    <Compile Include="Payroll\Code\Model.vb" />
-    <Compile Include="Employee\Model.vb" />
-    <Compile Include="Payroll\Controller\Export.vb" />
+    <Compile Include="Manager\TimeDownloader.vb" />
+    <Compile Include="Model\PayrollTime.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -137,11 +109,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Payroll\Time\DownloadLog\Gateway.vb" />
-    <Compile Include="Payroll\Time\DownloadLog\Model.vb" />
-    <Compile Include="Payroll\Time\Controller.vb" />
-    <Compile Include="Payroll\Time\Gateway.vb" />
-    <Compile Include="Payroll\Time\Model.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -166,18 +133,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\source\repos\ddc-utility-service\utility-service\utility-service.vbproj">
-      <Project>{d314d3f7-c0e4-4103-b768-e5b299ce14b7}</Project>
+      <Project>{D314D3F7-C0E4-4103-B768-E5B299CE14B7}</Project>
       <Name>utility-service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\accounting-monitoring\utility-service\monitoring-service.vbproj">
-      <Project>{2048200d-5c0b-4d76-b398-565c28d0a408}</Project>
-      <Name>monitoring-service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\payroll-time-service\payroll-time-service.vbproj">
-      <Project>{ae6cb562-cecf-498d-9df0-c8b3682c1d55}</Project>
-      <Name>payroll-time-service</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

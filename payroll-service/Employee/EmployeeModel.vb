@@ -1,8 +1,7 @@
 ﻿Imports MySql.Data.MySqlClient
-Imports hrms_api_service.IInterface
 
 Namespace Employee
-    Public Class Model
+    Public Class EmployeeModel
 
         Public Property EE_Id As String = ""
         Public Property First_Name As String = ""

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:payroll_management_system"
+        xmlns:local="clr-namespace:payroll_management_app"
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
         Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
         mc:Ignorable="d"

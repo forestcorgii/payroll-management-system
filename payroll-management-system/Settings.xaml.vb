@@ -23,7 +23,7 @@ Public Class Settings
                 tbTimeDownloaderToken.Text = .api_token
             End With
         Else
-            TimeDownloaderAPIManager = New payroll_time_service.Manager.API.TimeDownloader
+            TimeDownloaderAPIManager = New time_module.Manager.API.TimeDownloader
         End If
     End Sub
 

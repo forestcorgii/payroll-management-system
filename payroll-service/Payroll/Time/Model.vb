@@ -1,13 +1,11 @@
 ﻿Imports MySql.Data.MySqlClient
-Imports Newtonsoft.Json
-Imports NPOI.SS.UserModel
-Imports payroll
+
 Namespace Payroll
 
     Namespace Time
         Public Class Model
-            Inherits payroll_time_service.Model.PayrollTime
-            Public EE As Employee.Model
+            Inherits time_module.Model.PayrollTime
+            Public EE As Employee.EmployeeModel
 
             Sub New()
 

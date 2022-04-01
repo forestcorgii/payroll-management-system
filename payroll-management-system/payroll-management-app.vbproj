@@ -6,8 +6,8 @@
     <ProjectGuid>{AA21CE4A-FBDA-4826-9397-4310EF537632}</ProjectGuid>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>payroll_management_system</RootNamespace>
-    <AssemblyName>payroll-management-system</AssemblyName>
+    <RootNamespace>payroll_management_app</RootNamespace>
+    <AssemblyName>payroll-management-app</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MyType>Custom</MyType>
     <Deterministic>true</Deterministic>
@@ -21,7 +21,7 @@
     <DefineTrace>true</DefineTrace>
     <IncrementalBuild>true</IncrementalBuild>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>payroll-management-system.xml</DocumentationFile>
+    <DocumentationFile>payroll-management-app.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -34,7 +34,7 @@
     <IncrementalBuild>false</IncrementalBuild>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>payroll-management-system.xml</DocumentationFile>
+    <DocumentationFile>payroll-management-app.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -104,9 +104,7 @@
     <Compile Include="EmployeePage.xaml.vb">
       <DependentUpon>EmployeePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GenerateDBF.xaml.vb">
-      <DependentUpon>GenerateDBF.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Bindings\FilterBinding.vb" />
     <Compile Include="GenerateDBFPage.xaml.vb">
       <DependentUpon>GenerateDBFPage.xaml</DependentUpon>
     </Compile>
@@ -121,10 +119,6 @@
       <DependentUpon>TimeDownloaderPage.xaml</DependentUpon>
     </Compile>
     <Page Include="EmployeePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="GenerateDBF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -230,17 +224,17 @@
       <Project>{d314d3f7-c0e4-4103-b768-e5b299ce14b7}</Project>
       <Name>utility-service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\accounting-monitoring\utility-service\monitoring-service.vbproj">
+    <ProjectReference Include="..\..\accounting-monitoring\utility-service\monitoring-module.vbproj">
       <Project>{2048200d-5c0b-4d76-b398-565c28d0a408}</Project>
-      <Name>monitoring-service</Name>
+      <Name>monitoring-module</Name>
     </ProjectReference>
-    <ProjectReference Include="..\payroll-service\payroll-service.vbproj">
+    <ProjectReference Include="..\payroll-service\payroll-module.vbproj">
       <Project>{a37580dd-b1e1-4502-8ce9-9507f6bb096f}</Project>
-      <Name>payroll-service</Name>
+      <Name>payroll-module</Name>
     </ProjectReference>
-    <ProjectReference Include="..\payroll-time-service\payroll-time-service.vbproj">
+    <ProjectReference Include="..\payroll-time-service\time-module.vbproj">
       <Project>{ae6cb562-cecf-498d-9df0-c8b3682c1d55}</Project>
-      <Name>payroll-time-service</Name>
+      <Name>time-module</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

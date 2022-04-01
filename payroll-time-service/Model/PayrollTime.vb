@@ -1,7 +1,5 @@
 ﻿Imports MySql.Data.MySqlClient
 Imports Newtonsoft.Json
-Imports NPOI.SS.UserModel
-Imports payroll_service
 
 Namespace Model
     Public Class PayrollTime
@@ -11,7 +9,6 @@ Namespace Model
 
         <JsonProperty("employee_id")>
         Public EE_Id As String
-        'Public EE As Employee.Model
         Public Total_Hours As Double
         Public Total_OTs As Double
         Public Total_RD_OT As Double
@@ -39,6 +36,7 @@ Namespace Model
             Total_ND = reader.Item("total_nd")
             Total_Tardy = reader.Item("total_tardy")
 
+
             If IsDBNull(reader.Item("allowance")) = False Then
                 Allowance = reader.Item("allowance")
             Else Allowance = 0
@@ -46,19 +44,6 @@ Namespace Model
             'Has_PCV = reader.Item("has_pcv")
         End Sub
 
-        'Public Function ToDBFRecordFormat() As String()
-        '    Return {DATER, CODE, EE_Id, Total_Hours, Total_OTs, Total_RD_OT, 0, Total_H_OT, 0, Total_ND, Total_Tardy, Allowance, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-        'End Function
-        'Public Sub ToEERowFormat(row As IRow)
-        '    row.CreateCell(1).SetCellValue(EE_Id)
-        '    row.CreateCell(2).SetCellValue(EE.Fullname)
-        '    row.CreateCell(3).SetCellValue(Total_Hours)
-        '    row.CreateCell(4).SetCellValue(Total_OTs)
-        '    row.CreateCell(5).SetCellValue(Total_RD_OT)
-        '    row.CreateCell(6).SetCellValue(Total_H_OT)
-        '    row.CreateCell(7).SetCellValue(Total_ND)
-        '    row.CreateCell(8).SetCellValue(Total_Tardy)
-        'End Sub
     End Class
 
 End Namespace

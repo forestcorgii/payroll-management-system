@@ -36,7 +36,7 @@ Namespace Payroll
                 Return payrollTimes
             End Function
 
-            Public Shared Sub Save(databaseManager As utility_service.Manager.Mysql, payrollTime As payroll_time_service.Model.PayrollTime)
+            Public Shared Sub Save(databaseManager As utility_service.Manager.Mysql, payrollTime As time_module.Model.PayrollTime)
                 'check if employee exists in the database
                 Try
                     Dim Command As New MySqlCommand("REPLACE INTO payroll_management.payroll_time (ee_id,total_hours,total_ots,total_rd_ot,total_h_ot,total_nd,total_tardy,has_pcv,payroll_date,payroll_name)VALUES(?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)

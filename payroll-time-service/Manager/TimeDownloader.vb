@@ -6,8 +6,8 @@ Namespace Manager
         Public Class TimeDownloader
             Private Client As New HttpClient
 
-            Public info As String = "getTimeLogs"
-            Public api_token As String = "40jhwWlphorjv40"
+            Public info As String
+            Public api_token As String
             Public Url As String
 
             Public Class PostData
@@ -48,9 +48,7 @@ Namespace Manager
                     Dim content As New FormUrlEncodedContent(dicc)
 
                     Dim responseMessage As HttpResponseMessage = Await Client.PostAsync(String.Format("{0}", Url), content)
-
                     Dim responseMessageContent As String = Await responseMessage.Content.ReadAsStringAsync()
-
                     Dim responseDeserialized As resp = JsonConvert.DeserializeObject(Of resp)(responseMessageContent)
 
                     Return responseDeserialized.totalPage

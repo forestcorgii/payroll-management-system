@@ -1,7 +1,7 @@
 ﻿
 Imports System.ComponentModel
 Imports Newtonsoft.Json
-Imports payroll_service
+Imports payroll_module
 Imports utility_service
 
 Class ProcessPayreg
@@ -47,7 +47,7 @@ Class ProcessPayreg
                                   pb.Value = 0
                               End Sub)
             For i As Integer = 0 To payRegisters.Count - 1
-                Controller.PayRegister.ProcessPayRegister(_databaseManager, payRegisters(i))
+                Controller.PayRegister.ProcessPayRegister(_databaseManager, payRegisters(i), LoggingService)
                 Dispatcher.Invoke(Sub() pb.Value += 1)
             Next
         Catch ex As Exception

@@ -1,5 +1,6 @@
-﻿Imports payroll_service
-Imports payroll_service.Payroll
+﻿Imports payroll_module
+Imports payroll_module.Employee
+Imports payroll_module.Payroll
 Imports utility_service
 
 Class GenerateDBFPage
@@ -26,7 +27,7 @@ Class GenerateDBFPage
             IO.Directory.CreateDirectory(startupPath)
 
             DatabaseManager.Connection.Open()
-            Dim payrollCodes As List(Of String) = Payroll.Code.Gateway.GetAllPayrollCodes(DatabaseManager)
+            Dim payrollCodes As List(Of String) = PayrollCode.Gateway.Collect(DatabaseManager)
             Dim bankCategories As List(Of String) = BankCategory.Gateway.Collect(DatabaseManager)
 
             For Each payrollCode As String In payrollCodes

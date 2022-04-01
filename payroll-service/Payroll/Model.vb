@@ -1,5 +1,5 @@
 ﻿Imports MySql.Data.MySqlClient
-Imports payroll_service.Adjustment
+Imports payroll_module.Payroll.Adjustment
 
 Namespace Payroll
     Public Class Model
@@ -7,7 +7,7 @@ Namespace Payroll
         Public Payroll_Date As Date
 
         Public EE_Id As String
-        Public EE As Employee.Model
+        Public EE As Employee.EmployeeModel
 
         Public Gross_Pay As Double
 

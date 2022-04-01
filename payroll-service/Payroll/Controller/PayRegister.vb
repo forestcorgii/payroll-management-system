@@ -3,12 +3,12 @@ Imports System.IO
 Imports NPOI.HSSF.UserModel
 Imports NPOI.SS.UserModel
 Imports utility_service
-
+Imports monitoring_module
 Namespace Controller
 
     Public Class PayRegister
 #Region "Process PayRegister"
-        Public Shared Sub ProcessPayRegister(databaseManager As Manager.Mysql, payregPath As String)
+        Public Shared Sub ProcessPayRegister(databaseManager As Manager.Mysql, payregPath As String, loggingService As Logging.LoggingService)
             Dim nWorkBook As IWorkbook
             Using nNewPayreg As IO.FileStream = New FileStream(payregPath, FileMode.Open, FileAccess.Read)
                 nWorkBook = New HSSFWorkbook(nNewPayreg)
@@ -34,9 +34,9 @@ Namespace Controller
                         employee_id = name_args(1).Trim
                     End If
 
-                    Dim _employee As Employee.Model = Employee.Gateway.Find(databaseManager, ee_id:=employee_id)
+                    Dim _employee As Employee.EmployeeModel = Employee.EmployeeGateway.Find(databaseManager, ee_id:=employee_id)
                     If _employee Is Nothing Then
-                        _employee = Employee.Gateway.Save(databaseManager, New Employee.Model() With {.EE_Id = employee_id})
+                        _employee = Employee.EmployeeGateway.Save(databaseManager, New Employee.EmployeeModel() With {.EE_Id = employee_id}, loggingService)
                     End If
 
                     Dim newPayroll As New Payroll.Model

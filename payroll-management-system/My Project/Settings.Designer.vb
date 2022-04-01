@@ -62,9 +62,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.payroll_management_system.MySettings
+        Friend ReadOnly Property Settings() As Global.payroll_management_app.MySettings
             Get
-                Return Global.payroll_management_system.MySettings.Default
+                Return Global.payroll_management_app.MySettings.Default
             End Get
         End Property
     End Module

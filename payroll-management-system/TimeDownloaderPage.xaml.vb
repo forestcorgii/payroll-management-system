@@ -1,7 +1,7 @@
 ﻿Imports System.ComponentModel
-Imports payroll_service
-Imports payroll_service.Payroll
-Imports payroll_time_service
+Imports payroll_module
+Imports payroll_module.Employee
+Imports payroll_module.Payroll
 Class TimeDownloaderPage
     Private DownloadLog As Time.DownloadLog.Model
 
@@ -12,7 +12,7 @@ Class TimeDownloaderPage
 
         ' Add any initialization after the InitializeComponent() call.
         DatabaseManager.Connection.Open()
-        cbPayrollCode.ItemsSource = Code.Gateway.GetAllPayrollCodes(DatabaseManager)
+        cbPayrollCode.ItemsSource = PayrollCode.Gateway.Collect(DatabaseManager)
         DatabaseManager.Connection.Close()
     End Sub
 
@@ -96,9 +96,9 @@ Class TimeDownloaderPage
                               End Sub)
             'RUN THROUGH PAGES
             For DownloadLog.Last_Page_Downloaded = DownloadLog.Last_Page_Downloaded To DownloadLog.TotalPage
-                Dim payrollTimes As payroll_time_service.Model.PayrollTime() = Await TimeDownloaderAPIManager.GetPageContent(cutoffRange(0), cutoffRange(1), DownloadLog.Last_Page_Downloaded, DownloadLog.Payroll_Code)
+                Dim payrollTimes As time_module.Model.PayrollTime() = Await TimeDownloaderAPIManager.GetPageContent(cutoffRange(0), cutoffRange(1), DownloadLog.Last_Page_Downloaded, DownloadLog.Payroll_Code)
                 For i As Integer = 0 To payrollTimes.Count - 1
-                    Time.Controller.ProcessPayrollTime(_databaseManager, DownloadLog.Payroll_Date, payrollTimes(i))
+                    Time.Controller.ProcessPayrollTime(_databaseManager, DownloadLog.Payroll_Date, payrollTimes(i), LoggingService)
                 Next
 
                 Time.DownloadLog.Gateway.Update(_databaseManager, DownloadLog)
