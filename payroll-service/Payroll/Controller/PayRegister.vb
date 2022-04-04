@@ -4,6 +4,7 @@ Imports NPOI.HSSF.UserModel
 Imports NPOI.SS.UserModel
 Imports utility_service
 Imports monitoring_module
+Imports employee_module
 Namespace Controller
 
     Public Class PayRegister
@@ -34,9 +35,9 @@ Namespace Controller
                         employee_id = name_args(1).Trim
                     End If
 
-                    Dim _employee As Employee.EmployeeModel = Employee.EmployeeGateway.Find(databaseManager, ee_id:=employee_id)
+                    Dim _employee As EmployeeModel = EmployeeGateway.Find(databaseManager, ee_id:=employee_id)
                     If _employee Is Nothing Then
-                        _employee = Employee.EmployeeGateway.Save(databaseManager, New Employee.EmployeeModel() With {.EE_Id = employee_id}, loggingService)
+                        _employee = EmployeeGateway.Save(databaseManager, New EmployeeModel() With {.EE_Id = employee_id}, loggingService)
                     End If
 
                     Dim newPayroll As New Payroll.Model

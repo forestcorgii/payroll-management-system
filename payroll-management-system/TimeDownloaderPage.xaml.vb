@@ -1,6 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports payroll_module
-Imports payroll_module.Employee
+Imports employee_module
 Imports payroll_module.Payroll
 Class TimeDownloaderPage
     Private DownloadLog As Time.DownloadLog.Model
@@ -12,7 +12,7 @@ Class TimeDownloaderPage
 
         ' Add any initialization after the InitializeComponent() call.
         DatabaseManager.Connection.Open()
-        cbPayrollCode.ItemsSource = PayrollCode.Gateway.Collect(DatabaseManager)
+        cbPayrollCode.ItemsSource = EmployeeGateway.CollectPayrollCodes(DatabaseManager)
         DatabaseManager.Connection.Close()
     End Sub
 

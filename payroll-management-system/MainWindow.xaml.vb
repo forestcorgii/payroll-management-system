@@ -60,8 +60,18 @@ Class MainWindow
         frmMain.Navigate(New Settings)
     End Sub
 
+    Private LastTimeModified As Date
+    Private EmployeePage As EmployeePage
     Private Sub btnEmployee_Click(sender As Object, e As RoutedEventArgs)
-        frmMain.Navigate(New EmployeePage)
+        DatabaseManager.Connection.Open()
+        Dim latestModifiedTime As Date = employee_module.EmployeeGateway.TimeHasChange(DatabaseManager)
+        DatabaseManager.Connection.Close()
+
+        If latestModifiedTime > LastTimeModified Then
+            EmployeePage = New EmployeePage
+            LastTimeModified = latestModifiedTime
+        End If
+        frmMain.Navigate(EmployeePage)
     End Sub
 
     Private Sub btnProcessPayroll_Click(sender As Object, e As RoutedEventArgs)

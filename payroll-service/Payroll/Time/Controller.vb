@@ -4,7 +4,7 @@ Imports System.Windows.Forms
 Imports MySql.Data.MySqlClient
 Imports NPOI.HSSF.UserModel
 Imports NPOI.SS.UserModel
-Imports payroll_module.Employee
+Imports employee_module
 Imports monitoring_module
 
 Namespace Payroll
@@ -29,10 +29,10 @@ Namespace Payroll
                 Try
                     'check if employee exists in the database, create one if not.
                     Dim command As New MySqlCommand
-                    Dim _employee As Employee.EmployeeModel = Employee.EmployeeGateway.Find(databaseManager, ee_id:=payrollTime.EE_Id)
+                    Dim _employee As EmployeeModel = EmployeeGateway.Find(databaseManager, ee_id:=payrollTime.EE_Id)
                     Dim ee_id As String = 0
                     If _employee Is Nothing Then
-                        _employee = Employee.EmployeeGateway.Save(databaseManager, New Employee.EmployeeModel() With {.EE_Id = payrollTime.EE_Id}, loggingService)
+                        _employee = EmployeeGateway.Save(databaseManager, New EmployeeModel() With {.EE_Id = payrollTime.EE_Id}, loggingService)
                     End If
                     ee_id = _employee.EE_Id
                     payrollTime.Payroll_Date = payrollDate
@@ -55,7 +55,7 @@ Namespace Payroll
 
             Public Shared Function CompleteDetail(databaseManager As utility_service.Manager.Mysql, payrollTime As Model) As Model
                 Try
-                    payrollTime.EE = Employee.EmployeeGateway.Find(databaseManager, payrollTime.EE_Id)
+                    payrollTime.EE = EmployeeGateway.Find(databaseManager, payrollTime.EE_Id)
                 Catch ex As Exception
                     MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
@@ -170,17 +170,17 @@ Namespace Payroll
                 Dim nRow As IRow = nSheet.CreateRow(i)
                 nRow.CreateCell(2).SetCellValue("TRANSFERRED Log")
 
-                Dim payrollCodes As List(Of PayrollCode.Model) = PayrollCode.Gateway.CollectFromPreviousCutOff(databaseManager, payroll_code, previousCutoffRange)
-                For Each payrollCode As PayrollCode.Model In payrollCodes
-                    Dim ee As Employee.EmployeeModel = Employee.EmployeeGateway.Find(databaseManager, payrollCode.EE_Id)
-                    If ee.Payroll_Code <> payrollCode.Payroll_code Then
-                        transferDetails.Add({ee.EE_Id, ee.Fullname, String.Format("Transferred from {0} to {1}", ee.Payroll_Code, payrollCode.Payroll_code)})
-                    End If
-                Next
+                'Dim payrollCodes As List(Of PayrollCode.Model) = PayrollCode.Gateway.CollectFromPreviousCutOff(databaseManager, payroll_code, previousCutoffRange)
+                'For Each payrollCode As PayrollCode.Model In payrollCodes
+                '    Dim ee As EmployeeModel = EmployeeGateway.Find(databaseManager, payrollCode.EE_Id)
+                '    If ee.Payroll_Code <> payrollCode.Payroll_code Then
+                '        transferDetails.Add({ee.EE_Id, ee.Fullname, String.Format("Transferred from {0} to {1}", ee.Payroll_Code, payrollCode.Payroll_code)})
+                '    End If
+                'Next
 
                 'Dim bankCategories As List(Of Model.BankCategory) = BankCategory.CollectFromPreviousCutOff(databaseManager, bank_category, previousCutoffRange)
                 'For Each bankCategory As Model.BankCategory In bankCategories
-                '    Dim ee As employee.model = Employee.GetEmployee(databaseManager, bankCategory.EE_Id)
+                '    Dim ee As model = GetEmployee(databaseManager, bankCategory.EE_Id)
                 '    If ee.Bank_Category <> bankCategory.Bank_Category Then
                 '        transferDetails.Add({ee.EE_Id, ee.Fullname, String.Format("Transferred from {0} to {1}", ee.Bank_Category, bankCategory.Bank_Category)})
                 '    End If

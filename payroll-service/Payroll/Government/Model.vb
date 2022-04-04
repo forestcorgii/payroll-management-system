@@ -1,5 +1,5 @@
 ﻿Imports MySql.Data.MySqlClient
-
+Imports employee_module
 Namespace Payroll
 
     Namespace Government
@@ -7,7 +7,7 @@ Namespace Payroll
             Public Payroll_Name As String
 
             Public EE_Id As String
-            Public EE As Employee.EmployeeModel
+            Public EE As EmployeeModel
 
             Public Monthly_Gross_Pay As Double
             Public Monthly_Reg_Pay As Double

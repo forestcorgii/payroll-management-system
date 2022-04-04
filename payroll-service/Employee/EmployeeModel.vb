@@ -1,6 +1,6 @@
 ﻿Imports MySql.Data.MySqlClient
 
-Namespace Employee
+Namespace Employee_
     Public Class EmployeeModel
 
         Public Property EE_Id As String = ""

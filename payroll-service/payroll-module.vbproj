@@ -164,6 +164,10 @@
       <Project>{2048200d-5c0b-4d76-b398-565c28d0a408}</Project>
       <Name>monitoring-module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\employee-module\employee-module.csproj">
+      <Project>{225cdc1e-b603-4df6-9dcb-8bfdb7a9e2f1}</Project>
+      <Name>employee-module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\payroll-time-service\time-module.vbproj">
       <Project>{ae6cb562-cecf-498d-9df0-c8b3682c1d55}</Project>
       <Name>time-module</Name>

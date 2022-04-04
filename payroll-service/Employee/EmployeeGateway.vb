@@ -3,7 +3,7 @@ Imports utility_service
 Imports hrms_api_service
 Imports monitoring_module
 
-Namespace Employee
+Namespace Employee_
     Public Class EmployeeGateway
         Public Shared Function Collect(databaseManager As Manager.Mysql) As List(Of EmployeeModel)
             Dim employees As New List(Of EmployeeModel)
@@ -208,6 +208,40 @@ Namespace Employee
                     MsgBox(bankCat)
             End Select
             Return bankCat
+        End Function
+
+
+        Public Shared Function CollectPayrollCodes(databaseManager As Manager.Mysql) As List(Of String)
+            Dim payrollCodes As New List(Of String)
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT payroll_code FROM payroll_management.employee GROUP BY payroll_code;")
+                While reader.Read
+                    payrollCodes.Add(reader("payroll_code"))
+                End While
+            End Using
+
+            Return payrollCodes
+        End Function
+
+        Public Shared Function CollectBankCategories(databaseManager As Manager.Mysql) As List(Of String)
+            Dim bankCategories As New List(Of String)
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT bank_category FROM payroll_management.employee GROUP BY bank_category;")
+                While reader.Read
+                    bankCategories.Add(reader("bank_category"))
+                End While
+            End Using
+
+            Return bankCategories
+        End Function
+
+        Public Shared Function TimeHasChange(databaseManager As Manager.Mysql) As Date
+            Dim modifiedDate As Date = Nothing
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT date_modified FROM payroll_management.employee GROUP BY date_modified;")
+                If reader.HasRows Then
+                    reader.Read()
+                    modifiedDate = reader("date_modified")
+                End If
+            End Using
+            Return modifiedDate
         End Function
     End Class
 End Namespace

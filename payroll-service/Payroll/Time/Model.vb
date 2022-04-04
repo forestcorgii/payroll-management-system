@@ -1,11 +1,12 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports employee_module
+Imports MySql.Data.MySqlClient
 
 Namespace Payroll
 
     Namespace Time
         Public Class Model
             Inherits time_module.Model.PayrollTime
-            Public EE As Employee.EmployeeModel
+            Public EE As EmployeeModel
 
             Sub New()
 
