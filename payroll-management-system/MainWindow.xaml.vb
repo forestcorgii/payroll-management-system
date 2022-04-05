@@ -30,12 +30,12 @@ Class MainWindow
     End Sub
 
     Private Function SetupManager()
-        Dim settings As Model.Settings = Controller.Settings.GetSettings(DatabaseManager, "HRMSAPIManager", "payroll_management")
+        Dim settings As Model.Settings = Controller.Settings.GetSettings(DatabaseManager, "HRMSAPIManager", "accounting_monitoring")
         If settings IsNot Nothing Then
             HRMSAPIManager = JsonConvert.DeserializeObject(Of Manager.API.HRMS)(settings.JSON_Arguments)
         End If
 
-        settings = Controller.Settings.GetSettings(DatabaseManager, "TimeDownloaderAPIManager", "payroll_management")
+        settings = Controller.Settings.GetSettings(DatabaseManager, "TimeDownloaderAPIManager", "accounting_monitoring")
         If settings IsNot Nothing Then
             TimeDownloaderAPIManager = JsonConvert.DeserializeObject(Of time_module.Manager.API.TimeDownloader)(settings.JSON_Arguments)
         End If

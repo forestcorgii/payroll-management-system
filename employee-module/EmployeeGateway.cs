@@ -56,8 +56,8 @@ namespace employee_module
 
         public static EmployeeModel Find(Mysql databaseManager, string ee_id)
         {
-            var employee = new EmployeeModel();
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee where ee_id='${ee_id}' LIMIT 1;"))
+            EmployeeModel employee = null;
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee where ee_id='{ee_id}' LIMIT 1;"))
             {
                 while (reader.Read())
                 {

@@ -12,23 +12,44 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
+            <RowDefinition Height="110"/>
             <RowDefinition/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <ComboBox x:Name="cbPayrollCode" SelectionChanged="dtPayrollDate_SelectionChanged" HorizontalAlignment="Left" Margin="8" VerticalAlignment="Center" IsEditable="True" Width="100"/>
             <DatePicker x:Name="dtPayrollDate" SelectedDateChanged="dtPayrollDate_SelectionChanged" HorizontalAlignment="Left" Width="125" Margin="8" VerticalAlignment="Center"/>
+            <ContentControl x:Name="ctrlLoader" ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingBars}}"
+                Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
+                Width="24"
+                Height="24"
+                Focusable="False" 
+                Visibility="Collapsed" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="btnReset" Click="btnReset_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="4" Margin="8">Reset</Button>
             <Button x:Name="btnDownload" Click="btnDownload_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="4" Margin="8">Download</Button>
         </StackPanel>
+        
+        <StackPanel Grid.Row="1">
+            
+            <TextBlock x:Name="lbStatus" FontSize="16" FontWeight="DemiBold" Grid.Row="1" Margin="8" Width="425" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Status: Not Downloaded Yet."/>
+            <TextBlock x:Name="lbEmployeeCount" FontSize="12" FontWeight="DemiBold" Grid.Row="1" Margin="3" Width="425" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total Employee Count:"/>
+            <TextBlock x:Name="lbPageCount" FontSize="12" FontWeight="DemiBold" Grid.Row="1" Margin="3" Width="425" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total Page Count:"/>
+            <TextBlock x:Name="lbUnconfirmedEmployeeCount" FontSize="12" FontWeight="DemiBold" Grid.Row="1" Margin="3" Width="425" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total Unconfirmed:"/>
+        </StackPanel>
 
-
-        <TextBlock x:Name="lbStatus" FontSize="16" FontWeight="DemiBold" Grid.Row="1" Margin="8" Width="425" HorizontalAlignment="Left" TextWrapping="Wrap"/>
         <TextBlock x:Name="lbPage" FontSize="24" FontWeight="DemiBold" Grid.Row="1" Margin="8" Width="100" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap"/>
 
-        <ProgressBar x:Name="pb" Grid.Row="2"/>
+        <DataGrid x:Name="lstUnconfirmedEmployees" Grid.Row="2" AutoGenerateColumns="False">
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="EE Id" Binding="{Binding EE_Id}"/>
+                <DataGridTextColumn Header="Full Name" Binding="{Binding Fullname}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <ProgressBar x:Name="pb" Grid.Row="4"/>
     </Grid>
 </Page>

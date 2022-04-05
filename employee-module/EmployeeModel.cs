@@ -1,5 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
-using System; 
+using System;
 
 namespace employee_module
 {
@@ -24,9 +24,18 @@ namespace employee_module
 
         public DateTime Date_Modified { get; set; }
 
-        public string Fullname => $"{Last_Name}, ${First_Name}";
+        public string Fullname
+        {
+            get
+            {
+                if (First_Name is null || Last_Name is null) { return ""; }
+                string _fullName = $"{Last_Name}, {First_Name}";
+                if (Middle_Name == "" || Middle_Name is null) { _fullName = $"{_fullName}."; } else { _fullName = $"{_fullName} {Middle_Name.Substring(0, 1)}."; }
+                return _fullName;
+            }
+        }
 
-       public EmployeeModel() {}
+        public EmployeeModel() { }
 
         public EmployeeModel(MySqlDataReader reader)
         {

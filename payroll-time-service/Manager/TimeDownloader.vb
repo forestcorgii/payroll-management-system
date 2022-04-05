@@ -1,5 +1,6 @@
 ﻿Imports System.Net.Http
 Imports Newtonsoft.Json
+Imports time_module.Model
 
 Namespace Manager
     Namespace API
@@ -31,7 +32,7 @@ Namespace Manager
             ''' <param name="date_from"></param>
             ''' <param name="date_to"></param>
             ''' <returns>Total Page</returns>
-            Public Async Function GetTotalPage(date_from As Date, date_to As Date, payroll_code As String) As Task(Of Integer)
+            Public Async Function GetSummary(date_from As Date, date_to As Date, payroll_code As String) As Task(Of TimeResponseData)
                 Try
                     Dim postData As New PostData
                     postData.info = info
@@ -49,9 +50,9 @@ Namespace Manager
 
                     Dim responseMessage As HttpResponseMessage = Await Client.PostAsync(String.Format("{0}", Url), content)
                     Dim responseMessageContent As String = Await responseMessage.Content.ReadAsStringAsync()
-                    Dim responseDeserialized As resp = JsonConvert.DeserializeObject(Of resp)(responseMessageContent)
+                    Dim responseDeserialized As TimeResponseData = JsonConvert.DeserializeObject(Of TimeResponseData)(responseMessageContent)
 
-                    Return responseDeserialized.totalPage
+                    Return responseDeserialized
                 Catch ex As Exception
                     Console.WriteLine(ex.Message)
                     'MessageBox.Show(ex.Message, "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -77,7 +78,7 @@ Namespace Manager
 
                     Dim responseMessage As HttpResponseMessage = Await Client.PostAsync(String.Format("{0}", Url), content)
                     Dim responseMessageContent As String = Await responseMessage.Content.ReadAsStringAsync()
-                    Dim responseDeserialized As resp = JsonConvert.DeserializeObject(Of resp)(responseMessageContent)
+                    Dim responseDeserialized As TimeResponseData = JsonConvert.DeserializeObject(Of TimeResponseData)(responseMessageContent)
 
                     Return responseDeserialized.message
                 Catch ex As Exception
@@ -86,12 +87,6 @@ Namespace Manager
                 End Try
                 Return Nothing
             End Function
-
-            Public Class resp
-                Public status As String
-                Public totalPage As String
-                Public message As Model.PayrollTime()
-            End Class
 
         End Class
 

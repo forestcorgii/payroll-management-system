@@ -93,6 +93,7 @@
   <ItemGroup>
     <Compile Include="Manager\TimeDownloader.vb" />
     <Compile Include="Model\PayrollTime.vb" />
+    <Compile Include="Model\TimeResponseDetail.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

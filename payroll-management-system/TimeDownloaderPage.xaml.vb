@@ -2,8 +2,10 @@
 Imports payroll_module
 Imports employee_module
 Imports payroll_module.Payroll
+Imports time_module.Model
 Class TimeDownloaderPage
     Private DownloadLog As Time.DownloadLog.Model
+    Private TimeResponse As TimeResponseData
 
     Sub New()
 
@@ -20,7 +22,7 @@ Class TimeDownloaderPage
 
     End Sub
 
-    Private Sub dtPayrollDate_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
+    Private Async Sub dtPayrollDate_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
         If dtPayrollDate.SelectedDate Is Nothing Then Exit Sub
 
         Dim selectedDate As Date = dtPayrollDate.SelectedDate
@@ -35,6 +37,31 @@ Class TimeDownloaderPage
         If selectedPayrollCode = "" Or selectedDate = Nothing Then Exit Sub
 
         If {15, 30}.Contains(selectedDate.Day) Or ({2}.Contains(selectedDate.Month) And {29, 28}.Contains(selectedDate.Day)) Then
+            'GET CUT OFF RANGE
+            Dim cutoffRange As Date() = Controller.GetCutoffRange(dtPayrollDate.SelectedDate)
+            'GET A SUMMARY FROM SERVER
+            ctrlLoader.Visibility = Visibility.Visible
+            TimeResponse = Await TimeDownloaderAPIManager.GetSummary(cutoffRange(0), cutoffRange(1), cbPayrollCode.Text)
+            ctrlLoader.Visibility = Visibility.Collapsed
+            If TimeResponse IsNot Nothing Then
+                lbEmployeeCount.Text = String.Format("Total Employee Count: {0}", TimeResponse.totalCount)
+                lbPageCount.Text = String.Format("Total Page Count: {0}", TimeResponse.totalPage)
+                lbUnconfirmedEmployeeCount.Text = String.Format("Total Unconfirmed: {0}", TimeResponse.unconfirmedTimesheet.Length)
+
+                DatabaseManager.Connection.Open()
+                Dim _employees As New List(Of EmployeeModel)
+                For i As Integer = 0 To TimeResponse.unconfirmedTimesheet.Length - 1
+                    Dim _employee As EmployeeModel = EmployeeGateway.Find(DatabaseManager, TimeResponse.unconfirmedTimesheet(i).EE_Id)
+                    If _employee IsNot Nothing Then
+                        _employees.Add(_employee)
+                    Else
+                        _employees.Add(New EmployeeModel With {.EE_Id = TimeResponse.unconfirmedTimesheet(i).EE_Id})
+                    End If
+                Next
+                lstUnconfirmedEmployees.ItemsSource = _employees
+                DatabaseManager.Connection.Close()
+            End If
+
             'FIND OR CREATE DOWNLOAD LOG
             DatabaseManager.Connection.Open()
             DownloadLog = Time.DownloadLog.Gateway.Find(DatabaseManager, selectedDate, cbPayrollCode.Text)
@@ -85,10 +112,10 @@ Class TimeDownloaderPage
             'GET CUT OFF RANGE
             Dim cutoffRange As Date() = Controller.GetCutoffRange(DownloadLog.Payroll_Date)
             'GET TOTAL PAGE IF IT IS ZERO
-            If DownloadLog.TotalPage = 0 Then
-                DownloadLog.TotalPage = Await TimeDownloaderAPIManager.GetTotalPage(cutoffRange(0), cutoffRange(1), DownloadLog.Payroll_Code)
-                DownloadLog = Time.DownloadLog.Gateway.Save(_databaseManager, DownloadLog)
-            End If
+            'If DownloadLog.TotalPage = 0 Then
+            '    DownloadLog.TotalPage = Await TimeDownloaderAPIManager.GetSummary(cutoffRange(0), cutoffRange(1), DownloadLog.Payroll_Code)
+            '    DownloadLog = Time.DownloadLog.Gateway.Save(_databaseManager, DownloadLog)
+            'End If
 
             Dispatcher.Invoke(Sub()
                                   pb.Maximum = DownloadLog.TotalPage
@@ -139,7 +166,7 @@ Class TimeDownloaderPage
             'SET LAST PAGE DOWNLOADED TO ZERO.
             DownloadLog.Last_Page_Downloaded = 0
             'GET TOTAL PAGE AGAIN
-            DownloadLog.TotalPage = Await TimeDownloaderAPIManager.GetTotalPage(cutoffRange(0), cutoffRange(1), DownloadLog.Payroll_Code)
+            'DownloadLog.TotalPage = Await TimeDownloaderAPIManager.GetSummary(cutoffRange(0), cutoffRange(1), DownloadLog.Payroll_Code)
             'SAVE
             DatabaseManager.Connection.Open()
             Time.DownloadLog.Gateway.Save(DatabaseManager, DownloadLog)
