@@ -69,7 +69,6 @@ Class TimeDownloaderPage
             If DownloadLog IsNot Nothing Then
                 lbStatus.Text = String.Format("STATUS: {0} Date Created: {1}", DownloadLog.Status.ToString, DownloadLog.DateTimeCreated)
                 lbPage.Text = String.Format("{0}/{1}", DownloadLog.Last_Page_Downloaded, DownloadLog.TotalPage)
-
                 If DownloadLog.Status = Time.DownloadLog.Model.DownloadStatusChoices.DONE Then
                     btnDownload.Content = "Re-Download"
                 Else

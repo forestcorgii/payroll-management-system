@@ -11,7 +11,90 @@
     <Window.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
     </Window.Style>
-    <Grid>
+    <Border>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions >
+                <RowDefinition Height="75" />
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="8" Grid.ColumnSpan="1" Orientation="Horizontal" VerticalAlignment="Top">
+                <Button x:Name="btnTitle"
+                        Click="btnProcessPayroll_Click"                    
+                        Cursor="Hand"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        FontSize="22"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Margin="20">Payroll</Button>
+                <!--<Button x:Name="btnGenerateDBF" Click="btnGenerateDBF_Click" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">DBF</Button>
+                <Button x:Name="btnTimeDownloader" Click="btnTimeDownloader_Click">Downloader</Button>
+                <Button x:Name="btnEmployee" Click="btnEmployee_Click">Employee</Button>
+                <Button x:Name="btnProcessPayroll" Click="btnProcessPayroll_Click">Payroll</Button>
+                <Button x:Name="btnSettings" Click="btnSettings_Click">Settings</Button>-->
+                <RadioButton x:Name="btnGenerateDBF" 
+                             Content="DBF"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnGenerateDBF_Click"/>
+
+                <RadioButton x:Name="btnTimeDownloader" 
+                             Content="Downloader"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnTimeDownloader_Click"/>
+
+                <RadioButton x:Name="btnEmployee" 
+                             Content="Employee"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnEmployee_Click"/>
+
+                <RadioButton x:Name="btnProcessPayroll" 
+                             Content="Payroll"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnProcessPayroll_Click"/>
+
+                <RadioButton x:Name="btnSettings" 
+                             Content="Settings"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnSettings_Click"/>
+                
+                <StackPanel x:Name="pnlSettingsSubMenu" Visibility="Collapsed">
+                </StackPanel>
+            </StackPanel>
+
+            <DockPanel Grid.Column="1" 
+                       Width="250" Height="45"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right">
+                <Menu DockPanel.Dock="Top" Height="45" HorizontalAlignment="Center">
+                    <MenuItem Style="{StaticResource ProfileMenuItemTheme}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="tbProfile" HorizontalAlignment="Right" Text="Fernandez, Sean Ivan M."  VerticalAlignment="Center"/>
+                                <Image Source="Assets/dropdown_outlined.png" Margin="8,14,0,14"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                        <!--<MenuItem Click="mnChangePassword_Click" Header="Change Password" />
+                        <MenuItem Click="mnLogout_Click" Header="Logout" />
+                        <Separator />
+                        <MenuItem Click="mnExit_Click" Header="_Exit" />-->
+                    </MenuItem>
+                </Menu>
+                <TextBox AcceptsReturn="True" />
+            </DockPanel>
+
+            <Frame Name="frmMain" Grid.Row="1" Grid.Column="2" 
+                    BorderBrush="#FF786F6F" BorderThickness="0.3" Margin="5,0,5,5" 
+                    NavigationUIVisibility="Hidden"/>
+
+        </Grid>
+    </Border>
+
+    <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -30,5 +113,5 @@
         <Frame Name="frmMain" Grid.Row="1" 
                     BorderBrush="#FF786F6F" BorderThickness="0.3" Margin="5,0,5,5" 
                     NavigationUIVisibility="Hidden"/>
-    </Grid>
+    </Grid>-->
 </Window>

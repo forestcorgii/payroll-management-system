@@ -80,7 +80,7 @@ Class MainWindow
 
     Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         If User IsNot Nothing Then
-            DatabaseManager.Connection.Open()
+            If DatabaseManager.Connection.State = System.Data.ConnectionState.Closed Then DatabaseManager.Connection.Open()
             LoggingService.LogAccess(DatabaseManager, monitoring_module.Logging.LoggingGateway.AccessChoices.LOGGED_OUT)
             DatabaseManager.Connection.Close()
         End If

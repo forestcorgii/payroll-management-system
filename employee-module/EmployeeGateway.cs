@@ -94,9 +94,9 @@ namespace employee_module
                     command.Parameters.AddWithValue("p5", nEmployee.Location + "");
                     command.Parameters.AddWithValue("p7", nEmployee.Card_Number);
                     command.Parameters.AddWithValue("p8", nEmployee.Account_Number);
-                    command.Parameters.AddWithValue("p9", nEmployee.Bank_Category);
+                    command.Parameters.AddWithValue("p9", ParseBankCategory(nEmployee.Bank_Category + ""));
                     command.Parameters.AddWithValue("p10", nEmployee.Bank_Name);
-                    command.Parameters.AddWithValue("p11", nEmployee.Payroll_Code);
+                    command.Parameters.AddWithValue("p11", ParsePayrollCode(nEmployee.Payroll_Code + ""));
                     command.Parameters.AddWithValue("p6", nEmployee.TIN);
                     command.Parameters.AddWithValue("p11b", nEmployee.Pagibig);
                     command.Parameters.AddWithValue("p11c", nEmployee.SSS);
@@ -303,9 +303,9 @@ namespace employee_module
                 command.Parameters.AddWithValue("p6", nEmployee.tin);
                 command.Parameters.AddWithValue("p7", nEmployee.card_number);
                 command.Parameters.AddWithValue("p8", nEmployee.account_number);
-                command.Parameters.AddWithValue("p9", nEmployee.bank_category);
+                command.Parameters.AddWithValue("p9", ParseBankCategory(nEmployee.bank_category + ""));
                 command.Parameters.AddWithValue("p10", nEmployee.bank_name);
-                command.Parameters.AddWithValue("p11", nEmployee.payroll_code);
+                command.Parameters.AddWithValue("p11", ParsePayrollCode(nEmployee.payroll_code + ""));
                 command.Parameters.AddWithValue("p11b", nEmployee.pagibig);
                 command.Parameters.AddWithValue("p11c", nEmployee.sss);
                 command.Parameters.AddWithValue("p11d", nEmployee.philhealth);

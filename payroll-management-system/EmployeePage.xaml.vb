@@ -111,4 +111,17 @@ Class EmployeePage
         'lstEmployees.SelectedItem = SelectedEmployee
         'grbEmployeeDetail.DataContext = SelectedEmployee
     End Sub
+
+    Private Sub btnImport_Click(sender As Object, e As RoutedEventArgs)
+        Using openFile As New OpenFileDialog
+            openFile.Filter = "*.XLS"
+            openFile.Multiselect = True
+            If openFile.ShowDialog = DialogResult.OK Then
+                For i As Integer = 0 To openFile.FileNames.Length - 1
+
+                Next
+            End If
+        End Using
+
+    End Sub
 End Class

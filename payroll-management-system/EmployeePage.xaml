@@ -1,13 +1,13 @@
 ﻿<Page x:Class="EmployeePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:payroll_management_app"
       xmlns:emp="clr-namespace:employee_module;assembly=employee-module"
       mc:Ignorable="d" 
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI" 
+      xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
       Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
         d:DesignHeight="550" d:DesignWidth="1200"
       Title="EmployeePage">
@@ -28,15 +28,13 @@
         </Grid.ColumnDefinitions>
         <!--MENU-->
 
-        <DockPanel>
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Click="btnSync_Click" Header="Sync All"/>
-                <MenuItem Header="Import"/>
-            </Menu>
-        </DockPanel>
+        <Menu Grid.Row="0" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
+            <MenuItem Click="btnSync_Click" Header="Sync All"/>
+            <MenuItem Click="btnImport_Click" Header="Import"/>
+        </Menu>
 
         <!--FILTER-->
-        <Grid Grid.Column="1" x:Name="grd1">
+        <Grid Grid.Column="1" x:Name="grd1" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
             <Grid.DataContext>
                 <Binding Source="{StaticResource Filter}" />
             </Grid.DataContext>
@@ -55,40 +53,7 @@
                 <Binding Source="{StaticResource Employee}"/>
             </Grid.DataContext>
 
-            <Grid.RowDefinitions>
-                <!--<RowDefinition Height="{adonisUi:Space 6}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>
-                <RowDefinition Height="{adonisUi:Space 4}"/>-->
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <!--<ColumnDefinition Width="{adonisUi:Space 4}"/>-->
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <!--<TextBlock Text="EE ID:" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right"/>-->
-
-            <!--<TextBox x:Name="tbEEId" Width="140" Margin="4" IsReadOnly="True" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Text="{Binding Path=EE_Id}" adonisExtensions:WatermarkExtension.Watermark="EE ID"/>
-            <Button x:Name="btnSyncEmployee" Click="btnSyncEmployee_Click" Margin="3"  Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Right">Sync</Button>-->
-
-            <!--<TextBlock Text="Last Name:" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <TextBlock Text="First Name:" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <TextBlock Text="Middle Name:" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <TextBlock Text="TIN:" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <TextBlock Text="Payroll Code:" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <TextBlock Text="Bank Category:" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <TextBlock Text="Bank Name:" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <TextBlock Text="Account Number:" Grid.Row="9" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <TextBlock Text="Card Number:" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Right"/>-->
-            <StackPanel>
+              <StackPanel>
                 <GroupBox Header="Personal" Grid.Column="1" Grid.RowSpan="3" Margin="4">
                     <StackPanel>
                         <TextBox x:Name="tbEEId" Width="{adonisUi:Space 12}" Margin="4" IsReadOnly="True" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Text="{Binding Path=EE_Id}" adonisExtensions:WatermarkExtension.Watermark="EE ID"/>
@@ -116,13 +81,13 @@
                         <TextBox x:Name="tbPhilHealth" Width="{adonisUi:Space 18}"  Grid.Row="5" Grid.Column="1" Margin="4" Text="{Binding Path=PhilHealth}" adonisExtensions:WatermarkExtension.Watermark="PhilHealth"/>
                     </WrapPanel>
                 </GroupBox>
-                <Button x:Name="btnSave" Click="btnSave_Click" Grid.Row="11" Grid.Column="1" Margin="4" HorizontalAlignment="Right" Background="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}" Foreground="{DynamicResource {x:Static adonisUi:Brushes.AccentForegroundBrush}}">Save</Button>
+                <Button x:Name="btnSave" Click="btnSave_Click" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource PrimaryButton}">Save</Button>
             </StackPanel>
         </Grid>
 
 
         <!--LIST VIEW-->
-        <Border BorderBrush="Gainsboro" Grid.Row="1" Grid.Column="1">
+        <Border Grid.Row="1" Grid.Column="1">
 
             <DataGrid x:Name="lstEmployees" Margin="3"
                     AutoGenerateColumns="False"
@@ -131,6 +96,7 @@
                     CanUserAddRows="False"
                     CanUserDeleteRows="False"
                     CanUserSortColumns="True"
+                    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}"
                   >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="EE Id" Width="50" Binding="{Binding EE_Id}"/>
