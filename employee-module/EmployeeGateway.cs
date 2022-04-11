@@ -36,6 +36,32 @@ namespace employee_module
             }
             return employees;
         }
+        /// <summary>
+        /// Collects Employees with no names
+        /// </summary>
+        /// <param name="databaseManager"></param>
+        /// <returns></returns>
+        public static List<EmployeeModel> CollectUnknown(Mysql databaseManager)
+        {
+            var employees = new List<EmployeeModel>();
+
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT * FROM employee_db.employee WHERE first_name='';"))
+            {
+                while (reader.Read())
+                {
+                    try
+                    {
+                        employees.Add(new EmployeeModel(reader));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        throw;
+                    }
+                }
+            }
+            return employees;
+        }
 
         public static async Task<EmployeeModel> SyncEmployeeFromHRMS(Mysql databaseManager, HRMS hrmsAPIManager, String ee_id, EmployeeModel employee, LoggingService loggingService)
         {
@@ -54,6 +80,22 @@ namespace employee_module
             return employee;
         }
 
+        public static async Task<EmployeeModel> FindAsync(Mysql databaseManager, HRMS hrmsAPIManager, string ee_id, LoggingService loggingService)
+        {
+            EmployeeModel employee = null;
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee where ee_id='{ee_id}' LIMIT 1;"))
+            {
+                while (reader.Read())
+                {
+                    employee = new EmployeeModel(reader);
+                }
+            }
+            if(employee is null)
+            {
+               employee = await SyncEmployeeFromHRMS(databaseManager, hrmsAPIManager, ee_id, employee, loggingService);
+            }
+            return employee;
+        }
         public static EmployeeModel Find(Mysql databaseManager, string ee_id)
         {
             EmployeeModel employee = null;
@@ -377,7 +419,7 @@ namespace employee_module
         {
             var payrollCodes = new List<string>();
 
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT payroll_code FROM employee_db.employee GROUP BY payroll_code;"))
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT payroll_code FROM employee_db.employee GROUP BY payroll_code ORDER BY payroll_code ASC;"))
             {
                 while (reader.Read())
                 {
@@ -390,7 +432,7 @@ namespace employee_module
         public static List<string> CollectBankCategories(Mysql databaseManager)
         {
             var bankCategories = new List<string>();
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT bank_category FROM employee_db.employee GROUP BY bank_category;"))
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT bank_category FROM employee_db.employee GROUP BY bank_category ORDER BY bank_category ASC;"))
             {
                 while (reader.Read())
                 {

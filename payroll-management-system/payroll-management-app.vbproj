@@ -101,28 +101,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="EmployeePage.xaml.vb">
+    <Compile Include="Page\Payroll\Adjustment.xaml.vb">
+      <DependentUpon>Adjustment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Employee\EmployeePage.xaml.vb">
       <DependentUpon>EmployeePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bindings\FilterBinding.vb" />
-    <Compile Include="GenerateDBFPage.xaml.vb">
-      <DependentUpon>GenerateDBFPage.xaml</DependentUpon>
+    <Compile Include="Page\Timesheet\GenerateDBF.xaml.vb">
+      <DependentUpon>GenerateDBF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProcessPayreg.xaml.vb">
-      <DependentUpon>ProcessPayreg.xaml</DependentUpon>
+    <Compile Include="Page\Payroll\Payroll.xaml.vb">
+      <DependentUpon>Payroll.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.xaml.vb">
+    <Compile Include="Page\Timesheet\TimesheetComparer.xaml.vb">
+      <DependentUpon>TimesheetComparer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Payroll\PayRegister.xaml.vb">
+      <DependentUpon>PayRegister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Settings.xaml.vb">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="SharedObject.vb" />
-    <Compile Include="TimeDownloaderPage.xaml.vb">
-      <DependentUpon>TimeDownloaderPage.xaml</DependentUpon>
+    <Compile Include="Page\Timesheet\TimesheetDownloader.xaml.vb">
+      <DependentUpon>TimesheetDownloader.xaml</DependentUpon>
     </Compile>
-    <Page Include="EmployeePage.xaml">
+    <Compile Include="Page\Timesheet\Timesheet.xaml.vb">
+      <DependentUpon>Timesheet.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Page\Payroll\Adjustment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GenerateDBFPage.xaml">
+    <Page Include="Page\Employee\EmployeePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Timesheet\GenerateDBF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -138,11 +154,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ProcessPayreg.xaml">
+    <Page Include="Page\Payroll\Payroll.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Settings.xaml">
+    <Page Include="Page\Timesheet\TimesheetComparer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Payroll\PayRegister.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -194,7 +218,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TimeDownloaderPage.xaml">
+    <Page Include="Page\Timesheet\TimesheetDownloader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Timesheet\Timesheet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

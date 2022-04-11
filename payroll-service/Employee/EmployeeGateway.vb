@@ -7,7 +7,7 @@ Namespace Employee_
     Public Class EmployeeGateway
         Public Shared Function Collect(databaseManager As Manager.Mysql) As List(Of EmployeeModel)
             Dim employees As New List(Of EmployeeModel)
-            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT * FROM payroll_management.employee;")
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT * FROM employee_db.employee;")
                 While reader.Read()
                     Try
                         employees.Add(New EmployeeModel(reader))
@@ -40,7 +40,7 @@ Namespace Employee_
         Public Shared Function Find(databaseManager As Manager.Mysql, Optional ee_id As String = "") As EmployeeModel
             Dim employee As EmployeeModel = Nothing
             Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-                String.Format("SELECT * FROM payroll_management.employee where ee_id='{0}' LIMIT 1;", ee_id))
+                String.Format("SELECT * FROM employee_db.employee where ee_id='{0}' LIMIT 1;", ee_id))
                 If reader.HasRows Then
                     reader.Read()
                     employee = New EmployeeModel(reader)
@@ -53,7 +53,7 @@ Namespace Employee_
         Public Shared Function Filter(databaseManager As Manager.Mysql, filterString As String) As List(Of EmployeeModel)
             Dim employees As New List(Of EmployeeModel)
             Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-                String.Format("SELECT * FROM payroll_management.employee where location like '%{0}%' or first_name like '%{0}%' or last_name like '%{0}%' or middle_name like '%{0}%';", filterString))
+                String.Format("SELECT * FROM employee_db.employee where location like '%{0}%' or first_name like '%{0}%' or last_name like '%{0}%' or middle_name like '%{0}%';", filterString))
                 While reader.Read()
                     employees.Add(New EmployeeModel(reader))
                 End While
@@ -96,7 +96,7 @@ Namespace Employee_
             Try
                 Dim oldEmployee As EmployeeModel = Find(databaseManager, ee_id:=newEmployee.EE_Id)
                 If oldEmployee IsNot Nothing Then
-                    Dim command As New MySqlCommand("UPDATE payroll_management.employee SET card_number=? WHERE ee_id =?;", databaseManager.Connection)
+                    Dim command As New MySqlCommand("UPDATE employee_db.employee SET card_number=? WHERE ee_id =?;", databaseManager.Connection)
                     command.Parameters.AddWithValue("p1", newEmployee.EE_Id)
                     command.Parameters.AddWithValue("p2", newEmployee.First_Name)
                     command.Parameters.AddWithValue("p3", newEmployee.Last_Name)
@@ -152,7 +152,7 @@ Namespace Employee_
 
         Public Shared Function Save(databaseManager As Manager.Mysql, newEmployee As EmployeeModel, loggingService As Logging.LoggingService) As EmployeeModel
             Try
-                Dim command As New MySqlCommand("REPLACE INTO payroll_management.employee (ee_id, first_name, last_name,middle_name,location,tin,card_number,account_number,bank_category,bank_name,payroll_code)VALUES(?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)
+                Dim command As New MySqlCommand("REPLACE INTO employee_db.employee (ee_id, first_name, last_name,middle_name,location,tin,card_number,account_number,bank_category,bank_name,payroll_code)VALUES(?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)
                 command.Parameters.AddWithValue("p1", newEmployee.EE_Id)
                 command.Parameters.AddWithValue("p2", newEmployee.First_Name)
                 command.Parameters.AddWithValue("p3", newEmployee.Last_Name)
@@ -213,7 +213,7 @@ Namespace Employee_
 
         Public Shared Function CollectPayrollCodes(databaseManager As Manager.Mysql) As List(Of String)
             Dim payrollCodes As New List(Of String)
-            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT payroll_code FROM payroll_management.employee GROUP BY payroll_code;")
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT payroll_code FROM employee_db.employee GROUP BY payroll_code;")
                 While reader.Read
                     payrollCodes.Add(reader("payroll_code"))
                 End While
@@ -224,7 +224,7 @@ Namespace Employee_
 
         Public Shared Function CollectBankCategories(databaseManager As Manager.Mysql) As List(Of String)
             Dim bankCategories As New List(Of String)
-            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT bank_category FROM payroll_management.employee GROUP BY bank_category;")
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT bank_category FROM employee_db.employee GROUP BY bank_category;")
                 While reader.Read
                     bankCategories.Add(reader("bank_category"))
                 End While
@@ -235,7 +235,7 @@ Namespace Employee_
 
         Public Shared Function TimeHasChange(databaseManager As Manager.Mysql) As Date
             Dim modifiedDate As Date = Nothing
-            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT date_modified FROM payroll_management.employee GROUP BY date_modified;")
+            Using reader As MySqlDataReader = databaseManager.ExecuteDataReader("SELECT date_modified FROM employee_db.employee GROUP BY date_modified;")
                 If reader.HasRows Then
                     reader.Read()
                     modifiedDate = reader("date_modified")

@@ -4,8 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:payroll_management_app"
-      xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-      Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}"
+        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+        xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+        Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GenerateDBFPage">
@@ -21,19 +22,19 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Margin="10">Payroll Date:</TextBlock>
+                <TextBlock Margin="6" VerticalAlignment="Center">Payroll Date:</TextBlock>
                 <DatePicker Name="dtPayrollDate"  Width="125" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Margin="10">Payroll Code:</TextBlock>
-                <TextBox x:Name="tbPayrollCode" Width="75" VerticalAlignment="Center"/>
+                <TextBlock Margin="6" VerticalAlignment="Center">Payroll Code:</TextBlock>
+                <ComboBox x:Name="cbPayrollCode"  HorizontalAlignment="Left" Margin="6" VerticalAlignment="Center" IsEditable="True" Width="100"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Button x:Name="btnGenerateDBF" Click="btnGenerateDBF_Click" Content="Generate DBF" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" Padding="3"/>
+                <Button x:Name="btnGenerateDBF" Click="btnGenerateDBF_Click" Content="Generate DBF" Style="{StaticResource PrimaryButton}"/>
             </StackPanel>
+
         </StackPanel>
 
-        <Button x:Name="btnSettings" Content="Settings" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" Padding="3"/>
         <DataGrid  Grid.Row="1" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Existing DBF" Width="200"/>

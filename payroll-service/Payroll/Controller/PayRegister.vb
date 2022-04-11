@@ -5,6 +5,8 @@ Imports NPOI.SS.UserModel
 Imports utility_service
 Imports monitoring_module
 Imports employee_module
+Imports payroll_module.Payroll
+
 Namespace Controller
 
     Public Class PayRegister
@@ -40,18 +42,18 @@ Namespace Controller
                         _employee = EmployeeGateway.Save(databaseManager, New EmployeeModel() With {.EE_Id = employee_id}, loggingService)
                     End If
 
-                    Dim newPayroll As New Payroll.Model
+                    Dim newPayroll As New PayrollModel
                     newPayroll.EE = _employee
                     newPayroll.EE_Id = _employee.EE_Id
                     newPayroll.Payroll_Date = payrollDate
                     newPayroll.Gross_Pay = row.GetCell(grossIdx).NumericCellValue
-                    Payroll.Gateway.Save(databaseManager, newPayroll)
+                    Payroll.PayrollGateway.Save(databaseManager, newPayroll)
 
                     If {28, 29, 30}.Contains(payrollDate.Day) Then ' If 30th Payroll
                         'GENERATE GOVERNMENT COMPUTATION
                         'GET 15TH AND 30TH PAYROLL
-                        Dim payroll15th As Payroll.Model = Payroll.Gateway.Find(databaseManager, _employee.EE_Id, payrollDate.ToString("yyyy-MM-15"))
-                        Dim payroll30th As Payroll.Model = Payroll.Gateway.Find(databaseManager, _employee.EE_Id, payrollDate.ToString("yyyy-MM-dd"))
+                        Dim payroll15th As PayrollModel = Payroll.PayrollGateway.Find(databaseManager, _employee.EE_Id, payrollDate.ToString("yyyy-MM-15"))
+                        Dim payroll30th As PayrollModel = Payroll.PayrollGateway.Find(databaseManager, _employee.EE_Id, payrollDate.ToString("yyyy-MM-dd"))
                         Dim payroll15th_GROSS_PAY As Double = 0
                         Dim payroll30th_GROSS_PAY As Double = 0
                         If payroll15th IsNot Nothing Then payroll15th_GROSS_PAY = payroll15th.Gross_Pay
@@ -115,7 +117,7 @@ Namespace Controller
         ''' </summary>
         ''' <param name="row"></param>
         ''' <returns></returns>
-        Public Shared Function WriteGovernment_KS(row As IRow, payroll As Payroll.Model, payrollDate As String) As Object
+        Public Shared Function WriteGovernment_KS(row As IRow, payroll As PayrollModel, payrollDate As String) As Object
             row.GetCell(7).SetCellValue(payroll.Government.Pagibig_EE) 'EE
             row.GetCell(8).SetCellValue(payroll.Government.Pagibig_EE) 'ER
             row.GetCell(9).SetCellValue(payroll.Government.SSS_EE) 'EE

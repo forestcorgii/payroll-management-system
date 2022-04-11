@@ -8,7 +8,9 @@
             <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUi:Brushes.AccentForegroundBrush}}"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
-            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="MinWidth" Value="75"/>
             <Setter Property="Padding" Value="16,3"/>
         </Style.Setters>
     </Style>

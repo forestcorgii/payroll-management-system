@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:payroll_management_app"
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+        xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
         Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
         mc:Ignorable="d"
         d:DesignHeight="450" d:DesignWidth="800"
@@ -12,43 +13,36 @@
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="45"/>
             <RowDefinition/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
+        
+        
+        
         <Grid Grid.Column="0" Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition/>
-            </Grid.RowDefinitions> 
+            </Grid.RowDefinitions>
             <ListView x:Name="lstPayreg" DragEnter="lstPayreg_DragEnter" Drop="lstPayreg_Drop" AllowDrop="True" Grid.Row="1" Margin="10" KeyDown="lstPayreg_KeyDown" SelectionMode="Multiple" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Payreg" Width="300"/>
                     </GridView>
-                </ListView.View>   
+                </ListView.View>
             </ListView>
             <TextBlock Text="Drag any Pay Register here:" VerticalAlignment="Bottom" Margin="3"/>
         </Grid>
 
-        <Grid Grid.Column="1" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Status:" VerticalAlignment="Bottom" Margin="3"/>
-            <RichTextBox x:Name="lstStatus" DragEnter="lstPayreg_DragEnter" Drop="lstPayreg_Drop" AllowDrop="True" Grid.Row="1" IsReadOnly="True" Margin="10" Background="WhiteSmoke"/>
-        </Grid>
-        
         <Grid Grid.Row="2" Grid.Column="1">
             <Button x:Name="btnStartProcess" HorizontalAlignment="Right" Click="btnStartProcess_Click" Width="50">Start</Button>
         </Grid>
-        
+
         <ProgressBar x:Name="pb" Grid.Row="3" Grid.ColumnSpan="2"/>
     </Grid>
 </Page>

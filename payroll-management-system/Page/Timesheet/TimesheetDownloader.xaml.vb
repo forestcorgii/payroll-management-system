@@ -4,7 +4,7 @@ Imports employee_module
 Imports payroll_module.Payroll
 Imports time_module.Model
 Class TimeDownloaderPage
-    Private DownloadLog As Time.DownloadLog.Model
+    Private DownloadLog As DownloadLogModel
     Private TimeResponse As TimeResponseData
 
     Sub New()
@@ -38,7 +38,7 @@ Class TimeDownloaderPage
 
         If {15, 30}.Contains(selectedDate.Day) Or ({2}.Contains(selectedDate.Month) And {29, 28}.Contains(selectedDate.Day)) Then
             'GET CUT OFF RANGE
-            Dim cutoffRange As Date() = Controller.GetCutoffRange(dtPayrollDate.SelectedDate)
+            Dim cutoffRange As Date() = PayrollController.GetCutoffRange(dtPayrollDate.SelectedDate)
             'GET A SUMMARY FROM SERVER
             ctrlLoader.Visibility = Visibility.Visible
             TimeResponse = Await TimeDownloaderAPIManager.GetSummary(cutoffRange(0), cutoffRange(1), cbPayrollCode.Text)
@@ -51,7 +51,7 @@ Class TimeDownloaderPage
                 DatabaseManager.Connection.Open()
                 Dim _employees As New List(Of EmployeeModel)
                 For i As Integer = 0 To TimeResponse.unconfirmedTimesheet.Length - 1
-                    Dim _employee As EmployeeModel = EmployeeGateway.Find(DatabaseManager, TimeResponse.unconfirmedTimesheet(i).EE_Id)
+                    Dim _employee As EmployeeModel = Await EmployeeGateway.FindAsync(DatabaseManager, HRMSAPIManager, TimeResponse.unconfirmedTimesheet(i).EE_Id, LoggingService)
                     If _employee IsNot Nothing Then
                         _employees.Add(_employee)
                     Else
@@ -64,18 +64,18 @@ Class TimeDownloaderPage
 
             'FIND OR CREATE DOWNLOAD LOG
             DatabaseManager.Connection.Open()
-            DownloadLog = Time.DownloadLog.Gateway.Find(DatabaseManager, selectedDate, cbPayrollCode.Text)
+            DownloadLog = DownloadLogGateway.Find(DatabaseManager, selectedDate, cbPayrollCode.Text)
             DatabaseManager.Connection.Close()
             If DownloadLog IsNot Nothing Then
                 lbStatus.Text = String.Format("STATUS: {0} Date Created: {1}", DownloadLog.Status.ToString, DownloadLog.DateTimeCreated)
                 lbPage.Text = String.Format("{0}/{1}", DownloadLog.Last_Page_Downloaded, DownloadLog.TotalPage)
-                If DownloadLog.Status = Time.DownloadLog.Model.DownloadStatusChoices.DONE Then
+                If DownloadLog.Status = DownloadLogModel.DownloadStatusChoices.DONE Then
                     btnDownload.Content = "Re-Download"
                 Else
                     btnDownload.Content = "Resume Download"
                 End If
             Else
-                DownloadLog = New Time.DownloadLog.Model With {.Payroll_Date = selectedDate, .Payroll_Code = cbPayrollCode.Text}
+                DownloadLog = New DownloadLogModel With {.Payroll_Date = selectedDate, .Payroll_Code = cbPayrollCode.Text}
                 lbStatus.Text = "STATUS: NOT DOWNLOADED YET."
                 btnDownload.Content = "Download"
                 lbPage.Text = ""
@@ -88,9 +88,9 @@ Class TimeDownloaderPage
             Case "Cancel"
                 btnDownload.Content = "Cancelling.."
             Case "Re-Download", "Download"
-                DownloadLog.TotalPage = 0
+                DownloadLog.TotalPage = TimeResponse.totalPage
                 DownloadLog.Last_Page_Downloaded = 0
-                DownloadLog.Status = Time.DownloadLog.Model.DownloadStatusChoices.PENDING
+                DownloadLog.Status = DownloadLogModel.DownloadStatusChoices.PENDING
                 lbPage.Text = "0/0"
                 btnDownload.Content = "Cancel"
             Case "Resume Download"
@@ -109,12 +109,7 @@ Class TimeDownloaderPage
         _databaseManager.Connection.Open()
         Try
             'GET CUT OFF RANGE
-            Dim cutoffRange As Date() = Controller.GetCutoffRange(DownloadLog.Payroll_Date)
-            'GET TOTAL PAGE IF IT IS ZERO
-            'If DownloadLog.TotalPage = 0 Then
-            '    DownloadLog.TotalPage = Await TimeDownloaderAPIManager.GetSummary(cutoffRange(0), cutoffRange(1), DownloadLog.Payroll_Code)
-            '    DownloadLog = Time.DownloadLog.Gateway.Save(_databaseManager, DownloadLog)
-            'End If
+            Dim cutoffRange As Date() = PayrollController.GetCutoffRange(DownloadLog.Payroll_Date)
 
             Dispatcher.Invoke(Sub()
                                   pb.Maximum = DownloadLog.TotalPage
@@ -122,28 +117,39 @@ Class TimeDownloaderPage
                               End Sub)
             'RUN THROUGH PAGES
             For DownloadLog.Last_Page_Downloaded = DownloadLog.Last_Page_Downloaded To DownloadLog.TotalPage
-                Dim payrollTimes As time_module.Model.PayrollTime() = Await TimeDownloaderAPIManager.GetPageContent(cutoffRange(0), cutoffRange(1), DownloadLog.Last_Page_Downloaded, DownloadLog.Payroll_Code)
-                For i As Integer = 0 To payrollTimes.Count - 1
-                    Time.Controller.ProcessPayrollTime(_databaseManager, DownloadLog.Payroll_Date, payrollTimes(i), LoggingService)
-                Next
+                Dim errCounter As Integer = 0
+                While errCounter < 10
+                    Dim payrollTimes As time_module.Model.PayrollTime() = Await TimeDownloaderAPIManager.GetPageContent(cutoffRange(0), cutoffRange(1), DownloadLog.Last_Page_Downloaded, DownloadLog.Payroll_Code)
+                    If payrollTimes IsNot Nothing Then
+                        For i As Integer = 0 To payrollTimes.Count - 1
+                            TimesheetController.ProcessPayrollTime(_databaseManager, DownloadLog.Payroll_Date, payrollTimes(i), LoggingService)
+                        Next
 
-                Time.DownloadLog.Gateway.Update(_databaseManager, DownloadLog)
+                        DownloadLogGateway.Update(_databaseManager, DownloadLog)
 
-                Dim toCancel As Boolean = False
-                Dispatcher.Invoke(Sub()
-                                      pb.Value = DownloadLog.Last_Page_Downloaded
-                                      lbPage.Text = String.Format("{0}/{1}", DownloadLog.Last_Page_Downloaded, DownloadLog.TotalPage)
-                                      toCancel = btnDownload.Content <> "Cancel"
-                                  End Sub)
-                If toCancel Then
-                    e.Cancel = True
-                    Exit Try
-                End If
+                        Dim toCancel As Boolean = False
+                        Dispatcher.Invoke(Sub()
+                                              pb.Value = DownloadLog.Last_Page_Downloaded
+                                              lbPage.Text = String.Format("{0}/{1}", DownloadLog.Last_Page_Downloaded, DownloadLog.TotalPage)
+                                              toCancel = btnDownload.Content <> "Cancel"
+                                          End Sub)
+                        If toCancel Then
+                            e.Cancel = True
+                            Exit Try
+                        End If
+
+                        errCounter = 0
+                        Exit While
+                    Else
+                        errCounter += 1
+                    End If
+
+                End While
             Next
             If DownloadLog.Last_Page_Downloaded >= DownloadLog.TotalPage Then
                 DownloadLog.Last_Page_Downloaded = DownloadLog.TotalPage
-                DownloadLog.Status = Time.DownloadLog.Model.DownloadStatusChoices.DONE
-                Time.DownloadLog.Gateway.Update(_databaseManager, DownloadLog)
+                DownloadLog.Status = DownloadLogModel.DownloadStatusChoices.DONE
+                DownloadLogGateway.Update(_databaseManager, DownloadLog)
             End If
         Catch ex As Exception
             Console.WriteLine(ex.Message)
@@ -152,23 +158,23 @@ Class TimeDownloaderPage
         Dispatcher.Invoke(Sub()
                               lbPage.Text = String.Format("{0}/{1}", DownloadLog.Last_Page_Downloaded, DownloadLog.TotalPage)
                               btnDownload.Content = "Cancelled"
-                              dtPayrollDate_SelectionChanged(Nothing, Nothing)
+                              'dtPayrollDate_SelectionChanged(Nothing, Nothing)
                           End Sub)
         _databaseManager.Connection.Close()
         MessageBox.Show("Download Finished.", "Done", MessageBoxButton.OK, MessageBoxImage.Information)
     End Sub
 
-    Private Async Sub btnReset_Click(sender As Object, e As RoutedEventArgs)
-        If DownloadLog.Status = Time.DownloadLog.Model.DownloadStatusChoices.PENDING Then 'ONLY IF PENDING
+    Private Sub btnReset_Click(sender As Object, e As RoutedEventArgs)
+        If DownloadLog.Status = DownloadLogModel.DownloadStatusChoices.PENDING Then 'ONLY IF PENDING
             'GET CUTOFF RANGE
-            Dim cutoffRange As Date() = Controller.GetCutoffRange(DownloadLog.Payroll_Date)
+            Dim cutoffRange As Date() = PayrollController.GetCutoffRange(DownloadLog.Payroll_Date)
             'SET LAST PAGE DOWNLOADED TO ZERO.
             DownloadLog.Last_Page_Downloaded = 0
             'GET TOTAL PAGE AGAIN
             'DownloadLog.TotalPage = Await TimeDownloaderAPIManager.GetSummary(cutoffRange(0), cutoffRange(1), DownloadLog.Payroll_Code)
             'SAVE
             DatabaseManager.Connection.Open()
-            Time.DownloadLog.Gateway.Save(DatabaseManager, DownloadLog)
+            DownloadLogGateway.Save(DatabaseManager, DownloadLog)
             DatabaseManager.Connection.Close()
 
             lbPage.Text = "0/0"

@@ -97,18 +97,19 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Payroll\Adjustment\Log\Gateway.vb" />
-    <Compile Include="Payroll\Adjustment\Log\Model.vb" />
-    <Compile Include="Payroll\Adjustment\Record\Model.vb" />
-    <Compile Include="Payroll\Controller.vb" />
+    <Compile Include="Payroll\Adjustment\Billing\AdjustmentBillingGateway.vb" />
+    <Compile Include="Payroll\Adjustment\Billing\AdjustmentBillingModel.vb" />
+    <Compile Include="Payroll\Adjustment\Record\AdjustmentRecordController.vb" />
+    <Compile Include="Payroll\Adjustment\Record\AdjustmentRecordGateway.vb" />
+    <Compile Include="Payroll\Adjustment\Record\AdjustmentRecordModel.vb" />
+    <Compile Include="Payroll\PayrollController.vb" />
     <Compile Include="Payroll\Government\Gateway.vb" />
     <Compile Include="Payroll\Controller\PayRegister.vb" />
     <Compile Include="Payroll\Controller\Payslip.vb" />
     <Compile Include="Employee\EmployeeGateway.vb" />
-    <Compile Include="Payroll\Gateway.vb" />
-    <Compile Include="Payroll\Adjustment\Model.vb" />
+    <Compile Include="Payroll\PayrollGateway.vb" />
     <Compile Include="Payroll\Government\Model.vb" />
-    <Compile Include="Payroll\Model.vb" />
+    <Compile Include="Payroll\PayrollModel.vb" />
     <Compile Include="Payroll\Controller\Report.vb" />
     <Compile Include="Employee\EmployeeModel.vb" />
     <Compile Include="Payroll\Controller\Export.vb" />
@@ -128,11 +129,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Payroll\Time\DownloadLog\Gateway.vb" />
-    <Compile Include="Payroll\Time\DownloadLog\Model.vb" />
-    <Compile Include="Payroll\Time\Controller.vb" />
-    <Compile Include="Payroll\Time\Gateway.vb" />
-    <Compile Include="Payroll\Time\Model.vb" />
+    <Compile Include="Payroll\Time\DownloadLog\DownloadLogGateway.vb" />
+    <Compile Include="Payroll\Time\DownloadLog\DownloadLogModel.vb" />
+    <Compile Include="Payroll\Time\TimesheetController.vb" />
+    <Compile Include="Payroll\Time\TimesheetGateway.vb" />
+    <Compile Include="Payroll\Time\TimesheetModel.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

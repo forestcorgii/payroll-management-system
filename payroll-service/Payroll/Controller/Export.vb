@@ -2,11 +2,12 @@
 Imports System.IO
 Imports NPOI.HSSF.UserModel
 Imports NPOI.SS.UserModel
+Imports payroll_module.Payroll
 
 Namespace Controller
 
     Public Class Export
-        Public Shared Sub ExportDataUCPB(ByRef payArr As List(Of Payroll.Model), ByVal filePath As String, ByVal fileName As String)
+        Public Shared Sub ExportDataUCPB(ByRef payArr As List(Of PayrollModel), ByVal filePath As String, ByVal fileName As String)
             Dim excelTemplateUCPB As String = "" 'Application.StartupPath & "\" & frmEmployees.appFolder & "\template-UCPB.xls"
             Dim ucpbFile As String = filePath & "\" & fileName
             If Not File.Exists(excelTemplateUCPB) Then
@@ -27,7 +28,7 @@ Namespace Controller
 
                 '==============================================================
                 For i As Integer = 0 To (payArr.Count - 1)
-                    Dim rec As Payroll.Model = payArr(i)
+                    Dim rec As PayrollModel = payArr(i)
                     'If rec._bankName = "UCPB" Then
                     '    '    xlWorkSheet.Range("A" & ctr).Value = rec._firstName
                     '    '    xlWorkSheet.Range("B" & ctr).Value = rec._lastName
@@ -49,7 +50,7 @@ Namespace Controller
             End Try
         End Sub
 
-        Public Shared Sub ExportDataMETROPALO_20211001(ByRef payArr As List(Of Payroll.Model), ByVal filePath As String, ByVal fileName As String)
+        Public Shared Sub ExportDataMETROPALO_20211001(ByRef payArr As List(Of PayrollModel), ByVal filePath As String, ByVal fileName As String)
             Dim excelTemplateMETROPALO As String = "" 'Application.StartupPath & "\" & frmEmployees.appFolder & "\template-METROPALO_20211001.xls"
             Dim METROPALOFile As String = filePath & "\" & fileName
             If Not File.Exists(excelTemplateMETROPALO) Then
@@ -69,7 +70,7 @@ Namespace Controller
                 File.Copy(excelTemplateMETROPALO, METROPALOFile)
                 'Data Sheet
                 For i As Integer = 0 To (payArr.Count - 1)
-                    Dim rec As Payroll.Model = payArr(i)
+                    Dim rec As PayrollModel = payArr(i)
                     'If rec._bankName = "METROBANK-PALO" Then
                     '    'seriesNum = seriesNum + 1
                     '    'xlWorkSheet.Range("A" & ctr).Value = rec._lastName
@@ -87,7 +88,7 @@ Namespace Controller
                 MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical, "Oops")
             End Try
         End Sub
-        Public Shared Sub ExportDataMETROTAC_20211001(ByRef payArr As List(Of Payroll.Model), ByVal filePath As String, ByVal fileName As String)
+        Public Shared Sub ExportDataMETROTAC_20211001(ByRef payArr As List(Of PayrollModel), ByVal filePath As String, ByVal fileName As String)
             Dim excelTemplateMETROTAC As String = "" ' Application.StartupPath & "\" & frmEmployees.appFolder & "\template-METROTAC_20211001.xls"
             Dim METROTACFile As String = filePath & "\" & fileName
             If Not File.Exists(excelTemplateMETROTAC) Then
@@ -108,7 +109,7 @@ Namespace Controller
 
                 'Data Sheet
                 For i As Integer = 0 To (payArr.Count - 1)
-                    Dim rec As Payroll.Model = payArr(i)
+                    Dim rec As PayrollModel = payArr(i)
                     'If rec._bankName = "METROBANK-TAC" Then
                     '    'seriesNum = seriesNum + 1
                     '    'xlWorkSheet.Range("A" & ctr).Value = rec._lastName
@@ -128,7 +129,7 @@ Namespace Controller
 
         End Sub
 
-        Public Shared Sub ExportDataNegative(ByRef payArr As List(Of Payroll.Model), ByVal filePath As String, ByVal fileName As String)
+        Public Shared Sub ExportDataNegative(ByRef payArr As List(Of PayrollModel), ByVal filePath As String, ByVal fileName As String)
             Dim excelTemplateNegative As String = "" ' Application.StartupPath & "\" & frmEmployees.appFolder & "\template-ZEROS.xls"
             Dim negativeFile As String = filePath & "\" & fileName
             If Not File.Exists(excelTemplateNegative) Then
@@ -149,7 +150,7 @@ Namespace Controller
 
 
                 For i As Integer = 0 To (payArr.Count - 1)
-                    Dim rec As Payroll.Model = payArr(i)
+                    Dim rec As PayrollModel = payArr(i)
                     'If ctr = 1 Then
                     'xlWorkSheet.Range("A" & ctr).Value = "IDNo"
                     'xlWorkSheet.Range("B" & ctr).Value = "Firstname"
@@ -178,7 +179,7 @@ Namespace Controller
             End Try
         End Sub
 
-        Public Shared Sub ExportDataCHINABANK(ByVal payArr As List(Of Payroll.Model), ByVal filePath As String, ByVal fileName As String)
+        Public Shared Sub ExportDataCHINABANK(ByVal payArr As List(Of PayrollModel), ByVal filePath As String, ByVal fileName As String)
             'payArr = SortArraylist(payArr)
             Dim excelTemplateCBC As String = "" ' Application.StartupPath & "\" & frmEmployees.appFolder & "\template-CHINABANK.xls"
             Dim cbcFile As String = filePath & "\" & fileName
@@ -200,7 +201,7 @@ Namespace Controller
                 File.Copy(excelTemplateCBC, cbcFile)
 
                 For i As Integer = 0 To (payArr.Count - 1)
-                    Dim rec As Payroll.Model = payArr(i)
+                    Dim rec As PayrollModel = payArr(i)
                     'If rec._bankName = "CHINABANK" Then
                     '    'xlWorkSheet.Range("D" & ctr).Value = rec._accountNumber
                     '    'xlWorkSheet.Range("E" & ctr).Value = rec._lastName
@@ -219,7 +220,7 @@ Namespace Controller
             End Try
         End Sub
 
-        Public Shared Sub ExportDataCHECK(ByRef payArr As List(Of Payroll.Model), ByVal filePath As String, ByVal fileName As String)
+        Public Shared Sub ExportDataCHECK(ByRef payArr As List(Of PayrollModel), ByVal filePath As String, ByVal fileName As String)
             Dim excelTemplateCHECK As String = "" 'Application.StartupPath & "\" & frmEmployees.appFolder & "\template-CHECK.xls"
             Dim checkFile As String = filePath & "\" & fileName
             If Not File.Exists(excelTemplateCHECK) Then
@@ -245,10 +246,10 @@ Namespace Controller
                 Dim xl200DOWNSheet As ISheet = nWorkBook.CreateSheet("200DOWN")
                 Dim xl100KUPSheet As ISheet = nWorkBook.CreateSheet("100KUP")
 
-                Dim Recordsd7500UP As Payroll.Model() = (From res In payArr Where Double.Parse(res.Net_Pay) >= 7500 Select res).ToArray
-                Dim Records7500DOWN As Payroll.Model() = (From res In payArr Where Double.Parse(res.Net_Pay) < 7500 Select res).ToArray
-                Dim Records200DOWN As Payroll.Model() = (From res In payArr Where Double.Parse(res.Net_Pay) >= 200 Select res).ToArray
-                Dim Records100KUP As Payroll.Model() = (From res In payArr Where Double.Parse(res.Net_Pay) >= 100000 Select res).ToArray
+                Dim Recordsd7500UP As PayrollModel() = (From res In payArr Where Double.Parse(res.Net_Pay) >= 7500 Select res).ToArray
+                Dim Records7500DOWN As PayrollModel() = (From res In payArr Where Double.Parse(res.Net_Pay) < 7500 Select res).ToArray
+                Dim Records200DOWN As PayrollModel() = (From res In payArr Where Double.Parse(res.Net_Pay) >= 200 Select res).ToArray
+                Dim Records100KUP As PayrollModel() = (From res In payArr Where Double.Parse(res.Net_Pay) >= 100000 Select res).ToArray
 
                 WriteSpecificReport(xl7500UPSheet, Recordsd7500UP)
                 WriteSpecificReport(xl7500DOWNSheet, Records7500DOWN)
@@ -262,14 +263,14 @@ Namespace Controller
                 MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical, "Oops")
             End Try
         End Sub
-        Public Shared Sub WriteSpecificReport(sheet As ISheet, payrollRecords As Payroll.Model())
+        Public Shared Sub WriteSpecificReport(sheet As ISheet, payrollRecords As PayrollModel())
             Dim row As IRow = sheet.CreateRow(0)
             row.CreateCell(0).SetCellValue("IDNo")
             row.CreateCell(1).SetCellValue("Fullname")
             row.CreateCell(2).SetCellValue("Amount")
 
             For i As Integer = 0 To (payrollRecords.Count - 1)
-                Dim rec As Payroll.Model = payrollRecords(i)
+                Dim rec As PayrollModel = payrollRecords(i)
                 If rec.EE.Bank_Category = "**CHECK**" Then
                     row = sheet.CreateRow(i + 1)
                     row.CreateCell(0).SetCellValue(rec.EE.EE_Id)

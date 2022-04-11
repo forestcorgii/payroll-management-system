@@ -8,8 +8,8 @@ Namespace Model
         Public Payroll_Date As Date
 
         <JsonProperty("employee_id")>
-        Public EE_Id As String
-        Public Total_Hours As Double
+        Public Property EE_Id As String
+        Public Property Total_Hours As Double
         Public Total_OTs As Double
         Public Total_RD_OT As Double
         Public Total_H_OT As Double
@@ -17,6 +17,7 @@ Namespace Model
         Public Total_Tardy As Double
         Public Allowance As Double
         Public Has_PCV As String
+        Public Property Is_Confirmed As Boolean
         Public ReadOnly Property Payroll_Name As String
             Get
                 Return String.Format("{0}_{1:yyyyMMdd}", EE_Id, Payroll_Date)
@@ -35,6 +36,7 @@ Namespace Model
             Total_H_OT = reader.Item("total_h_ot")
             Total_ND = reader.Item("total_nd")
             Total_Tardy = reader.Item("total_tardy")
+            Is_Confirmed = reader.Item("is_confirmed")
 
 
             If IsDBNull(reader.Item("allowance")) = False Then

@@ -12,25 +12,33 @@
         Title="TimeDownloaderPage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="45"/>
+            <RowDefinition Height="{adonisUi:Space 6}"/>
             <RowDefinition Height="110"/>
             <RowDefinition/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <ComboBox x:Name="cbPayrollCode" SelectionChanged="dtPayrollDate_SelectionChanged" HorizontalAlignment="Left" Margin="8" VerticalAlignment="Center" IsEditable="True" Width="100"/>
-            <DatePicker x:Name="dtPayrollDate" SelectedDateChanged="dtPayrollDate_SelectionChanged" HorizontalAlignment="Left" Width="125" Margin="8" VerticalAlignment="Center"/>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock  VerticalAlignment="Center" Margin="6">Payroll Date:</TextBlock>
+                <DatePicker Name="dtPayrollDate"  Width="125" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock  VerticalAlignment="Center" Margin="6">Payroll Code:</TextBlock>
+                <ComboBox x:Name="cbPayrollCode" SelectionChanged="dtPayrollDate_SelectionChanged" HorizontalAlignment="Left" Margin="8" VerticalAlignment="Center" IsEditable="True" Width="100"/>
+            </StackPanel>
             <ContentControl x:Name="ctrlLoader" ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingBars}}"
                 Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
                 Width="24"
                 Height="24"
-                Focusable="False" 
-                Visibility="Collapsed" />
+                Visibility="Collapsed" 
+                Focusable="False"/>
         </StackPanel>
+ 
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btnReset" Click="btnReset_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="4" Margin="8">Reset</Button>
-            <Button x:Name="btnDownload" Click="btnDownload_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="4" Margin="8">Download</Button>
+            <Button x:Name="btnReset" Click="btnReset_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource SecondaryButton}">Reset</Button>
+            <Button x:Name="btnDownload" Click="btnDownload_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource PrimaryButton}">Download</Button>
         </StackPanel>
         
         <StackPanel Grid.Row="1">
@@ -44,10 +52,11 @@
         <TextBlock x:Name="lbPage" FontSize="24" FontWeight="DemiBold" Grid.Row="1" Margin="8" Width="100" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap"/>
 
         <DataGrid x:Name="lstUnconfirmedEmployees" Grid.Row="2" AutoGenerateColumns="False">
-            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="EE Id" Binding="{Binding EE_Id}"/>
                 <DataGridTextColumn Header="Full Name" Binding="{Binding Fullname}"/>
+                <DataGridTextColumn Header="Payroll Code" Binding="{Binding Payroll_Code}"/>
+                <DataGridTextColumn Header="Bank Category" Binding="{Binding Bank_Category}"/>
             </DataGrid.Columns>
         </DataGrid>
         

@@ -4,7 +4,6 @@ Imports Newtonsoft.Json
 Imports System.ComponentModel
 
 Class MainWindow
-    Dim TimeDownloaderPage As TimeDownloaderPage
 
     Sub New()
         ' This call is required by the designer.
@@ -17,6 +16,7 @@ Class MainWindow
 
         LoggingService = New monitoring_module.Logging.LoggingService()
         SetupUserAuthentication()
+
     End Sub
 
     Private Sub SetupConfiguration()
@@ -44,20 +44,15 @@ Class MainWindow
     End Function
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
-        TimeDownloaderPage = New TimeDownloaderPage
-        frmMain.Navigate(New EmployeePage)
+        frmMain.Navigate(New Payroll)
     End Sub
 
-    Private Sub btnTimeDownloader_Click(sender As Object, e As RoutedEventArgs)
-        frmMain.Navigate(TimeDownloaderPage)
+    Private Sub btnProcessPayroll_Click(sender As Object, e As RoutedEventArgs)
+        frmMain.Navigate(New Payroll)
     End Sub
 
-    Private Sub btnGenerateDBF_Click(sender As Object, e As RoutedEventArgs)
-        frmMain.Navigate(New GenerateDBFPage)
-    End Sub
-
-    Private Sub btnSettings_Click(sender As Object, e As RoutedEventArgs)
-        frmMain.Navigate(New Settings)
+    Private Sub btnTimesheet_Click(sender As Object, e As RoutedEventArgs)
+        frmMain.Navigate(New Timesheet)
     End Sub
 
     Private LastTimeModified As Date
@@ -74,10 +69,6 @@ Class MainWindow
         frmMain.Navigate(EmployeePage)
     End Sub
 
-    Private Sub btnProcessPayroll_Click(sender As Object, e As RoutedEventArgs)
-        frmMain.Navigate(New ProcessPayreg)
-    End Sub
-
     Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         If User IsNot Nothing Then
             If DatabaseManager.Connection.State = System.Data.ConnectionState.Closed Then DatabaseManager.Connection.Open()
@@ -85,4 +76,5 @@ Class MainWindow
             DatabaseManager.Connection.Close()
         End If
     End Sub
+
 End Class

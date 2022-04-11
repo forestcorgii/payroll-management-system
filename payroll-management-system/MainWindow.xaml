@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:payroll_management_app"
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+        xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
         Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1000">
@@ -32,38 +33,21 @@
                         Background="Transparent"
                         BorderThickness="0"
                         Margin="20">Payroll</Button>
-                <!--<Button x:Name="btnGenerateDBF" Click="btnGenerateDBF_Click" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">DBF</Button>
-                <Button x:Name="btnTimeDownloader" Click="btnTimeDownloader_Click">Downloader</Button>
-                <Button x:Name="btnEmployee" Click="btnEmployee_Click">Employee</Button>
-                <Button x:Name="btnProcessPayroll" Click="btnProcessPayroll_Click">Payroll</Button>
-                <Button x:Name="btnSettings" Click="btnSettings_Click">Settings</Button>-->
-                <RadioButton x:Name="btnGenerateDBF" 
-                             Content="DBF"
-                             Style="{StaticResource MenuButtonTheme}" 
-                             Click="btnGenerateDBF_Click"/>
-
-                <RadioButton x:Name="btnTimeDownloader" 
-                             Content="Downloader"
-                             Style="{StaticResource MenuButtonTheme}" 
-                             Click="btnTimeDownloader_Click"/>
-
-                <RadioButton x:Name="btnEmployee" 
-                             Content="Employee"
-                             Style="{StaticResource MenuButtonTheme}" 
-                             Click="btnEmployee_Click"/>
 
                 <RadioButton x:Name="btnProcessPayroll" 
                              Content="Payroll"
                              Style="{StaticResource MenuButtonTheme}" 
                              Click="btnProcessPayroll_Click"/>
 
-                <RadioButton x:Name="btnSettings" 
-                             Content="Settings"
+                <RadioButton x:Name="btnTimesheet" 
+                             Content="Timesheet"
                              Style="{StaticResource MenuButtonTheme}" 
-                             Click="btnSettings_Click"/>
-                
-                <StackPanel x:Name="pnlSettingsSubMenu" Visibility="Collapsed">
-                </StackPanel>
+                             Click="btnTimesheet_Click"/>
+
+                <RadioButton x:Name="btnEmployee" 
+                             Content="Employee"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnEmployee_Click"/>
             </StackPanel>
 
             <DockPanel Grid.Column="1" 

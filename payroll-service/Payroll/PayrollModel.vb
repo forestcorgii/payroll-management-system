@@ -3,7 +3,7 @@ Imports MySql.Data.MySqlClient
 Imports payroll_module.Payroll.Adjustment
 
 Namespace Payroll
-    Public Class Model
+    Public Class PayrollModel
 
         Public Payroll_Date As Date
 
@@ -25,13 +25,13 @@ Namespace Payroll
 
         Public Government As Government.Model
 
-        Public AdjustmentLogs As List(Of Adjustment.Log.Model)
+        Public AdjustmentLogs As List(Of AdjustmentBillingModel)
         Public ReadOnly Property Adjust1 As Double
             Get
                 Dim adj As Double = 0
                 If AdjustmentLogs IsNot Nothing Then
-                    For Each log As Adjustment.Log.Model In AdjustmentLogs
-                        If log.Record.Adjustment.Adjust_Type = AdjustmentChoices.ADJUST1 Then
+                    For Each log As AdjustmentBillingModel In AdjustmentLogs
+                        If log.Adjust_Type = AdjustmentChoices.ADJUST1 Then
                             adj += log.Amount
                         End If
                     Next
@@ -43,8 +43,8 @@ Namespace Payroll
             Get
                 Dim adj As Double = 0
                 If AdjustmentLogs IsNot Nothing Then
-                    For Each log As Adjustment.Log.Model In AdjustmentLogs
-                        If log.Record.Adjustment.Adjust_Type = AdjustmentChoices.ADJUST2 Then
+                    For Each log As AdjustmentBillingModel In AdjustmentLogs
+                        If log.Adjust_Type = AdjustmentChoices.ADJUST2 Then
                             adj += log.Amount
                         End If
                     Next

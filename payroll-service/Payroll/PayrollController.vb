@@ -1,13 +1,13 @@
 ﻿Namespace Payroll
-    Public Class Controller
+    Public Class PayrollController
 
         Public Shared Function GetCutoffRange(payrollDate As Date) As Date()
             If {28, 29, 30}.Contains(payrollDate.Day) Then
                 Return {New Date(payrollDate.Year, payrollDate.Month, 5), New Date(payrollDate.Year, payrollDate.Month, 19)}
             ElseIf 15 = (payrollDate.Day) Then
                 Dim previousMonth As Date = payrollDate.AddMonths(-1)
-                'Return {New Date(previousMonth.Year, previousMonth.Month, 20), New Date(payrollDate.Year, payrollDate.Month, 4)}
-                Return {New Date(previousMonth.Year, previousMonth.Month, 20), New Date(payrollDate.Year, payrollDate.Month, 11)}
+                Return {New Date(previousMonth.Year, previousMonth.Month, 20), New Date(payrollDate.Year, payrollDate.Month, 4)}
+                'Return {New Date(previousMonth.Year, previousMonth.Month, 20), New Date(payrollDate.Year, payrollDate.Month, 11)}
             End If
             Return Nothing
         End Function

@@ -1,10 +1,11 @@
 ﻿Imports System.Windows.Forms
 Imports NPOI.SS.UserModel
+Imports payroll_module.Payroll
 
 Namespace Controller
     Public Class Payslip
 
-        Public Shared Sub PastePayslip(nSheet As ISheet, pageIdx As Integer, payroll As Payroll.Model, payslipPosition As PayslipPositionChoices)
+        Public Shared Sub PastePayslip(nSheet As ISheet, pageIdx As Integer, payroll As PayrollModel, payslipPosition As PayslipPositionChoices)
             Dim startRowIdx As Integer = 67 * pageIdx
             Try
                 If payslipPosition = PayslipPositionChoices.LOWER_RIGHT Or payslipPosition = PayslipPositionChoices.LOWER_LEFT Then

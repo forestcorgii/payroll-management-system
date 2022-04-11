@@ -7,9 +7,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme/MenuButtonStyle.xaml"/>
-                <ResourceDictionary Source="Theme/SubMenuButtonStyle.xaml"/>
                 <ResourceDictionary Source="Theme/ProfileButtonStyle.xaml"/>
                 <ResourceDictionary Source="Theme/PrimaryButton.xaml"/>
+                <ResourceDictionary Source="Theme/SecondaryButton.xaml"/>
+                <ResourceDictionary Source="Theme/RegularTextbox.xaml"/>
+                <ResourceDictionary Source="Theme/SubHeader.xaml"/>
+                <ResourceDictionary Source="Theme/SubMenuButtonStyle.xaml"/>
 
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Light.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml"/>

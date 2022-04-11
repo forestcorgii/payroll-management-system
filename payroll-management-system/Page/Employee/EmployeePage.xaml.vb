@@ -55,11 +55,11 @@ Class EmployeePage
                     Dim _employee As employee_module.EmployeeModel = employees(i)
                     Try
                         i += 1
-                        Await employee_module.EmployeeGateway.SyncEmployeeFromHRMS(DatabaseManager, HRMSAPIManager, _employee.EE_Id, _employee, LoggingService)
                         Dispatcher.Invoke(Sub()
                                               pb.Value += 1
                                               lbStatus.Text = String.Format("Found {0} Employees... Syncing {1}", employees.Count, _employee.EE_Id)
                                           End Sub)
+                        Await employee_module.EmployeeGateway.SyncEmployeeFromHRMS(DatabaseManager, HRMSAPIManager, _employee.EE_Id, _employee, LoggingService)
                     Catch ex As Exception
                         If ex.Message = "Employee not found in HRMS." Then
                             'archive employee
@@ -68,12 +68,10 @@ Class EmployeePage
                     End Try
                 End While
             End If
-
-            DatabaseManager.Connection.Close()
         Catch ex As Exception
-            DatabaseManager.Connection.Close()
             MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+        DatabaseManager.Connection.Close()
     End Sub
 
     Private Sub EmployeePage_Unloaded(sender As Object, e As RoutedEventArgs) Handles Me.Unloaded
