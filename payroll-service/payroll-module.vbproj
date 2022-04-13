@@ -102,6 +102,7 @@
     <Compile Include="Payroll\Adjustment\Record\AdjustmentRecordController.vb" />
     <Compile Include="Payroll\Adjustment\Record\AdjustmentRecordGateway.vb" />
     <Compile Include="Payroll\Adjustment\Record\AdjustmentRecordModel.vb" />
+    <Compile Include="Payroll\PayRegisterController.vb" />
     <Compile Include="Payroll\PayrollController.vb" />
     <Compile Include="Payroll\Government\Gateway.vb" />
     <Compile Include="Payroll\Controller\PayRegister.vb" />

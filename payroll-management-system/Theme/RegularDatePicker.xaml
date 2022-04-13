@@ -1,4 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="RegularDatePicker" TargetType="DatePicker">
         <Style.Setters>

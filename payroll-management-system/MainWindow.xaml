@@ -77,25 +77,5 @@
 
         </Grid>
     </Border>
-
-    <!--<Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <Button x:Name="btnGenerateDBF" Click="btnGenerateDBF_Click" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">DBF</Button>
-            <Button x:Name="btnTimeDownloader" Click="btnTimeDownloader_Click">Downloader</Button>
-            <Button x:Name="btnEmployee" Click="btnEmployee_Click">Employee</Button>
-            <Button x:Name="btnProcessPayroll" Click="btnProcessPayroll_Click">Payroll</Button>
-            <Button x:Name="btnSettings" Click="btnSettings_Click">Settings</Button>
-        </StackPanel>
-        
-        <Frame Name="frmMain" Grid.Row="1" 
-                    BorderBrush="#FF786F6F" BorderThickness="0.3" Margin="5,0,5,5" 
-                    NavigationUIVisibility="Hidden"/>
-    </Grid>-->
+ 
 </Window>

@@ -1,6 +1,4 @@
-﻿Imports System.Collections.ObjectModel
-Imports System.ComponentModel
-Imports payroll_module
+﻿Imports System.ComponentModel
 
 Public Class FilterBinding
     Implements INotifyPropertyChanged

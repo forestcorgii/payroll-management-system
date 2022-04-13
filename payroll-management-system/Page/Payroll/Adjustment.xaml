@@ -31,6 +31,7 @@
                         <TextBlock Text="Fernandez, Sean Ivan M." Margin="3" VerticalAlignment="Center" FontStyle="Italic"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button x:Name="btnExport" Style="{StaticResource SecondaryButton}" Click="btnExport_Click">Export</Button>
                         <Button x:Name="btnImport" Style="{StaticResource SecondaryButton}" Click="btnImport_Click">Import</Button>
                     </StackPanel>
                 </Grid>

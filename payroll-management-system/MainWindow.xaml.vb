@@ -45,6 +45,7 @@ Class MainWindow
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         frmMain.Navigate(New Payroll)
+        btnProcessPayroll.IsChecked = True
     End Sub
 
     Private Sub btnProcessPayroll_Click(sender As Object, e As RoutedEventArgs)

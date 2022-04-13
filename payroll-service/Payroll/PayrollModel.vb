@@ -1,20 +1,23 @@
 ﻿Imports employee_module
 Imports MySql.Data.MySqlClient
-Imports payroll_module.Payroll.Adjustment
 
 Namespace Payroll
     Public Class PayrollModel
 
-        Public Payroll_Date As Date
+        Public Property Payroll_Date As Date
 
-        Public EE_Id As String
+        Public Property EE_Id As String
         Public EE As EmployeeModel
 
-        Public Gross_Pay As Double
+        Public Property Payroll_Code As String
+        Public Property Bank_Category As String
+        Public Property Bank_Name As String
 
-        Public Net_Pay_Preview As Double
-        Public Adjust1_Preview As Double
-        Public Adjust2_Preview As Double
+        Public Property Gross_Pay As Double
+
+        Public Property Net_Pay_Preview As Double
+        Public Property Adjust1_Preview As Double
+        Public Property Adjust2_Preview As Double
 
         Public ReadOnly Property Payroll_Name As String
             Get
@@ -69,6 +72,10 @@ Namespace Payroll
             Net_Pay_Preview = reader("net_pay")
             Adjust1_Preview = reader("adjust1")
             Adjust2_Preview = reader("adjust2")
+
+            Payroll_Code = reader("payroll_code")
+            Bank_Category = reader("bank_category")
+            Bank_Name = reader("bank_name")
         End Sub
 
 

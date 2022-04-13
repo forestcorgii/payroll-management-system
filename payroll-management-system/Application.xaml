@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="Theme/RegularTextbox.xaml"/>
                 <ResourceDictionary Source="Theme/SubHeader.xaml"/>
                 <ResourceDictionary Source="Theme/SubMenuButtonStyle.xaml"/>
+                <ResourceDictionary Source="Theme/RegularTextBlock.xaml"/>
 
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Light.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml"/>

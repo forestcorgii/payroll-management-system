@@ -14,6 +14,7 @@
     End Sub
 
     Private Sub btnReport_Click(sender As Object, e As RoutedEventArgs) Handles btnReport.Checked ', btnAdjustment.Unchecked
+        frmPayroll.Navigate(New Report)
     End Sub
 
     Private Sub btnAdjustment_Click(sender As Object, e As RoutedEventArgs) Handles btnAdjustment.Checked ', btnAdjustment.Unchecked

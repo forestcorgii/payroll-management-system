@@ -76,11 +76,10 @@ Namespace Payroll
             End Function
             Public Shared Sub Save(databaseManager As Manager.Mysql, government As Government.model)
                 Try
-                    Dim command As New MySqlCommand("REPLACE INTO payroll_db.government (ee_id,monthly_gross_pay,monthly_reg_pay,monthly_net_pay,sss_ee,sss_er,pagibig_ee,pagibig_er,philhealth,tax,payroll_name)VALUES(?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)
+                    Dim command As New MySqlCommand("REPLACE INTO payroll_db.government (ee_id,monthly_gross_pay,monthly_reg_pay,sss_ee,sss_er,pagibig_ee,pagibig_er,philhealth,tax,payroll_name)VALUES(?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection)
                     command.Parameters.AddWithValue("p1", government.EE_Id)
                     command.Parameters.AddWithValue("p2", government.Monthly_Gross_Pay)
                     command.Parameters.AddWithValue("reg", government.Monthly_Reg_Pay)
-                    command.Parameters.AddWithValue("p3", government.Monthly_Net_Pay)
                     command.Parameters.AddWithValue("p4", government.SSS_EE)
                     command.Parameters.AddWithValue("p5", government.SSS_ER)
                     command.Parameters.AddWithValue("p6", government.Pagibig_EE)
