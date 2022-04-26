@@ -37,6 +37,8 @@
                 <DataGridTextColumn Header="Total Hours" Binding="{Binding Total_Hours}" />
                 <DataGridTextColumn Header="Confirmed"  Binding="{Binding Is_Confirmed}"/>
                 <DataGridTextColumn x:Name="clRemarks" Header="Remarks"  Binding="{Binding Evaluation}"/>
+                <DataGridTextColumn  Header="Employment Status"  Binding="{Binding EE.Employment_Status}"/>
+                <DataGridTextColumn  Header="Rec Type"  Binding="{Binding EE.Rec_Type}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

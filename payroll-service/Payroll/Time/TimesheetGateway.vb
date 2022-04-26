@@ -28,7 +28,7 @@ Namespace Payroll
                 is_confirmed_snip = String.Format("AND is_confirmed={0}", is_confirmed)
             End If
             Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-            String.Format("SELECT * FROM payroll_db.payroll_time_complete where total_hours>0 {4} AND (payroll_code='{1}' AND bank_category='{2}' AND payroll_date='{3}');", location, payroll_code, bank_category, payroll_date, is_confirmed_snip))
+            String.Format("SELECT * FROM payroll_db.payroll_time_complete where total_hours>0 {4} AND (payroll_code='{1}' AND bank_category='{2}' AND payroll_date='{3}') ORDER BY last_name;", location, payroll_code, bank_category, payroll_date, is_confirmed_snip))
                 While reader.Read()
                     payrollTimes.Add(New TimesheetModel(reader))
                 End While

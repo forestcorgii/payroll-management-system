@@ -2,7 +2,7 @@
 Imports System.ComponentModel
 Imports System.Windows.Forms
 
-Class EmployeePage
+Class Employee
 
     Sub New()
 
@@ -42,9 +42,10 @@ Class EmployeePage
 
     Public WithEvents bgSyncAll As New BackgroundWorker
     Private Async Sub bgSyncAll_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgSyncAll.DoWork
+        Dim _databaseManager As New utility_service.Manager.Mysql(DatabaseConfiguration)
+        _databaseManager.Connection.Open()
         Try
-            DatabaseManager.Connection.Open()
-            Dim employees As List(Of employee_module.EmployeeModel) = employee_module.EmployeeGateway.Collect(DatabaseManager)
+            Dim employees As List(Of employee_module.EmployeeModel) = employee_module.EmployeeGateway.Collect(_databaseManager)
             If employees.Count > 0 Then
                 Dispatcher.Invoke(Sub()
                                       pb.Value = 0
@@ -59,7 +60,7 @@ Class EmployeePage
                                               pb.Value += 1
                                               lbStatus.Text = String.Format("Found {0} Employees... Syncing {1}", employees.Count, _employee.EE_Id)
                                           End Sub)
-                        Await employee_module.EmployeeGateway.SyncEmployeeFromHRMS(DatabaseManager, HRMSAPIManager, _employee.EE_Id, _employee, LoggingService)
+                        Await employee_module.EmployeeGateway.SyncEmployeeFromHRMS(_databaseManager, HRMSAPIManager, _employee.EE_Id, _employee, LoggingService)
                     Catch ex As Exception
                         If ex.Message = "Employee not found in HRMS." Then
                             'archive employee
@@ -71,7 +72,7 @@ Class EmployeePage
         Catch ex As Exception
             MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-        DatabaseManager.Connection.Close()
+        _databaseManager.Connection.Close()
     End Sub
 
     Private Sub EmployeePage_Unloaded(sender As Object, e As RoutedEventArgs) Handles Me.Unloaded
@@ -112,7 +113,7 @@ Class EmployeePage
 
     Private Sub btnImport_Click(sender As Object, e As RoutedEventArgs)
         Using openFile As New OpenFileDialog
-            openFile.Filter = "*.XLS"
+            openFile.Filter = "E-Files (*.xls)|*.xls"
             openFile.Multiselect = True
             If openFile.ShowDialog = DialogResult.OK Then
                 For i As Integer = 0 To openFile.FileNames.Length - 1

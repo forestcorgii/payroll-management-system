@@ -1,6 +1,9 @@
 ﻿Imports monitoring_module
 Imports utility_service
 Module SharedObject
+    Public DefaultPayrollCode As String
+    Public DefaultPayrollDate As Date
+
     Public PageRedirecting As Boolean
 
     Public DatabaseConfiguration As Configuration.Mysql

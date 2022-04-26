@@ -21,7 +21,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock  VerticalAlignment="Center" Margin="6">Payroll Date:</TextBlock>
-                <DatePicker Name="dtPayrollDate"  Width="125" VerticalAlignment="Center"/>
+                <DatePicker Name="dtPayrollDate" SelectedDateChanged="dtPayrollDate_SelectionChanged" Width="125" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock  VerticalAlignment="Center" Margin="6">Payroll Code:</TextBlock>
@@ -34,19 +34,23 @@
                 Visibility="Collapsed" 
                 Focusable="False"/>
         </StackPanel>
- 
+
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="btnReset" Click="btnReset_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource SecondaryButton}">Reset</Button>
             <Button x:Name="btnDownload" Click="btnDownload_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource PrimaryButton}">Download</Button>
         </StackPanel>
-        
+
         <StackPanel Grid.Row="1">
-            
             <TextBlock x:Name="lbStatus" FontSize="16" FontWeight="DemiBold" Grid.Row="1" Margin="8" Width="425" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Status: Not Downloaded Yet."/>
-            <TextBlock x:Name="lbEmployeeCount" FontSize="12" FontWeight="DemiBold" Grid.Row="1" Margin="3" Width="425" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total Employee Count:"/>
-            <TextBlock x:Name="lbPageCount" FontSize="12" FontWeight="DemiBold" Grid.Row="1" Margin="3" Width="425" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total Page Count:"/>
-            <TextBlock x:Name="lbUnconfirmedEmployeeCount" FontSize="12" FontWeight="DemiBold" Grid.Row="1" Margin="3" Width="425" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total Unconfirmed:"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="lbEmployeeCount" FontSize="12" FontWeight="DemiBold" Grid.Row="1" Margin="3" Width="225" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total Employee Count:"/>
+                <TextBlock x:Name="lbPageCount" FontSize="12" FontWeight="DemiBold" Grid.Row="1" Margin="3" Width="225" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total Page Count:"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="lbUnconfirmedEmployeeCount" FontSize="12" FontWeight="DemiBold" Grid.Row="1" Margin="3" Width="225" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total Unconfirmed:"/>
+                <TextBlock x:Name="lbConfirmedEmployeeCount" FontSize="12" FontWeight="DemiBold" Grid.Row="1" Margin="3" Width="225" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total Confirmed:"/>
+            </StackPanel>
         </StackPanel>
 
         <TextBlock x:Name="lbPage" FontSize="24" FontWeight="DemiBold" Grid.Row="1" Margin="8" Width="100" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap"/>
@@ -57,9 +61,11 @@
                 <DataGridTextColumn Header="Full Name" Binding="{Binding Fullname}"/>
                 <DataGridTextColumn Header="Payroll Code" Binding="{Binding Payroll_Code}"/>
                 <DataGridTextColumn Header="Bank Category" Binding="{Binding Bank_Category}"/>
+                <DataGridTextColumn Header="Employment Status" Binding="{Binding Employment_Status}"/>
+                <DataGridTextColumn Header="Rec Type" Binding="{Binding Rec_Type}"/>
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <ProgressBar x:Name="pb" Grid.Row="4"/>
     </Grid>
 </Page>

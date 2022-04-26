@@ -97,6 +97,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Payroll\Adjustment\Billing\AdjustmentBillingController.vb" />
     <Compile Include="Payroll\Adjustment\Billing\AdjustmentBillingGateway.vb" />
     <Compile Include="Payroll\Adjustment\Billing\AdjustmentBillingModel.vb" />
     <Compile Include="Payroll\Adjustment\Record\AdjustmentRecordController.vb" />
@@ -104,16 +105,11 @@
     <Compile Include="Payroll\Adjustment\Record\AdjustmentRecordModel.vb" />
     <Compile Include="Payroll\PayRegisterController.vb" />
     <Compile Include="Payroll\PayrollController.vb" />
-    <Compile Include="Payroll\Government\Gateway.vb" />
-    <Compile Include="Payroll\Controller\PayRegister.vb" />
-    <Compile Include="Payroll\Controller\Payslip.vb" />
-    <Compile Include="Employee\EmployeeGateway.vb" />
+    <Compile Include="Payroll\Government\GovernmentGateway.vb" />
+    <Compile Include="Payroll\PayslipController.vb" />
     <Compile Include="Payroll\PayrollGateway.vb" />
-    <Compile Include="Payroll\Government\Model.vb" />
+    <Compile Include="Payroll\Government\GovernmentModel.vb" />
     <Compile Include="Payroll\PayrollModel.vb" />
-    <Compile Include="Payroll\Controller\Report.vb" />
-    <Compile Include="Employee\EmployeeModel.vb" />
-    <Compile Include="Payroll\Controller\Export.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

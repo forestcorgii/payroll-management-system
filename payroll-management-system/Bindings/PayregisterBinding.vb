@@ -13,15 +13,15 @@ Public Class PayregisterBinding
         Set(value As List(Of PayrollModel))
             TotalAmount = PayRegisterController.GetTotalAmount(value)
             TotalEE = value.Count
-            TotalUCPB = PayRegisterController.GetBankEECount(value, "UCPB", "CCARD")
+            TotalUCPB = PayRegisterController.GetBankEECount(value, "UCPB", "CCARD").Count
 
             TotalChinaBank = 0
-            TotalChinaBank += PayRegisterController.GetBankEECount(value, "CHINABANK", "CCARD")
+            TotalChinaBank += PayRegisterController.GetBankEECount(value, "CHINABANK", "CCARD").Count
 
             TotalCheck = 0
-            TotalCheck += PayRegisterController.GetBankEECount(value, "UCPB", "CHK")
-            TotalCheck += PayRegisterController.GetBankEECount(value, "CHINABANK", "CHK")
-            TotalCheck += PayRegisterController.GetBankEECount(value, "", "CHK")
+            TotalCheck += PayRegisterController.GetBankEECount(value, "UCPB", "CHK").Count
+            TotalCheck += PayRegisterController.GetBankEECount(value, "CHINABANK", "CHK").Count
+            TotalCheck += PayRegisterController.GetBankEECount(value, "", "CHK").Count
 
             _payrolls = value
         End Set
@@ -33,6 +33,7 @@ Public Class PayregisterBinding
             Return _payrollCodes
         End Get
         Set(value As List(Of String))
+            value.Sort()
             PayrollCodesAll = String.Join("-", value.ToArray)
             _payrollCodes = value
         End Set

@@ -7,13 +7,18 @@ Namespace Payroll
         Public Property Payroll_Date As Date
 
         Public Property EE_Id As String
-        Public EE As EmployeeModel
+        Public Property EE As EmployeeModel
+        'Identifier
+        Public Property Government As GovernmentModel
+
+        Public AdjustmentLogs As List(Of AdjustmentBillingModel)
 
         Public Property Payroll_Code As String
         Public Property Bank_Category As String
         Public Property Bank_Name As String
 
         Public Property Gross_Pay As Double
+        Public Property Reg_Pay As Double
 
         Public Property Net_Pay_Preview As Double
         Public Property Adjust1_Preview As Double
@@ -25,16 +30,12 @@ Namespace Payroll
             End Get
         End Property
 
-
-        Public Government As Government.Model
-
-        Public AdjustmentLogs As List(Of AdjustmentBillingModel)
         Public ReadOnly Property Adjust1 As Double
             Get
                 Dim adj As Double = 0
                 If AdjustmentLogs IsNot Nothing Then
                     For Each log As AdjustmentBillingModel In AdjustmentLogs
-                        If log.Adjust_Type = AdjustmentChoices.ADJUST1 Then
+                        If log.Adjustment_Type = AdjustmentChoices.ADJUST1 Then
                             adj += log.Amount
                         End If
                     Next
@@ -47,7 +48,7 @@ Namespace Payroll
                 Dim adj As Double = 0
                 If AdjustmentLogs IsNot Nothing Then
                     For Each log As AdjustmentBillingModel In AdjustmentLogs
-                        If log.Adjust_Type = AdjustmentChoices.ADJUST2 Then
+                        If log.Adjustment_Type = AdjustmentChoices.ADJUST2 Then
                             adj += log.Amount
                         End If
                     Next
@@ -58,7 +59,11 @@ Namespace Payroll
 
         Public ReadOnly Property Net_Pay As Double
             Get
-                Return Gross_Pay + Adjust1 + Adjust2
+                Dim governmentDeduction As Double = 0
+                If Government IsNot Nothing Then
+                    governmentDeduction = Government.TotalDeduction
+                End If
+                Return Gross_Pay + Adjust1 + Adjust2 + governmentDeduction
             End Get
         End Property
 
@@ -69,6 +74,7 @@ Namespace Payroll
             EE_Id = reader("ee_id")
             Payroll_Date = reader("payroll_date")
             Gross_Pay = reader("gross_pay")
+            Reg_Pay = reader("reg_pay")
             Net_Pay_Preview = reader("net_pay")
             Adjust1_Preview = reader("adjust1")
             Adjust2_Preview = reader("adjust2")
@@ -77,7 +83,6 @@ Namespace Payroll
             Bank_Category = reader("bank_category")
             Bank_Name = reader("bank_name")
         End Sub
-
 
     End Class
 

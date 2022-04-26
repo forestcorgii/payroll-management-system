@@ -2,8 +2,8 @@
 Imports NPOI.SS.UserModel
 Imports payroll_module.Payroll
 
-Namespace Controller
-    Public Class Payslip
+Namespace Payroll
+    Public Class PayslipController
 
         Public Shared Sub PastePayslip(nSheet As ISheet, pageIdx As Integer, payroll As PayrollModel, payslipPosition As PayslipPositionChoices)
             Dim startRowIdx As Integer = 67 * pageIdx

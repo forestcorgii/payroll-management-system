@@ -63,6 +63,9 @@
     <Compile Include="EmployeeController.cs" />
     <Compile Include="EmployeeGateway.cs" />
     <Compile Include="EmployeeModel.cs" />
+    <Compile Include="PayrollController.cs" />
+    <Compile Include="PayrollGateway.cs" />
+    <Compile Include="PayrollModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

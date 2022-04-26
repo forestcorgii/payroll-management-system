@@ -1,4 +1,4 @@
-﻿<Page x:Class="EmployeePage"
+﻿<Page x:Class="Employee"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -111,6 +111,8 @@
                     <DataGridTextColumn Header="Pagibig" Width="100" Binding="{Binding Pagibig}"/>
                     <DataGridTextColumn Header="SSS" Width="100" Binding="{Binding SSS}"/>
                     <DataGridTextColumn Header="PhilHealth" Width="100" Binding="{Binding PhilHealth}"/>
+                    <DataGridTextColumn Header="Employment Status" Width="100" Binding="{Binding Employment_Status}"/>
+                    <DataGridTextColumn Header="Rec Type" Width="100" Binding="{Binding Rec_Type}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>

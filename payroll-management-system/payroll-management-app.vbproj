@@ -101,15 +101,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bindings\AdjustmentBillingBinding.vb" />
+    <Compile Include="Bindings\AdjustmentRecordBinding.vb" />
     <Compile Include="Bindings\PayregisterBinding.vb" />
-    <Compile Include="Page\Payroll\Adjustment.xaml.vb">
-      <DependentUpon>Adjustment.xaml</DependentUpon>
+    <Compile Include="Page\Alphalist\Alphalist.xaml.vb">
+      <DependentUpon>Alphalist.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Page\Employee\EmployeePage.xaml.vb">
-      <DependentUpon>EmployeePage.xaml</DependentUpon>
+    <Compile Include="Page\Payroll\AddAdjustmentBilling.xaml.vb">
+      <DependentUpon>AddAdjustmentBilling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Payroll\AddAdjustmentRecord.xaml.vb">
+      <DependentUpon>AddAdjustmentRecord.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Payroll\AdjustmentBilling.xaml.vb">
+      <DependentUpon>AdjustmentBilling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Payroll\AdjustmentRecord.xaml.vb">
+      <DependentUpon>AdjustmentRecord.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Employee\Employee.xaml.vb">
+      <DependentUpon>Employee.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bindings\FilterBinding.vb" />
-    <Compile Include="Page\Payroll\Report.xaml.vb">
+    <Compile Include="Page\Report\BankReport.xaml.vb">
+      <DependentUpon>BankReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Report\Report.xaml.vb">
       <DependentUpon>Report.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page\Timesheet\GenerateDBF.xaml.vb">
@@ -134,15 +151,35 @@
     <Compile Include="Page\Timesheet\Timesheet.xaml.vb">
       <DependentUpon>Timesheet.xaml</DependentUpon>
     </Compile>
-    <Page Include="Page\Payroll\Adjustment.xaml">
+    <Page Include="Page\Alphalist\Alphalist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Page\Employee\EmployeePage.xaml">
+    <Page Include="Page\Payroll\AddAdjustmentBilling.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Page\Payroll\Report.xaml">
+    <Page Include="Page\Payroll\AddAdjustmentRecord.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Payroll\AdjustmentBilling.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Payroll\AdjustmentRecord.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Employee\Employee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Report\BankReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Report\Report.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

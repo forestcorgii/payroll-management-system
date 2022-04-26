@@ -2,6 +2,7 @@
 Imports hrms_api_service
 Imports Newtonsoft.Json
 Imports System.ComponentModel
+Imports employee_module
 
 Class MainWindow
 
@@ -44,27 +45,33 @@ Class MainWindow
     End Function
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        DatabaseManager.Connection.Open()
+        cbPayrollCode.ItemsSource = EmployeeGateway.CollectPayrollCodes(DatabaseManager)
+        DatabaseManager.Connection.Close()
+
         frmMain.Navigate(New Payroll)
         btnProcessPayroll.IsChecked = True
+        TimesheetPage = New Timesheet
     End Sub
 
     Private Sub btnProcessPayroll_Click(sender As Object, e As RoutedEventArgs)
         frmMain.Navigate(New Payroll)
     End Sub
 
+    Private TimesheetPage As Timesheet
     Private Sub btnTimesheet_Click(sender As Object, e As RoutedEventArgs)
-        frmMain.Navigate(New Timesheet)
+        frmMain.Navigate(TimesheetPage)
     End Sub
 
     Private LastTimeModified As Date
-    Private EmployeePage As EmployeePage
+    Private EmployeePage As Employee
     Private Sub btnEmployee_Click(sender As Object, e As RoutedEventArgs)
         DatabaseManager.Connection.Open()
         Dim latestModifiedTime As Date = employee_module.EmployeeGateway.TimeHasChange(DatabaseManager)
         DatabaseManager.Connection.Close()
 
         If latestModifiedTime > LastTimeModified Then
-            EmployeePage = New EmployeePage
+            EmployeePage = New Employee
             LastTimeModified = latestModifiedTime
         End If
         frmMain.Navigate(EmployeePage)
@@ -77,5 +84,31 @@ Class MainWindow
             DatabaseManager.Connection.Close()
         End If
     End Sub
+
+    Private Sub btnReport_Click(sender As Object, e As RoutedEventArgs)
+        frmMain.Navigate(New Report)
+    End Sub
+
+    Private Sub btnAlphalist_Click(sender As Object, e As RoutedEventArgs)
+        frmMain.Navigate(New Alphalist)
+    End Sub
+
+
+    Private Sub dtPayrollDate_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
+        Try
+            If sender IsNot Nothing Then
+                If sender.name = "dtPayrollDate" Then
+                    DefaultPayrollDate = e.AddedItems.Item(0)
+                    frmMain.Refresh()
+                ElseIf sender.name = "cbPayrollCode" Then
+                    DefaultPayrollCode = e.AddedItems.Item(0)
+                    frmMain.Refresh()
+                End If
+            End If
+        Catch ex As Exception
+            Console.WriteLine(ex.Message)
+        End Try
+    End Sub
+
 
 End Class

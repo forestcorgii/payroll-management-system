@@ -13,12 +13,11 @@
         frmPayroll.Navigate(New ProcessPayreg)
     End Sub
 
-    Private Sub btnReport_Click(sender As Object, e As RoutedEventArgs) Handles btnReport.Checked ', btnAdjustment.Unchecked
-        frmPayroll.Navigate(New Report)
+    Private Sub btnAdjustmentRecord_Click(sender As Object, e As RoutedEventArgs) Handles btnAdjustmentRecord.Checked ', btnAdjustment.Unchecked
+        frmPayroll.Navigate(New AdjustmentRecord)
     End Sub
-
-    Private Sub btnAdjustment_Click(sender As Object, e As RoutedEventArgs) Handles btnAdjustment.Checked ', btnAdjustment.Unchecked
-        frmPayroll.Navigate(New Adjustment)
+    Private Sub btnAdjustmentBilling_Click(sender As Object, e As RoutedEventArgs) Handles btnAdjustmentBilling.Checked ', btnAdjustment.Unchecked
+        frmPayroll.Navigate(New AdjustmentBilling)
     End Sub
 
 End Class

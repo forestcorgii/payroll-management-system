@@ -15,6 +15,14 @@ Class GenerateDBFPage
         DatabaseManager.Connection.Close()
     End Sub
 
+    Private Sub GenerateDBFPage_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        DatabaseManager.Connection.Open()
+        cbPayrollCode.ItemsSource = EmployeeGateway.CollectPayrollCodes(DatabaseManager)
+        DatabaseManager.Connection.Close()
+
+        dtPayrollDate.SelectedDate = DefaultPayrollDate
+        cbPayrollCode.SelectedItem = DefaultPayrollCode
+    End Sub
 
     Private Sub btnGenerateDBF_Click(sender As Object, e As RoutedEventArgs)
         Dim payDay As Integer = Date.Parse(dtPayrollDate.SelectedDate).Day
@@ -43,4 +51,5 @@ Class GenerateDBFPage
             DatabaseManager.Connection.Close()
         End If
     End Sub
+
 End Class

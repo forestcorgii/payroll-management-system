@@ -21,6 +21,8 @@ namespace employee_module
         public string PhilHealth { get; set; }
         public string SSS { get; set; }
         public string TIN { get; set; }
+        public string Rec_Type { get; set; }
+        public string Employment_Status { get; set; }
 
         public DateTime Date_Modified { get; set; }
 
@@ -54,6 +56,8 @@ namespace employee_module
             Pagibig = reader.GetString("pagibig");
             SSS = reader.GetString("sss");
             PhilHealth = reader.GetString("philhealth");
+            Rec_Type = reader.GetString("rec_type");
+            Employment_Status= reader.GetString("employment_status");
 
             Date_Modified = reader.GetDateTime("date_modified");
         }

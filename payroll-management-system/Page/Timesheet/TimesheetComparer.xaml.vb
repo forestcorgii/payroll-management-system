@@ -20,14 +20,16 @@ Class PayrollTimeComparer
                     Dim nRow As IRow = nSheet.GetRow(j)
                     If nRow IsNot Nothing AndAlso nRow.GetCell(1) IsNot Nothing Then
                         Dim ee_id As String = nRow.GetCell(1).StringCellValue.Trim
-                        Dim newPayroll As TimesheetModel = TimesheetGateway.Find(DatabaseManager, ee_id & Date.Parse(dtPayrollDate.Text).ToString("_yyyyMMdd"), True)
-                        If newPayroll IsNot Nothing Then
-                            emps.Add(newPayroll)
-                        Else
-                            Dim payrollTime As New TimesheetModel With {.EE_Id = ee_id}
-                            TimesheetController.CompleteDetail(DatabaseManager, payrollTime)
-                            payrollTime.Remarks = "NO TIMESHEET FOUND;"
-                            emps.Add(payrollTime)
+                        If ee_id.Length > 3 Then
+                            Dim newPayroll As TimesheetModel = TimesheetGateway.Find(DatabaseManager, ee_id & Date.Parse(dtPayrollDate.Text).ToString("_yyyyMMdd"), True)
+                            If newPayroll IsNot Nothing Then
+                                emps.Add(newPayroll)
+                            Else
+                                Dim payrollTime As New TimesheetModel With {.EE_Id = ee_id}
+                                TimesheetController.CompleteDetail(DatabaseManager, payrollTime)
+                                payrollTime.Remarks = "NO TIMESHEET FOUND;"
+                                emps.Add(payrollTime)
+                            End If
                         End If
                     End If
                 Next
@@ -47,5 +49,10 @@ Class PayrollTimeComparer
                 tbFilePath.Text = openFile.FileName
             End If
         End Using
+    End Sub
+
+    Private Sub PayrollTimeComparer_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+
+        dtPayrollDate.SelectedDate = DefaultPayrollDate
     End Sub
 End Class

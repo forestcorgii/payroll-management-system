@@ -18,7 +18,7 @@ Namespace Payroll
             Return payroll
         End Function
 
-        Public Shared Function CollectPayrolls(databaseManager As Manager.Mysql, payrollDate As Date, payrollCode As String) As List(Of PayrollModel)
+        Public Shared Function CollectPayrolls(databaseManager As Manager.Mysql, payrollDate As Date, payrollCode As String, Optional completeDetail As Boolean = False) As List(Of PayrollModel)
             Dim payrolls As New List(Of PayrollModel)
             Try
                 Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
@@ -27,6 +27,10 @@ Namespace Payroll
                         payrolls.Add(New PayrollModel(reader))
                     End While
                 End Using
+
+                If completeDetail Then
+                    payrolls.ForEach(Sub(item As PayrollModel) PayrollController.CompleteDetail(databaseManager, item))
+                End If
             Catch ex As Exception
                 Console.WriteLine(ex.Message)
             End Try
@@ -46,11 +50,13 @@ Namespace Payroll
             Return payrollCodes
         End Function
 
+
         Public Shared Sub Save(databaseManager As Manager.Mysql, payroll As PayrollModel)
             Try
-                Dim command As New MySqlCommand("REPLACE INTO payroll_db.payroll (ee_id,payroll_date,gross_pay,payroll_name,adjust1,adjust2,net_pay)VALUES(?,?,?,?,?,?,?)", databaseManager.Connection)
+                Dim command As New MySqlCommand("REPLACE INTO payroll_db.payroll (ee_id,payroll_date,reg_pay,gross_pay,payroll_name,adjust1,adjust2,net_pay)VALUES(?,?,?,?,?,?,?,?)", databaseManager.Connection)
                 command.Parameters.AddWithValue("p1", payroll.EE_Id)
                 command.Parameters.AddWithValue("p2", payroll.Payroll_Date)
+                command.Parameters.AddWithValue("pa3", payroll.Reg_Pay)
                 command.Parameters.AddWithValue("p3", payroll.Gross_Pay)
                 command.Parameters.AddWithValue("p4", payroll.Payroll_Name)
                 command.Parameters.AddWithValue("p5", payroll.Adjust1)

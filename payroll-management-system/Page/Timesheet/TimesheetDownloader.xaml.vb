@@ -13,13 +13,16 @@ Class TimeDownloaderPage
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        DatabaseManager.Connection.Open()
-        cbPayrollCode.ItemsSource = EmployeeGateway.CollectPayrollCodes(DatabaseManager)
-        DatabaseManager.Connection.Close()
+
     End Sub
 
     Private Sub TimeDownloader_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        DatabaseManager.Connection.Open()
+        cbPayrollCode.ItemsSource = EmployeeGateway.CollectPayrollCodes(DatabaseManager)
+        DatabaseManager.Connection.Close()
 
+        dtPayrollDate.SelectedDate = DefaultPayrollDate
+        cbPayrollCode.SelectedItem = DefaultPayrollCode
     End Sub
 
     Private Async Sub dtPayrollDate_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
@@ -31,7 +34,7 @@ Class TimeDownloaderPage
             If sender.name = "dtPayrollDate" Then
                 selectedDate = e.AddedItems.Item(0)
             ElseIf sender.name = "cbPayrollCode" Then
-                cbPayrollCode.Text = e.AddedItems.Item(0)
+                selectedPayrollCode = e.AddedItems.Item(0)
             End If
         End If
         If selectedPayrollCode = "" Or selectedDate = Nothing Then Exit Sub
@@ -47,6 +50,7 @@ Class TimeDownloaderPage
                 lbEmployeeCount.Text = String.Format("Total Employee Count: {0}", TimeResponse.totalCount)
                 lbPageCount.Text = String.Format("Total Page Count: {0}", TimeResponse.totalPage)
                 lbUnconfirmedEmployeeCount.Text = String.Format("Total Unconfirmed: {0}", TimeResponse.unconfirmedTimesheet.Length)
+                lbConfirmedEmployeeCount.Text = String.Format("Total Confirmed: {0}", TimeResponse.totalConfirmed)
 
                 DatabaseManager.Connection.Open()
                 Dim _employees As New List(Of EmployeeModel)
@@ -118,7 +122,7 @@ Class TimeDownloaderPage
             'RUN THROUGH PAGES
             For DownloadLog.Last_Page_Downloaded = DownloadLog.Last_Page_Downloaded To DownloadLog.TotalPage
                 Dim errCounter As Integer = 0
-                While errCounter < 10
+                While True 'errCounter < 10
                     Dim payrollTimes As time_module.Model.PayrollTime() = Await TimeDownloaderAPIManager.GetPageContent(cutoffRange(0), cutoffRange(1), DownloadLog.Last_Page_Downloaded, DownloadLog.Payroll_Code)
                     If payrollTimes IsNot Nothing Then
                         For i As Integer = 0 To payrollTimes.Count - 1

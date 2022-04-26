@@ -19,38 +19,23 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions >
+                <RowDefinition Height="35" />
                 <RowDefinition Height="75" />
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="8" Grid.ColumnSpan="1" Orientation="Horizontal" VerticalAlignment="Top">
-                <Button x:Name="btnTitle"
-                        Click="btnProcessPayroll_Click"                    
-                        Cursor="Hand"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Left"
-                        FontSize="22"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Margin="20">Payroll</Button>
-
-                <RadioButton x:Name="btnProcessPayroll" 
-                             Content="Payroll"
-                             Style="{StaticResource MenuButtonTheme}" 
-                             Click="btnProcessPayroll_Click"/>
-
-                <RadioButton x:Name="btnTimesheet" 
-                             Content="Timesheet"
-                             Style="{StaticResource MenuButtonTheme}" 
-                             Click="btnTimesheet_Click"/>
-
-                <RadioButton x:Name="btnEmployee" 
-                             Content="Employee"
-                             Style="{StaticResource MenuButtonTheme}" 
-                             Click="btnEmployee_Click"/>
+            <StackPanel  Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock  VerticalAlignment="Center" Margin="6">Payroll Date:</TextBlock>
+                    <DatePicker Name="dtPayrollDate" SelectedDateChanged="dtPayrollDate_SelectionChanged" Width="125" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock  VerticalAlignment="Center" Margin="6">Payroll Code:</TextBlock>
+                    <ComboBox x:Name="cbPayrollCode" SelectionChanged="dtPayrollDate_SelectionChanged" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" IsEditable="True" Width="100"/>
+                </StackPanel>
             </StackPanel>
-
-            <DockPanel Grid.Column="1" 
+            
+            <DockPanel Grid.Column="1"
                        Width="250" Height="45"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Right">
@@ -70,8 +55,43 @@
                 </Menu>
                 <TextBox AcceptsReturn="True" />
             </DockPanel>
+            
+            <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="8" Grid.ColumnSpan="1" Orientation="Horizontal" VerticalAlignment="Top">
+                <Button x:Name="btnTitle"
+                        Click="btnProcessPayroll_Click"                    
+                        Cursor="Hand"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        FontSize="22"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Margin="20">Payroll</Button>
 
-            <Frame Name="frmMain" Grid.Row="1" Grid.Column="2" 
+                <RadioButton x:Name="btnProcessPayroll" 
+                             Content="Payroll"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnProcessPayroll_Click"/>
+                <RadioButton x:Name="btnTimesheet" 
+                             Content="Timesheet"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnTimesheet_Click"/>
+                <RadioButton x:Name="btnEmployee" 
+                             Content="Employee"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnEmployee_Click"/>
+                <RadioButton x:Name="btnReport" 
+                             Content="Report"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnReport_Click"/>
+                <RadioButton x:Name="btnAlphalist" 
+                             Content="Alphalist"
+                             Style="{StaticResource MenuButtonTheme}" 
+                             Click="btnAlphalist_Click"/>
+            </StackPanel>
+
+
+
+            <Frame Name="frmMain" Grid.Row="2" Grid.Column="2" 
                     BorderBrush="#FF786F6F" BorderThickness="0.3" Margin="5,0,5,5" 
                     NavigationUIVisibility="Hidden"/>
 

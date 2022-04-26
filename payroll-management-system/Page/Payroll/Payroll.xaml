@@ -20,8 +20,8 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Vertical">
             <RadioButton x:Name="btnPayregUpload" Content="Pay Register" Style="{StaticResource SubMenuButtonTheme}" />
-            <RadioButton x:Name="btnAdjustment" Content="Adjustment" Style="{StaticResource SubMenuButtonTheme}"/>
-            <RadioButton x:Name="btnReport" Content="Report" Style="{StaticResource SubMenuButtonTheme}"/>
+            <RadioButton x:Name="btnAdjustmentRecord" Content="Adjustment Record" Style="{StaticResource SubMenuButtonTheme}"/>
+            <RadioButton x:Name="btnAdjustmentBilling" Content="Adjustment Billing" Style="{StaticResource SubMenuButtonTheme}"/>
         </StackPanel>
 
         <Frame x:Name="frmPayroll" Grid.Column="1"/>

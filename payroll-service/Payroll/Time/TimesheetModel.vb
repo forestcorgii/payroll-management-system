@@ -28,10 +28,10 @@ Namespace Payroll
             Total_ND = reader.Item("total_nd")
             Total_Tardy = reader.Item("total_tardy")
 
-            If IsDBNull(reader.Item("allowance")) = False Then
-                Allowance = reader.Item("allowance")
-            Else Allowance = 0
-            End If
+            'If IsDBNull(reader.Item("allowance")) = False Then
+            '    Allowance = reader.Item("allowance")
+            'Else Allowance = 0
+            'End If
 
             'Has_PCV = reader.Item("has_pcv")
             Is_Confirmed = reader("is_confirmed")

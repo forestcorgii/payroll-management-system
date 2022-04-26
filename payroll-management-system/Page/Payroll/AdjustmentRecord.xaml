@@ -1,0 +1,65 @@
+﻿<Page x:Class="AdjustmentRecord"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:payroll_management_app"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+        xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+        Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+      xmlns:adj="clr-namespace:payroll_module.Payroll;assembly=payroll-module"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Adjustment">
+    <Page.Resources>
+        <local:AdjustmentRecordBinding x:Key="AdjustmentRecord"/>
+        <ObjectDataProvider x:Key="AdjChoice" ObjectType="{x:Type System:Enum}" MethodName="GetValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="adj:AdjustmentChoices"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="ReqChoice" ObjectType="{x:Type System:Enum}" MethodName="GetValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="adj:RequestTypeChoices"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Page.Resources>
+    <Grid x:Name="grdAdjustmentRecordDetail">
+        <Grid.DataContext>
+            <Binding Source="{StaticResource AdjustmentRecord}"/>
+        </Grid.DataContext>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{adonisUi:Space 6}"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock  VerticalAlignment="Center" Margin="6">Filter:</TextBlock>
+                <TextBox Name="tbSearch" Text="{Binding Path=Filter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Delay=500}" CharacterCasing="Upper" Width="125" VerticalAlignment="Center"/>
+                <!--<TextBox Name="tbSearch" Text="{Binding Path=Filter}" Width="125" VerticalAlignment="Center"/>-->
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock  VerticalAlignment="Center" Margin="6">Payroll Code:</TextBlock>
+                <ComboBox x:Name="cbPayrollCode" ItemsSource="{Binding Path=PayrollCodes,Mode=TwoWay,Delay=300}" SelectedValue="{Binding Path=PayrollCode}" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" IsEditable="True" Width="100"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <!--<Button x:Name="btnExport" Style="{StaticResource SecondaryButton}" Click="btnExport_Click">Export</Button>-->
+            <Button x:Name="btnImport" Style="{StaticResource SecondaryButton}" Click="btnImport_Click">Import</Button>
+        </StackPanel>
+        <DataGrid x:Name="lstAdjustments" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding Path=AdjustmentRecords}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="EE ID" Binding="{Binding EE_Id}"/>
+                <DataGridTextColumn Header="Full Name" Binding="{Binding EE.Fullname}"/>
+                <DataGridTextColumn Header="Adjustment Name" Binding="{Binding Adjustment_Name}"/>
+                <DataGridTextColumn Header="Effectivity Date" Binding="{Binding Date_Effective, StringFormat={}{0:yyyy-MM-dd}}"/>
+                <DataGridTextColumn Header="Monthly Deduction" Binding="{Binding Monthly_Deduction}"/>
+                <DataGridTextColumn Header="Total Advances" Binding="{Binding Total_Advances}"/>
+                <DataGridComboBoxColumn Header="Adjustment Type" ItemsSource="{Binding Source={StaticResource AdjChoice}}" SelectedItemBinding="{Binding Adjustment_Type}"/>
+                <DataGridComboBoxColumn Header="Request Type" ItemsSource="{Binding Source={StaticResource ReqChoice}}" SelectedItemBinding="{Binding Request_Type}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
