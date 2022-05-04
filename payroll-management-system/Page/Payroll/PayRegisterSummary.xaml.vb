@@ -17,7 +17,7 @@ Class PayRegisterSummary
 
         lstPayRegisters.ItemsSource = summaries
     End Sub
-
+    'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     Private Sub btnUploadPayreg_Click(sender As Object, e As RoutedEventArgs)
 
     End Sub
