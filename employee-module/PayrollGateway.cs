@@ -8,49 +8,49 @@ using utility_service;
 
 namespace employee_module
 {
-    public class PayrollInfoGateway
+    public class PayrollSnapshotGateway
     {
-        public PayrollInfoModel Find(utility_service.Manager.Mysql databaseManager, string EEId, DateTime PayrollDate)
+        public PayrollSnapshotModel Find(utility_service.Manager.Mysql databaseManager, string EEId, DateTime PayrollDate)
         {
-            List<PayrollInfoModel> payrolls = new List<PayrollInfoModel>();
+            List<PayrollSnapshotModel> payrolls = new List<PayrollSnapshotModel>();
             using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.payroll_info WHERE ee_id='{EEId}' AND payroll_date='{PayrollDate}';"))
             {
                 if (reader.HasRows)
                 {
-                    while (reader.Read()) { payrolls.Add(new PayrollInfoModel(reader)); }
+                    while (reader.Read()) { payrolls.Add(new PayrollSnapshotModel(reader)); }
                     return payrolls[0];
                 }
             }
             return null;
         }
-        public List<PayrollInfoModel> Collect(utility_service.Manager.Mysql databaseManager)
+        public List<PayrollSnapshotModel> Collect(utility_service.Manager.Mysql databaseManager)
         {
-            List<PayrollInfoModel> payrolls = new List<PayrollInfoModel>();
+            List<PayrollSnapshotModel> payrolls = new List<PayrollSnapshotModel>();
             using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.payroll_info;"))
             {
                 if (reader.HasRows)
                 {
-                    while (reader.Read()) { payrolls.Add(new PayrollInfoModel(reader)); }
+                    while (reader.Read()) { payrolls.Add(new PayrollSnapshotModel(reader)); }
                     return payrolls;
                 }
             }
             return null;
         }
-        public List<PayrollInfoModel> Filter(utility_service.Manager.Mysql databaseManager,string EEId)
+        public List<PayrollSnapshotModel> Filter(utility_service.Manager.Mysql databaseManager,string EEId)
         {
 
-            List<PayrollInfoModel> payrolls = new List<PayrollInfoModel>();
+            List<PayrollSnapshotModel> payrolls = new List<PayrollSnapshotModel>();
             using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.payroll_info WHERE ee_id='{EEId}';"))
             {
                 if (reader.HasRows)
                 {
-                    while (reader.Read()) { payrolls.Add(new PayrollInfoModel(reader)); }
+                    while (reader.Read()) { payrolls.Add(new PayrollSnapshotModel(reader)); }
                     return payrolls;
                 }
             }
             return null;
         }
-        public PayrollInfoModel Save(utility_service.Manager.Mysql databaseManager, PayrollInfoModel payrollInfo)
+        public PayrollSnapshotModel Save(utility_service.Manager.Mysql databaseManager, PayrollSnapshotModel payrollInfo)
         {
             MySqlCommand command = new MySqlCommand("INSERT INTO employee_db.payroll_info (id,ee_id,payroll_date,payroll_code,bank_category,bank_name) VALUES(?,?,?,?,?,?);", databaseManager.Connection);
             command.Parameters.AddWithValue("p0", payrollInfo.Id);
@@ -63,7 +63,7 @@ namespace employee_module
 
             return Find(databaseManager, payrollInfo.EE_Id, payrollInfo.Payroll_Date);
         }
-        public PayrollInfoModel Update(utility_service.Manager.Mysql databaseManager, PayrollInfoModel payrollInfo)
+        public PayrollSnapshotModel Update(utility_service.Manager.Mysql databaseManager, PayrollSnapshotModel payrollInfo)
         {
             MySqlCommand command = new MySqlCommand("UPDATE employee_db.payroll_info SET id=?, ee_id=?, payroll_date=?, payroll_code=?, bank_category=?, bank_name=?;", databaseManager.Connection);
             command.Parameters.AddWithValue("p0", payrollInfo.Id);

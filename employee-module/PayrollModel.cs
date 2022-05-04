@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace employee_module
 {
-    public class PayrollInfoModel
+    public class PayrollSnapshotModel
     {
         public string Id { get; set; }
         public string EE_Id { get; set; }
@@ -18,10 +18,10 @@ namespace employee_module
         
         public DateTime Date_Created { get; set; }
 
-        public PayrollInfoModel()
+        public PayrollSnapshotModel()
         {
         }
-        public PayrollInfoModel(MySqlDataReader reader)
+        public PayrollSnapshotModel(MySqlDataReader reader)
         {
             Id = reader.GetString("id");
             EE_Id = reader.GetString("ee_id");

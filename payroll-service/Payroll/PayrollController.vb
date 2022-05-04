@@ -37,8 +37,16 @@ Namespace Payroll
         Public Shared Function CompleteDetail(databaseManager As utility_service.Manager.Mysql, payroll As PayrollModel) As PayrollModel
             Try
                 payroll.EE = EmployeeGateway.Find(databaseManager, payroll.EE_Id)
-                payroll.Government = GovernmentGateway.Find(databaseManager, payroll.Payroll_Name)
-                payroll.AdjustmentLogs = AdjustmentRecordController.CollectOrGenerateBillings(databaseManager, payroll.EE_Id, payroll.Payroll_Name)
+
+                If Not payroll.Have_Government Then
+                    payroll.Government = GovernmentGateway.Find(databaseManager, payroll.Payroll_Name)
+                End If
+
+                If Not payroll.Have_Adjustment Then
+                    payroll.AdjustmentLogs = AdjustmentRecordController.CollectOrGenerateBillings(databaseManager, payroll.EE_Id, payroll.Payroll_Name)
+                    payroll = PayrollGateway.Save(databaseManager, payroll)
+                End If
+
             Catch ex As Exception
                 MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try

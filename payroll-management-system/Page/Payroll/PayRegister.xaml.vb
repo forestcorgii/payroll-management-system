@@ -8,14 +8,32 @@ Imports payroll_module.Payroll
 Imports utility_service
 
 Class ProcessPayreg
+    Sub New(payreg As PayRegisterModel)
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+
+        dtPayrollDate.SelectedDate = DefaultPayrollDate
+        cbPayrollCode.SelectedItem = DefaultPayrollCode
+    End Sub
+    Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+
+        dtPayrollDate.SelectedDate = DefaultPayrollDate
+        cbPayrollCode.SelectedItem = DefaultPayrollCode
+    End Sub
 
     Private Sub ProcessPayreg_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         DatabaseManager.Connection.Open()
         cbPayrollCode.ItemsSource = EmployeeGateway.CollectPayrollCodes(DatabaseManager)
         DatabaseManager.Connection.Close()
 
-        dtPayrollDate.SelectedDate = DefaultPayrollDate
-        cbPayrollCode.SelectedItem = DefaultPayrollCode
     End Sub
 
     Private Sub btnStartProcess_Click(sender As Object, e As RoutedEventArgs)
@@ -55,6 +73,7 @@ Class ProcessPayreg
                     selectedPayrollCode = e.AddedItems.Item(0)
                 End If
             End If
+
             If selectedPayrollCode = "" Or selectedDate = Nothing Then Exit Sub
 
             DatabaseManager.Connection.Open()
@@ -64,7 +83,6 @@ Class ProcessPayreg
             Console.WriteLine(ex.Message)
         End Try
     End Sub
-
 
     Private Sub btnUploadPayreg_Click(sender As Object, e As RoutedEventArgs)
         Using openFile As New OpenFileDialog

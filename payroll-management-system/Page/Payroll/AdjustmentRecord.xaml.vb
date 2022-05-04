@@ -13,11 +13,11 @@ Class AdjustmentRecord
         DatabaseManager.Connection.Open()
         'Dim adjustments As New ObservableCollection(Of AdjustmentRecordModel)(AdjustmentRecordGateway.Collect(DatabaseManager))
         Dim payrollCodes As List(Of String) = EmployeeGateway.CollectPayrollCodes(DatabaseManager)
-        Dim records As List(Of AdjustmentRecordModel) = AdjustmentRecordGateway.Collect(DatabaseManager)
+        'Dim records As List(Of AdjustmentRecordModel) = AdjustmentRecordGateway.Collect(DatabaseManager)
         DatabaseManager.Connection.Close()
 
         Bindings = New AdjustmentRecordBinding
-        Bindings.AdjustmentRecords = records
+        'Bindings.AdjustmentRecords = records
         Bindings.PayrollCodes = payrollCodes
         Bindings.PayrollCode = DefaultPayrollCode
     End Sub
@@ -64,4 +64,7 @@ Class AdjustmentRecord
         End Try
     End Sub
 
+    Private Sub btnSave_Click(sender As Object, e As RoutedEventArgs)
+
+    End Sub
 End Class

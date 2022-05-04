@@ -44,7 +44,6 @@ Namespace Payroll
         End Function
 
 
-
 #Region "Process PayRegister"
         Public Shared Sub ProcessPayRegister(databaseManager As Manager.Mysql, payregPath As String, loggingService As monitoring_module.Logging.LoggingService)
             Dim nWorkBook As IWorkbook
@@ -86,7 +85,7 @@ Namespace Payroll
                     newPayroll.Reg_Pay = row.GetCell(regpayIdx).NumericCellValue
                     PayrollGateway.Save(databaseManager, newPayroll)
 
-                    Dim newPayrollInfo As New PayrollInfoModel
+                    Dim newPayrollInfo As New PayrollSnapshotModel
                     newPayrollInfo.EE_Id = _employee.EE_Id
                     newPayrollInfo.Payroll_Date = payrollDate
                     newPayrollInfo.Payroll_Code = _employee.EE_Id

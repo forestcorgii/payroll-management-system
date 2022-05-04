@@ -50,8 +50,7 @@ Namespace Payroll
             Return payrollCodes
         End Function
 
-
-        Public Shared Sub Save(databaseManager As Manager.Mysql, payroll As PayrollModel)
+        Public Shared Function Save(databaseManager As Manager.Mysql, payroll As PayrollModel) As PayrollModel
             Try
                 Dim command As New MySqlCommand("REPLACE INTO payroll_db.payroll (ee_id,payroll_date,reg_pay,gross_pay,payroll_name,adjust1,adjust2,net_pay)VALUES(?,?,?,?,?,?,?,?)", databaseManager.Connection)
                 command.Parameters.AddWithValue("p1", payroll.EE_Id)
@@ -66,6 +65,7 @@ Namespace Payroll
             Catch ex As Exception
                 MessageBox.Show(ex.Message, "Error Saving Payroll.", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
-        End Sub
+            Return Find(databaseManager, payroll.EE_Id, payroll.Payroll_Date)
+        End Function
     End Class
 End Namespace

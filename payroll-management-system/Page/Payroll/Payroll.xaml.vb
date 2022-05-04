@@ -10,7 +10,7 @@
 
 
     Private Sub btnPayregUpload_Click(sender As Object, e As RoutedEventArgs) Handles btnPayregUpload.Checked ', btnPayregUpload.Unchecked
-        frmPayroll.Navigate(New ProcessPayreg)
+        frmPayroll.Navigate(New PayRegisterSummary)
     End Sub
 
     Private Sub btnAdjustmentRecord_Click(sender As Object, e As RoutedEventArgs) Handles btnAdjustmentRecord.Checked ', btnAdjustment.Unchecked

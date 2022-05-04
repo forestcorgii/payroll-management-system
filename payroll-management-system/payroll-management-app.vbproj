@@ -123,6 +123,9 @@
       <DependentUpon>Employee.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bindings\FilterBinding.vb" />
+    <Compile Include="Page\Payroll\PayRegisterSummary.xaml.vb">
+      <DependentUpon>PayRegisterSummary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Page\Report\BankReport.xaml.vb">
       <DependentUpon>BankReport.xaml</DependentUpon>
     </Compile>
@@ -172,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Page\Employee\Employee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Payroll\PayRegisterSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

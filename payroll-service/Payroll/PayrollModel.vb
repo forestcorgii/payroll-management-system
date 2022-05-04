@@ -24,6 +24,10 @@ Namespace Payroll
         Public Property Adjust1_Preview As Double
         Public Property Adjust2_Preview As Double
 
+        Public Property Have_Timesheet As Boolean
+        Public Property Have_Government As Boolean
+        Public Property Have_Adjustment As Boolean
+
         Public ReadOnly Property Payroll_Name As String
             Get
                 Return String.Format("{0}_{1:yyyyMMdd}", EE_Id, Payroll_Date)
@@ -82,6 +86,10 @@ Namespace Payroll
             Payroll_Code = reader("payroll_code")
             Bank_Category = reader("bank_category")
             Bank_Name = reader("bank_name")
+
+            Have_Timesheet = reader("have_timesheet")
+            Have_Government = reader("have_government")
+            Have_Adjustment = reader("have_adjustment")
         End Sub
 
     End Class

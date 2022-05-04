@@ -32,6 +32,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="{adonisUi:Space 6}"/>
             <RowDefinition/>
+            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
         
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -60,14 +61,18 @@
                 <DataGridTextColumn Header="Payroll Date" Binding="{Binding Payroll.Payroll_Date,StringFormat={}{0:yyyy-MM-dd}}"/>
                 <DataGridTextColumn Header="Adjustment Name" Binding="{Binding Adjustment_Name}"/>
                 <!--<DataGridTextColumn Header="Billing Name" Binding="{Binding Billing_Name}"/>-->
-                <DataGridTextColumn Header="Payroll Name" Binding="{Binding Payroll_Name}"/>
+                <!--<DataGridTextColumn Header="Payroll Name" Binding="{Binding Payroll_Name}"/>-->
                 <DataGridTextColumn Header="Deduction Amount" Binding="{Binding Amount}"/>
                 <DataGridComboBoxColumn Header="Adjustment Type" ItemsSource="{Binding Source={StaticResource AdjChoice}}" SelectedItemBinding="{Binding Adjustment_Type}"/>
                 <DataGridTextColumn Header="Remarks" Binding="{Binding Remarks}"/>
                 <DataGridCheckBoxColumn Header="Deduct" Binding="{Binding Deduct}"/>
-                <DataGridTextColumn Header="Payroll Code" Binding="{Binding EE.Payroll_Code}"/>
+                <!--<DataGridTextColumn Header="Payroll Code" Binding="{Binding EE.Payroll_Code}"/>-->
                 <!--<DataGridTextColumn Header="Adjust Type" Binding="{Binding Adjust_Type}"/>-->
             </DataGrid.Columns>
         </DataGrid>
+
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Button x:Name="btnSave" Click="btnSave_Click" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Right" Width="50">Start</Button>
+        </Grid>
     </Grid>
 </Page>

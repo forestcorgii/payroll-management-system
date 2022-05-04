@@ -19,33 +19,7 @@ namespace employee_module
         {
             var employees = new List<EmployeeModel>();
 
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT * FROM employee_db.employee;"))
-            {
-                while (reader.Read())
-                {
-                    try
-                    {
-                        employees.Add(new EmployeeModel(reader));
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        throw;
-                    }
-                }
-            }
-            return employees;
-        }
-        /// <summary>
-        /// Collects Employees with no names
-        /// </summary>
-        /// <param name="databaseManager"></param>
-        /// <returns></returns>
-        public static List<EmployeeModel> CollectUnknown(Mysql databaseManager)
-        {
-            var employees = new List<EmployeeModel>();
-
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT * FROM employee_db.employee WHERE first_name='';"))
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT * FROM employee_db.employee_info;"))
             {
                 while (reader.Read())
                 {
@@ -87,7 +61,7 @@ namespace employee_module
         public static async Task<EmployeeModel> FindAsync(Mysql databaseManager, HRMS hrmsAPIManager, string ee_id, LoggingService loggingService)
         {
             EmployeeModel employee = null;
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee where ee_id='{ee_id}' LIMIT 1;"))
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee_info where ee_id='{ee_id}' LIMIT 1;"))
             {
                 while (reader.Read())
                 {
@@ -103,7 +77,7 @@ namespace employee_module
         public static EmployeeModel Find(Mysql databaseManager, string ee_id)
         {
             EmployeeModel employee = null;
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee where ee_id='{ee_id}' LIMIT 1;"))
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee_info where ee_id='{ee_id}' LIMIT 1;"))
             {
                 while (reader.Read())
                 {
@@ -112,20 +86,20 @@ namespace employee_module
             }
             return employee;
         }
-        public static EmployeeModel Find(Mysql databaseManager, string lastName, string firstName, string middlaName)
+       public static EmployeeModel Find(Mysql databaseManager, string lastName, string firstName, string middlaName)
         {
             List<EmployeeModel> employees = new List<EmployeeModel>();
             try
             {
-                using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee where (last_name LIKE '{lastName}%' AND first_name LIKE '{firstName}%') OR (last_name LIKE '{lastName}%' AND middle_name='{middlaName}') LIMIT 1;"))
+                using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee_info where (last_name LIKE '{lastName}%' AND first_name LIKE '{firstName}%') OR (last_name LIKE '{lastName}%' AND middle_name='{middlaName}') LIMIT 1;"))
                 {
                     while (reader.Read())
                     {
                         employees.Add(new EmployeeModel(reader));
                     }
                 }
-                if (employees.Count > 1) throw new Exception("Found More than one Employee.");
-                if (employees.Count == 1) return employees[0];
+                if (employees.Count > 1) { throw new Exception("Found More than one Employee."); }
+                if (employees.Count == 1) { return employees[0]; }
             }
             catch (Exception ex)
             {
@@ -136,7 +110,7 @@ namespace employee_module
         public static List<EmployeeModel> Filter(Mysql databaseManager, string filterString)
         {
             var employees = new List<EmployeeModel>();
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee where location like '%{filterString}%' or first_name like '%{filterString}%' or last_name like '%{filterString}%' or middle_name like '%{filterString}%';"))
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader($"SELECT * FROM employee_db.employee_info where location like '%{filterString}%' or first_name like '%{filterString}%' or last_name like '%{filterString}%' or middle_name like '%{filterString}%';"))
             {
                 while (reader.Read())
                 {
@@ -154,7 +128,7 @@ namespace employee_module
                 EmployeeModel oldEmployee = Find(databaseManager, nEmployee.EE_Id);
                 if (!(oldEmployee is null))
                 {
-                    var command = new MySqlCommand("UPDATE employee_db.employee SET  first_name=?, last_name=?, middle_name=?, location=?, card_number=?, account_number=?, bank_category=?, bank_name=?, payroll_code=?, tin=?, pagibig=?, sss=?, philhealth=?, employment_status=?, rec_type=? WHERE ee_id =?;", databaseManager.Connection);
+                    var command = new MySqlCommand("UPDATE employee_db.employee_info SET  first_name=?, last_name=?, middle_name=?, location=?, card_number=?, account_number=?, bank_category=?, bank_name=?, payroll_code=?, tin=?, pagibig=?, sss=?, philhealth=?, employment_status=?, rec_type=? WHERE ee_id =?;", databaseManager.Connection);
                     command.Parameters.AddWithValue("p2", nEmployee.First_Name);
                     command.Parameters.AddWithValue("p3", nEmployee.Last_Name);
                     command.Parameters.AddWithValue("p4", nEmployee.Middle_Name);
@@ -250,7 +224,7 @@ namespace employee_module
                 EmployeeModel oldEmployee = Find(databaseManager, nEmployee.ee_id);
                 if (!(oldEmployee is null))
                 {
-                    var command = new MySqlCommand("UPDATE employee_db.employee SET  first_name=?, last_name=?, middle_name=?, location=?, card_number=?, account_number=?, bank_category=?, bank_name=?, payroll_code=?, tin=?, pagibig=?, sss=?, philhealth=?, employment_status=?, rec_type=? WHERE ee_id =?;", databaseManager.Connection);
+                    var command = new MySqlCommand("UPDATE employee_db.employee_info SET  first_name=?, last_name=?, middle_name=?, location=?, card_number=?, account_number=?, bank_category=?, bank_name=?, payroll_code=?, tin=?, pagibig=?, sss=?, philhealth=?, employment_status=?, rec_type=? WHERE ee_id =?;", databaseManager.Connection);
                     command.Parameters.AddWithValue("p2", nEmployee.first_name);
                     command.Parameters.AddWithValue("p3", nEmployee.last_name);
                     command.Parameters.AddWithValue("p4", nEmployee.middle_name);
@@ -346,7 +320,7 @@ namespace employee_module
                 EmployeeModel oldEmployee = Find(databaseManager, ee_id);
                 if (!(oldEmployee is null))
                 {
-                    var command = new MySqlCommand("UPDATE employee_db.employee SET employment_status=?, rec_type=? WHERE ee_id =?;", databaseManager.Connection);
+                    var command = new MySqlCommand("UPDATE employee_db.employee_info SET employment_status=?, rec_type=? WHERE ee_id =?;", databaseManager.Connection);
                     command.Parameters.AddWithValue("p1as1d", employment_status);
                     command.Parameters.AddWithValue("p11afd", rec_type);
                     command.Parameters.AddWithValue("p11asfd", ee_id);
@@ -376,7 +350,7 @@ namespace employee_module
         {
             try
             {
-                var command = new MySqlCommand("REPLACE INTO employee_db.employee (ee_id, first_name, last_name,middle_name,location,tin,card_number,account_number,bank_category,bank_name,payroll_code,pagibig,sss,philhealth,rec_type,employment_status)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection);
+                var command = new MySqlCommand("REPLACE INTO employee_db.employee_info (ee_id, first_name, last_name,middle_name,location,tin,card_number,account_number,bank_category,bank_name,payroll_code,pagibig,sss,philhealth,rec_type,employment_status)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection);
                 command.Parameters.AddWithValue("p1", nEmployee.EE_Id);
                 command.Parameters.AddWithValue("p2", nEmployee.First_Name + "");
                 command.Parameters.AddWithValue("p3", nEmployee.Last_Name + "");
@@ -405,7 +379,7 @@ namespace employee_module
         {
             try
             {
-                var command = new MySqlCommand("REPLACE INTO employee_db.employee (ee_id, first_name, last_name,middle_name,location,tin,card_number,account_number,bank_category,bank_name,payroll_code,pagibig,sss,philhealth,rec_type,employment_status)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection);
+                var command = new MySqlCommand("REPLACE INTO employee_db.employee_info (ee_id, first_name, last_name,middle_name,location,tin,card_number,account_number,bank_category,bank_name,payroll_code,pagibig,sss,philhealth,rec_type,employment_status)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", databaseManager.Connection);
                 command.Parameters.AddWithValue("p1", nEmployee.ee_id);
                 command.Parameters.AddWithValue("p2", nEmployee.first_name);
                 command.Parameters.AddWithValue("p3", nEmployee.last_name);
@@ -490,7 +464,7 @@ namespace employee_module
         {
             var payrollCodes = new List<string>();
 
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT payroll_code FROM employee_db.employee GROUP BY payroll_code ORDER BY payroll_code ASC;"))
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT payroll_code FROM employee_db.employee_info GROUP BY payroll_code ORDER BY payroll_code ASC;"))
             {
                 while (reader.Read())
                 {
@@ -503,7 +477,7 @@ namespace employee_module
         public static List<string> CollectBankCategories(Mysql databaseManager)
         {
             var bankCategories = new List<string>();
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT bank_category FROM employee_db.employee GROUP BY bank_category ORDER BY bank_category ASC;"))
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT bank_category FROM employee_db.employee_info GROUP BY bank_category ORDER BY bank_category ASC;"))
             {
                 while (reader.Read())
                 {
@@ -516,7 +490,7 @@ namespace employee_module
         public static DateTime TimeHasChange(Mysql databaseManager)
         {
             DateTime modifiedDate = new DateTime();
-            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT date_modified FROM employee_db.employee GROUP BY date_modified;"))
+            using (MySqlDataReader reader = databaseManager.ExecuteDataReader("SELECT date_modified FROM employee_db.employee_info GROUP BY date_modified;"))
             {
                 if (reader.HasRows)
                 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace employee_module
 {
-    public class PayrollInfoController
+    public class PayrollSnapshotController
     {
     }
 }
