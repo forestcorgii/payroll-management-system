@@ -1,4 +1,6 @@
-﻿Namespace Interfaces
+﻿Imports utility_service
+
+Namespace Interfaces
     Public Interface Repository
         Function FindById(databaseManager As Manager.Mysql, id As Object)
         Function Collect(databaseManager As Manager.Mysql)

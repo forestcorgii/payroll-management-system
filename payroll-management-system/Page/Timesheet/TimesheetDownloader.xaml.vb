@@ -41,10 +41,10 @@ Class TimeDownloaderPage
 
         If {15, 30}.Contains(selectedDate.Day) Or ({2}.Contains(selectedDate.Month) And {29, 28}.Contains(selectedDate.Day)) Then
             'GET CUT OFF RANGE
-            Dim cutoffRange As Date() = PayrollController.GetCutoffRange(dtPayrollDate.SelectedDate)
+            Dim cutoffRange As Date() = PayrollController.GetCutoffRange(selectedDate)
             'GET A SUMMARY FROM SERVER
             ctrlLoader.Visibility = Visibility.Visible
-            TimeResponse = Await TimeDownloaderAPIManager.GetSummary(cutoffRange(0), cutoffRange(1), cbPayrollCode.Text)
+            TimeResponse = Await TimeDownloaderAPIManager.GetSummary(cutoffRange(0), cutoffRange(1), selectedPayrollCode)
             ctrlLoader.Visibility = Visibility.Collapsed
             If TimeResponse IsNot Nothing Then
                 lbEmployeeCount.Text = String.Format("Total Employee Count: {0}", TimeResponse.totalCount)
