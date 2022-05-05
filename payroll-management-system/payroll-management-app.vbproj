@@ -104,6 +104,8 @@
     <Compile Include="Bindings\AdjustmentBillingBinding.vb" />
     <Compile Include="Bindings\AdjustmentRecordBinding.vb" />
     <Compile Include="Bindings\PayregisterBinding.vb" />
+    <Compile Include="Interface\Factory.vb" />
+    <Compile Include="Interface\Repository.vb" />
     <Compile Include="Page\Alphalist\Alphalist.xaml.vb">
       <DependentUpon>Alphalist.xaml</DependentUpon>
     </Compile>
