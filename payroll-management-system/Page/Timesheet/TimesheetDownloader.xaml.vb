@@ -3,6 +3,9 @@ Imports payroll_module
 Imports employee_module
 Imports payroll_module.Payroll
 Imports time_module.Model
+Imports utility_service
+Imports System.Threading.Tasks
+
 Class TimeDownloaderPage
     Private DownloadLog As DownloadLogModel
     Private TimeResponse As TimeResponseData
@@ -13,7 +16,6 @@ Class TimeDownloaderPage
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-
     End Sub
 
     Private Sub TimeDownloader_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
@@ -114,42 +116,32 @@ Class TimeDownloaderPage
         Try
             'GET CUT OFF RANGE
             Dim cutoffRange As Date() = PayrollController.GetCutoffRange(DownloadLog.Payroll_Date)
-
+            Dim pages As List(Of Integer) = TimesheetGateway.CollectUnconfirmedTSByPage(_databaseManager, DownloadLog.Payroll_Code, DownloadLog.Payroll_Date.ToString("yyyy-MM-dd"))
             Dispatcher.Invoke(Sub()
                                   pb.Maximum = DownloadLog.TotalPage
                                   pb.Value = DownloadLog.Last_Page_Downloaded
                               End Sub)
             'RUN THROUGH PAGES
-            For DownloadLog.Last_Page_Downloaded = DownloadLog.Last_Page_Downloaded To DownloadLog.TotalPage
-                Dim errCounter As Integer = 0
-                While True 'errCounter < 10
-                    Dim payrollTimes As time_module.Model.PayrollTime() = Await TimeDownloaderAPIManager.GetPageContent(cutoffRange(0), cutoffRange(1), DownloadLog.Last_Page_Downloaded, DownloadLog.Payroll_Code)
-                    If payrollTimes IsNot Nothing Then
-                        For i As Integer = 0 To payrollTimes.Count - 1
-                            TimesheetController.ProcessPayrollTime(_databaseManager, DownloadLog.Payroll_Date, payrollTimes(i), DownloadLog.Last_Page_Downloaded, LoggingService)
-                        Next
+            If pages.Count = 0 OrElse (pages.Count = 1 And pages(0) = 0) Then
+                If MessageBox.Show("Re-Download?", "Re-Download", MessageBoxButton.YesNo, MessageBoxImage.Question) = MessageBoxResult.Yes Then
+                    Dispatcher.Invoke(Sub()
+                                          pb.Maximum = DownloadLog.TotalPage
+                                          pb.Value = DownloadLog.Last_Page_Downloaded
+                                      End Sub)
+                    For DownloadLog.Last_Page_Downloaded = DownloadLog.Last_Page_Downloaded To DownloadLog.TotalPage
+                        Await GetPageContent(_databaseManager, cutoffRange, DownloadLog.Payroll_Code, DownloadLog.Last_Page_Downloaded)
+                    Next
+                End If
+            Else
+                Dispatcher.Invoke(Sub()
+                                      pb.Maximum = DownloadLog.TotalPage
+                                      pb.Value = 0
+                                  End Sub)
+                For Each _page As Integer In pages
+                    Await GetPageContent(_databaseManager, cutoffRange, DownloadLog.Payroll_Code, _page)
+                Next
+            End If
 
-                        DownloadLogGateway.Update(_databaseManager, DownloadLog)
-
-                        Dim toCancel As Boolean = False
-                        Dispatcher.Invoke(Sub()
-                                              pb.Value = DownloadLog.Last_Page_Downloaded
-                                              lbPage.Text = String.Format("{0}/{1}", DownloadLog.Last_Page_Downloaded, DownloadLog.TotalPage)
-                                              toCancel = btnDownload.Content <> "Cancel"
-                                          End Sub)
-                        If toCancel Then
-                            e.Cancel = True
-                            Exit Try
-                        End If
-
-                        errCounter = 0
-                        Exit While
-                    Else
-                        errCounter += 1
-                    End If
-
-                End While
-            Next
             If DownloadLog.Last_Page_Downloaded >= DownloadLog.TotalPage Then
                 DownloadLog.Last_Page_Downloaded = DownloadLog.TotalPage
                 DownloadLog.Status = DownloadLogModel.DownloadStatusChoices.DONE
@@ -167,6 +159,37 @@ Class TimeDownloaderPage
         _databaseManager.Connection.Close()
         MessageBox.Show("Download Finished.", "Done", MessageBoxButton.OK, MessageBoxImage.Information)
     End Sub
+
+    Private Async Function GetPageContent(_databaseManager As Manager.Mysql, cutoffRange As Date(), payrollCode As String, page As Integer) As Task(Of Boolean)
+        Try
+            Dim errCounter As Integer = 0
+            While True 'errCounter < 10
+                Dim payrollTimes As time_module.Model.PayrollTime() = Await TimeDownloaderAPIManager.GetPageContent(cutoffRange(0), cutoffRange(1), page, payrollCode)
+                If payrollTimes IsNot Nothing Then
+                    For i As Integer = 0 To payrollTimes.Count - 1
+                        TimesheetController.ProcessPayrollTime(_databaseManager, DownloadLog.Payroll_Date, payrollTimes(i), DownloadLog.Last_Page_Downloaded, LoggingService)
+                    Next
+
+                    DownloadLogGateway.Update(_databaseManager, DownloadLog)
+
+                    Dispatcher.Invoke(Sub()
+                                          pb.Value = page
+                                          lbPage.Text = String.Format("{0}/{1}", page, DownloadLog.TotalPage)
+                                      End Sub)
+                    errCounter = 0
+                    Exit While
+                Else
+                    errCounter += 1
+                End If
+            End While
+
+            Return True
+        Catch ex As Exception
+            Console.WriteLine(ex.Message)
+            Return False
+        End Try
+    End Function
+
 
     Private Sub btnReset_Click(sender As Object, e As RoutedEventArgs)
         If DownloadLog.Status = DownloadLogModel.DownloadStatusChoices.PENDING Then 'ONLY IF PENDING

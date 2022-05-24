@@ -21,6 +21,23 @@ Namespace Payroll
             Return payrollTime
         End Function
 
+        Public Shared Function CollectUnconfirmedTSByPage(databaseManager As utility_service.Manager.Mysql, payroll_code As String, payroll_date As String) As List(Of Integer)
+            'SELECT * FROM payroll_db.payroll_time_complete where is_confirmed=false and payroll_code='P7A' group by page;
+            Dim pages As New List(Of Integer)
+            Try
+                Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
+                    String.Format("SELECT page FROM payroll_db.payroll_time_complete WHERE is_confirmed=false AND payroll_code='{0}' AND payroll_date='{1}' AND total_hours>0 GROUP BY page ORDER BY page;", payroll_code, payroll_date))
+                    While reader.Read()
+                        pages.Add(reader("page"))
+                    End While
+                End Using
+            Catch ex As Exception
+                Console.WriteLine(ex.Message)
+            End Try
+            Return pages
+        End Function
+
+
         Public Shared Function Collect(databaseManager As utility_service.Manager.Mysql, Optional location As String = "", Optional payroll_code As String = "", Optional bank_category As String = "default", Optional payroll_date As String = "", Optional is_confirmed As Boolean = Nothing, Optional have_timesheet As Boolean = Nothing, Optional completeDetail As Boolean = False) As List(Of TimesheetModel)
             Dim payrollTimes As New List(Of TimesheetModel)
 
@@ -40,7 +57,7 @@ Namespace Payroll
             End If
 
             Using reader As MySqlDataReader = databaseManager.ExecuteDataReader(
-            String.Format("SELECT * FROM payroll_db.payroll_time_complete where {0} {1} {2} ORDER BY last_name;", location, main_snip, is_confirmed_snip, have_timesheet_snip))
+            String.Format("SELECT * FROM payroll_db.payroll_time_complete where {0} {1} {2} ORDER BY last_name;", main_snip, is_confirmed_snip, have_timesheet_snip))
                 While reader.Read()
                     payrollTimes.Add(New TimesheetModel(reader))
                 End While
