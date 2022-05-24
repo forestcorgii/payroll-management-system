@@ -35,9 +35,21 @@
 
         </StackPanel>
 
-        <DataGrid  Grid.Row="1" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}">
+        <DataGrid x:Name="lstTimesheets" Grid.Row="1" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Existing DBF" Width="200"/>
+                <DataGridTextColumn Header="EE Id" Binding="{Binding EE.EE_Id}"/>
+                <DataGridTextColumn Header="Full Name" Binding="{Binding EE.Fullname}"/>
+                <DataGridTextColumn Header="Payroll Code" Binding="{Binding EE.Payroll_Code}"/>
+                <DataGridTextColumn Header="Bank Category" Binding="{Binding EE.Bank_Category}"/>
+                <DataGridTextColumn Header="Location" Binding="{Binding EE.Location}"/>
+                <DataGridTextColumn Header="Total Hours" Binding="{Binding Total_Hours}"/>
+                <DataGridTextColumn Header="OT" Binding="{Binding Total_OTs}"/>
+                <DataGridTextColumn Header="RD OT" Binding="{Binding Total_RD_OT}"/>
+                <DataGridTextColumn Header="H OT" Binding="{Binding Total_H_OT}"/>
+                <DataGridTextColumn Header="ND" Binding="{Binding Total_ND}"/>
+                <DataGridTextColumn Header="Tardy" Binding="{Binding Total_Tardy}"/>
+                <DataGridTextColumn Header="Allowance" Binding="{Binding Allowance}"/>
+                <DataGridCheckBoxColumn Header="Confirmed" Binding="{Binding Is_Confirmed}"/>
             </DataGrid.Columns>
         </DataGrid>
         <ProgressBar x:Name="progressBar1" Grid.Row="2" Height="5" VerticalAlignment="Bottom" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}"/>

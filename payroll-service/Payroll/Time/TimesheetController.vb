@@ -24,7 +24,7 @@ Namespace Payroll
             row.CreateCell(8).SetCellValue(payrollTime.Total_Tardy)
         End Sub
 
-        Public Shared Sub ProcessPayrollTime(databaseManager As utility_service.Manager.Mysql, payrollDate As Date, payrollTime As time_module.Model.PayrollTime, loggingService As Logging.LoggingService)
+        Public Shared Sub ProcessPayrollTime(databaseManager As utility_service.Manager.Mysql, payrollDate As Date, payrollTime As time_module.Model.PayrollTime, page As Integer, loggingService As Logging.LoggingService)
             Try
                 'check if employee exists in the database, create one if not.
                 Dim command As New MySqlCommand
@@ -34,13 +34,14 @@ Namespace Payroll
                     _employee = EmployeeGateway.Save(databaseManager, New EmployeeModel() With {.EE_Id = payrollTime.EE_Id}, loggingService)
                 End If
                 ee_id = _employee.EE_Id
+                payrollTime.Page = page
                 payrollTime.Payroll_Date = payrollDate
                 TimesheetGateway.Save(databaseManager, payrollTime)
 
                 Dim allowanceLog As New AdjustmentBillingModel
                 With allowanceLog
                     .Adjustment_Name = "ALLOWANCE"
-                    .ee_id = ee_id
+                    .EE_Id = ee_id
                     .Payroll_Name = payrollTime.Payroll_Name
                     .Amount = payrollTime.Allowance
                     .Adjustment_Type = AdjustmentChoices.ADJUST1
@@ -96,7 +97,7 @@ Namespace Payroll
 
                 Dim dbfRecords As New List(Of String())
                 Dim transferDetails As New List(Of String)
-                Dim payrollTimes As List(Of TimesheetModel) = TimesheetGateway.Collect(databaseManager, payroll_code:=payroll_code, bank_category:=bank_category, payroll_date:=payrollDate.ToString("yyyy-MM-dd"), is_confirmed:=True, completeDetail:=True)
+                Dim payrollTimes As List(Of TimesheetModel) = TimesheetGateway.Collect(databaseManager, payroll_code:=payroll_code, bank_category:=bank_category, payroll_date:=payrollDate.ToString("yyyy-MM-dd"), is_confirmed:=True, have_timesheet:=True, completeDetail:=True)
 
                 ExportEFile(String.Format("{0}\{1}\{1}_{2}_{3}.XLS", dbfPath, payroll_code, bank_category, payrollDate.ToString("yyyyMMdd")), payrollDate, payroll_code, bank_category, payrollTimes)
                 ExportDBF(String.Format("{0}\{1}\{1}_{2}_{3}.DBF", dbfPath, payroll_code, bank_category, payrollDate.ToString("yyyyMMdd")), payrollDate, payrollTimes)

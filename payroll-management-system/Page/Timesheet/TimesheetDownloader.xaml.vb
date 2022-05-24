@@ -126,7 +126,7 @@ Class TimeDownloaderPage
                     Dim payrollTimes As time_module.Model.PayrollTime() = Await TimeDownloaderAPIManager.GetPageContent(cutoffRange(0), cutoffRange(1), DownloadLog.Last_Page_Downloaded, DownloadLog.Payroll_Code)
                     If payrollTimes IsNot Nothing Then
                         For i As Integer = 0 To payrollTimes.Count - 1
-                            TimesheetController.ProcessPayrollTime(_databaseManager, DownloadLog.Payroll_Date, payrollTimes(i), LoggingService)
+                            TimesheetController.ProcessPayrollTime(_databaseManager, DownloadLog.Payroll_Date, payrollTimes(i), DownloadLog.Last_Page_Downloaded, LoggingService)
                         Next
 
                         DownloadLogGateway.Update(_databaseManager, DownloadLog)

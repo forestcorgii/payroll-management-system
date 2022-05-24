@@ -17,7 +17,6 @@ Namespace Payroll
         Public Property Total_Net As Double
         Public Property Total_EE As Integer
 
-
         Public ReadOnly Property GetId As String
             Get
                 Return String.Format("{0}{1}", Payroll_Code, Bank_Category)

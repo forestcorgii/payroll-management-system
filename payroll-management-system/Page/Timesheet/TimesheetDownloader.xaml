@@ -60,6 +60,7 @@
                 <DataGridTextColumn Header="EE Id" Binding="{Binding EE_Id}"/>
                 <DataGridTextColumn Header="Full Name" Binding="{Binding Fullname}"/>
                 <DataGridTextColumn Header="Payroll Code" Binding="{Binding Payroll_Code}"/>
+                <DataGridTextColumn Header="Payroll Code" Binding="{Binding Location}"/>
                 <DataGridTextColumn Header="Bank Category" Binding="{Binding Bank_Category}"/>
                 <DataGridTextColumn Header="Employment Status" Binding="{Binding Employment_Status}"/>
                 <DataGridTextColumn Header="Rec Type" Binding="{Binding Rec_Type}"/>

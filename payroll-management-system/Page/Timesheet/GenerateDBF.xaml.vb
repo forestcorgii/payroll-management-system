@@ -17,7 +17,13 @@ Class GenerateDBFPage
 
     Private Sub GenerateDBFPage_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         DatabaseManager.Connection.Open()
-        cbPayrollCode.ItemsSource = EmployeeGateway.CollectPayrollCodes(DatabaseManager)
+        Try
+            cbPayrollCode.ItemsSource = EmployeeGateway.CollectPayrollCodes(DatabaseManager)
+            lstTimesheets.ItemsSource = TimesheetGateway.Collect(DatabaseManager, payroll_code:=DefaultPayrollCode, payroll_date:=DefaultPayrollDate.ToString("yyyy-MM-dd"), have_timesheet:=False, completeDetail:=True)
+        Catch ex As Exception
+            Console.WriteLine("")
+        End Try
+
         DatabaseManager.Connection.Close()
 
         dtPayrollDate.SelectedDate = DefaultPayrollDate
